@@ -1,0 +1,18 @@
+{% extends 'layouts/example.html' %}
+
+{% block css %}
+    {% load static %} <!--dulezite-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/example.css' %}">
+{% endblock %}
+
+{% block title %}
+    Example
+{% endblock %}
+
+{% block content %}
+    <h2>Example</h2>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/example.js' %}"></script>
+{% endblock %}
