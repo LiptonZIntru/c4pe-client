@@ -1,0 +1,17 @@
+{% extends 'test/layouts/layout.html' %}
+{% block content %}
+    <form method="post">
+    {% csrf_token %}
+        <input class="form-control" type="text" name="username" placeholder="username">
+        <input class="form-control" type="password" name="password" placeholder="password">
+        not required
+        <input class="form-control" type="text" name="firstName" placeholder="firstName">
+        <input class="form-control" type="text" name="lastName" placeholder="lastName">
+        <input class="form-control" type="text" name="description" placeholder="description">
+        <input class="form-control" type="text" name="street" placeholder="street">
+        <input class="form-control" type="text" name="city" placeholder="city">
+        <input class="form-control" type="text" name="country" placeholder="country">
+
+        <input class="form-control" type="submit" value="Register">
+    </form>
+{% endblock %}
