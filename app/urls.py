@@ -15,9 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .controllers import home, places, reviews
+from .controllers import home, places, reviews, users
 
 urlpatterns = [
-    path('', home.example),
+    # path('', home.index),
+    path('example/', home.example),
 
+    path('users/login/', users.login, name='login'),
+    path('users/register/', users.register, name='register'),
+
+    path('places/', places.index, name='places'),
+    path('places/create/', places.create, name='places.create'),
+    path('places/<id>/', places.profile, name='place'),
+    path('places/<id>/edit/', places.edit, name='places.edit'),
+
+
+    path('places/<id>/reviews/', reviews.index, name='reviews'),
 ]

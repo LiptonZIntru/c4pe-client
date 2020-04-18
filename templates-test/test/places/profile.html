@@ -1,0 +1,48 @@
+{% extends 'layouts/example.html' %}
+{% block content %}
+    <div class="jumbotron">
+    <a href="/places/{{ place.id }}/edit" class="btn btn-warning">Edit</a>
+        <h2>{{ place.name }}</h2>
+        location: {{ place.street }}, {{ place.city }} {{ place.zipCode }}, {{ place.country }}
+        <br>
+        rating: {{ place.rating }}
+        <br>
+        Review count: {{ place.reviewCount }}
+        <br>
+        type: {{ place.placeType.name }}
+        <br>
+        opening times:
+        <br>
+        {% for time in place.openingTimes %}
+            {% if time.day == 1 %}
+                Monday: {{ time.open }} - {{ time.close }}
+                <br>
+            {% endif %}
+            {% if time.day == 2 %}
+                Tuesday: {{ time.open }} - {{ time.close }}
+                <br>
+            {% endif %}
+            {% if time.day == 1 %}
+                Wednesday: {{ time.open }} - {{ time.close }}
+                <br>
+            {% endif %}
+            {% if time.day == 1 %}
+                Thursday: {{ time.open }} - {{ time.close }}
+                <br>
+            {% endif %}
+            {% if time.day == 1 %}
+                Friday: {{ time.open }} - {{ time.close }}
+                <br>
+            {% endif %}
+            {% if time.day == 1 %}
+                Saturday: {{ time.open }} - {{ time.close }}
+                <br>
+            {% endif %}
+            {% if time.day == 1 %}
+                Sunday: {{ time.open }} - {{ time.close }}
+                <br>
+            {% endif %}
+        {% endfor %}
+        <a href="/places/{{ place.id }}/reviews"><h2>Reviews</h2></a>
+    </div>
+{% endblock %}
