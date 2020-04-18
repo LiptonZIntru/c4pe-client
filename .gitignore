@@ -4,3 +4,5 @@ db.sqlite3
 manage.py
 templates/test
 app/static/test
+notes.txt
+Prezentace C4PE.pdf
