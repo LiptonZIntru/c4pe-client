@@ -40,7 +40,7 @@
                   </li>
                 {% endif %}
 
-                {% if session.user == -1 %}                                                                         <!-- pokud logged není, dá mu to Log In / Register -->
+                {% if session.user == 0 %}                                                                         <!-- pokud logged není, dá mu to Log In / Register -->
                     <li class="nav-item" id='user'>
                       <a class="nav-link" href="/login" id="User Profile">
                           Log In
