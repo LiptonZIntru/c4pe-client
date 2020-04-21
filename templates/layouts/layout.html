@@ -30,7 +30,7 @@
           <li class="nav-item" id='settings'><a class="nav-link" href="/settings" id="User Settings">Settings</a></li>
         </ul>
         <ul class="navbar-nav" onmouseover="Grey('User Profile')" onmouseout="UnGrey('User Profile')">
-          <li class="nav-item" id='user'><a class="nav-link" href="/profile" id="User Profile">User</a></li>
+          <li class="nav-item" id="user"><a class="nav-link" href="/profile" id="User Profile">User</a></li>
           <li class="nav-item d-none d-md-block" id="profilepic"><a href="/profile"><img src="" alt="Profile Picture" class="rounded" style="width: 40px; height: 40px;"></a></li>
         </ul>
     </div>
@@ -43,8 +43,10 @@
 
     <!-- Dodrzet strukturu! -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
     {% block js %}
     {% endblock %}
+
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <!-- END Dodrzet strukturu! -->
