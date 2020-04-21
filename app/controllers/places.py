@@ -10,7 +10,7 @@ token = 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI3IiwidW5pcXVlX25hbW
 
 def index(request):
     places = json.loads(requests.get('http://77.244.251.110/api/places').text)
-    return render(request, 'test/places/index.html', {'places': places})
+    return render(request, 'places/index.html', {'places': places})
 
 
 def profile(request, id):
