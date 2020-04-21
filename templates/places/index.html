@@ -1,129 +1,156 @@
 {% extends 'layouts/layout.html' %}
 
 {% block css %}
+    {% load static %}
 {% endblock %}
 
 {% block title %}
-    Places
+    Browse
 {% endblock %}
 
 {% block content %}
-    <div class="container my-3 pt-3" onload="ActiveButton()">
-<div class="list-group">
-  <a data-toggle="collapse" href="#Collapse1" onclick="makeActive(this.id)" class="list-group-item list-group-item-action flex-column align-items-start" id="1">
-     <div class="row">
-        <div class="col-2">
-            <img src="https://www.restu.cz/ir/restaurant/fc5/fc50b7dcfca79b580a6e6d92c4505904--c604xc352.jpg" class="rounded-2 img-thumbnail" alt="Service photo" style="width: 150px; height: 150px; vertical-align: center">
-        </div>
-        <div class="col-10">
-             <div class="d-flex w-100 justify-content-between">
-                  <h3 class="mb-2 text-nowrap" id="serName">Restaurace u tří košťat</h3>
-                 <div>
-                      <small class="float-right">
-                          <i class="fa fa-star" id="star1ser"></i>
-                          <i class="fa fa-star" id="star2ser"></i>
-                          <i class="fa fa-star" id="star3ser"></i>
-                          <i class="fa fa-star" id="star4ser"></i>
-                          <i class="fa fa-star-o" id="star5ser"></i>
-                      </small>
-                      </br>
-                     <small class="mb-0 mt-0 float-right text-nowrap">
-                          <b id="serRating">3.8 / 5</b> (15 reviews)
-                     </small>
-                 </div>
-            </div>
-            <p class="mb-0 text-nowrap"><b style="font-size: smaller">Type:</b> <x style="font-family: Consolas" id="serType">Restaurant</x></p>
-            <p class="mb-0 text-nowrap"><b style="font-size: smaller">Location:</b> <x style="font-family: Consolas" id="city">Brno</x> • <x id="street">Pekařská</x> <y style="font-size: smaller">(<x id="country">Czech Republic</x>)</y>
-            <p class="mb-0 text-nowrap"><b style="font-size: smaller">State:</b> <x class="text-danger text-bold" style="font-size: medium"><b>closed</b></x></p>
-            <div class="row" class="collapse" id="Collapse1">
-                <div class="col-3">
-                    <x class="text-nowrap"><b style="font-size: smaller">Opening time:</b></x>
-                    <div class="row">
-                        <small class="col-1"></small>
-                        <small class="col-2" style="text-align: end">MO</br>TU</br>WE</br>TH</br>FR</br>SA</br>SU</small>
-                        <small class="col-8 text-nowrap">
-                            <one id="day1">07:00 - 18:00</one>
-                            </br>
-                            <two id="day2">07:00 - 18:00</two>
-                            </br>
-                            <three id="day3">07:00 - 18:00</three>
-                            </br>
-                            <four id="day4">07:00 - 18:00</four>
-                            </br>
-                            <five id="day5">07:00 - 18:00</five>
-                            </br>
-                            <six class="text-danger font-weight-bold" id="day6">closed</six>
-                            </br>
-                            <seven class="text-danger font-weight-bold" id="day7">closed</seven>
-                        </small>
-                    </div>
-                </div>
-                <div class="col-9 container">
-                    <p class="mb-2 text-nowrap"><b style="font-size: smaller">Most recent review:</b></p>
-                    <div class="container pl-3 pr-3 pt-2 pb-2 border rounded-lg">
-                        <div class="d-flex w-100 justify-content-between align-text-center">
-                            <x>
-                                <i class="fa fa-check-circle-o" id="isVerified"></i>
-                                <b style="font-size: smaller" id="reviewAuthor">Willy Nyguen</b> <y style="font-size: smaller">(12.03.2020)</y>
-                            </x>
-                            <small class="row float-right pr-2">
-                                <i class="fa fa-star pt-1 pr-1" id="star1rev"></i>
-                                <i class="fa fa-star-o pt-1 pr-1" id="star2rev"></i>
-                                <i class="fa fa-star-o pt-1 pr-1" id="star3rev"></i>
-                                <i class="fa fa-star-o pt-1 pr-1" id="star4rev"></i>
-                                <i class="fa fa-star-o pt-1 pr-1" id="star5rev"></i>
-                            </small>
-                        </div>
-                        <p class="text-justify mt-2 mb-1" style="font-size: small" id="latestReview">Takže tahle restaurace je fakt k hovnu.</br>Objednal jsem si sushi a dali mi sušenou rybu? Pardon, nikdy víc.</br>Jedna hvězda z pěti.</p>
-                    </div>
-                </div>
-            </div>
 
+      <div class="container my-3">                                                  <!-- dává prostor doleva a doprava, aby stránka měla okraje -->
+          <div class="m-auto p-0" style="width: 300px;">                                                                     <!-- záhlaví stránky - velké logo a název podniku -->
+              <a href="/index" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-3 d-block" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
+          </div>
+        <div class="list-group">                                                    <!-- seznam podniků -->
+            {% for place in places %}
+                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start">
+                     <div class="row">
+                        <div class="col-2">                         <!-- fotka restaurace -->
+                            <img src="{{ place.id.pic }}" class="rounded-2 img-thumbnail" alt="Place photo" style="width: 150px; height: 150px; vertical-align: center">
+                        </div>
+                        <div class="col-10">
+                             <div class="d-flex w-100 justify-content-between">
+                                 <h3 class="mb-2 text-nowrap">{{ place.name }}</h3>            <!-- název místa -->
+                                 <a href="{{ place.id }}/reviews" style="color: black">                                       <!-- hodnocení - je potřeba dořešit zobrazení na základě dynamických dat -->
+                                      <small class="float-right">
+                                          {% if place.rating == 0 %}
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                          {% endif %}
+                                          {% if place.rating == 1 %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                          {% endif %}
+                                          {% if place.rating == 2 %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                          {% endif %}
+                                          {% if place.rating == 3 %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                          {% endif %}
+                                          {% if place.rating == 4 %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                          {% endif %}
+                                          {% if place.rating == 5 %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                          {% endif %}
+                                      </small>
+                                      </br>
+                                     <small class="mb-0 mt-0 float-right text-nowrap">
+                                         <b id="serRating">{{ place.rating }} / 5</b> ({{ place.reviewCount }} reviews)
+                                     </small>
+                                 </a>
+                            </div>
+                            <p class="mb-0 text-nowrap">                                            <!-- typ místa -->
+                                <b style="font-size: smaller">Type:</b> <x style="font-family: Consolas">{{ place.placeType.name }}</x>
+                            </p>
+                            <p class="mb-0 text-nowrap">                                            <!-- poloha místa -->
+                                <b style="font-size: smaller">Location:</b> <x style="font-family: Consolas">{{ place.city }}</x> • <x id="street">{{ place.street }}</x> <y style="font-size: smaller">({{ place.country }})</y>
+                            </p>
+                            <p class="mb-0 text-nowrap">                                            <!-- status - je potřeba dořešit dynamické zobrazení -->
+                                <b style="font-size: smaller">State:</b> <x class="text-danger text-bold" style="font-size: medium"><b>closed</b></x>
+                            </p>
+                          <!--  <div class="row" class="collapse" id="Collapse1">                                 to, co driv bylo collapsable --><!--
+                                <div class="col-3">
+                                    <x class="text-nowrap"><b style="font-size: smaller">Opening time:</b></x>
+                                    <div class="row">
+                                        <small class="col-1"></small>
+                                        <small class="col-2" style="text-align: end">MO</br>TU</br>WE</br>TH</br>FR</br>SA</br>SU</small>
+                                        <small class="col-8 text-nowrap">
+                                            <one id="day1">07:00 - 18:00</one>
+                                            </br>
+                                            <two id="day2">07:00 - 18:00</two>
+                                            </br>
+                                            <three id="day3">07:00 - 18:00</three>
+                                            </br>
+                                            <four id="day4">07:00 - 18:00</four>
+                                            </br>
+                                            <five id="day5">07:00 - 18:00</five>
+                                            </br>
+                                            <six class="text-danger font-weight-bold" id="day6">closed</six>
+                                            </br>
+                                            <seven class="text-danger font-weight-bold" id="day7">closed</seven>
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-9 container">
+                                    <p class="mb-2 text-nowrap"><b style="font-size: smaller">Most recent review:</b></p>
+                                    <div class="container pl-3 pr-3 pt-2 pb-2 border rounded-lg">
+                                        <div class="d-flex w-100 justify-content-between align-text-center">
+                                            <x>
+                                                <i class="fa fa-check-circle-o" id="isVerified"></i>
+                                                <b style="font-size: smaller" id="reviewAuthor">Willy Nyguen</b> <y style="font-size: smaller">(12.03.2020)</y>
+                                            </x>
+                                            <small class="row float-right pr-2">
+                                                <i class="fa fa-star pt-1 pr-1" id="star1rev"></i>
+                                                <i class="fa fa-star-o pt-1 pr-1" id="star2rev"></i>
+                                                <i class="fa fa-star-o pt-1 pr-1" id="star3rev"></i>
+                                                <i class="fa fa-star-o pt-1 pr-1" id="star4rev"></i>
+                                                <i class="fa fa-star-o pt-1 pr-1" id="star5rev"></i>
+                                            </small>
+                                        </div>
+                                        <p class="text-justify mt-2 mb-1" style="font-size: small" id="latestReview">Takže tahle restaurace je fakt k hovnu.</br>Objednal jsem si sushi a dali mi sušenou rybu? Pardon, nikdy víc.</br>Jedna hvězda z pěti.</p>
+                                    </div>
+                                </div>
+                            </div>  -->
+                        </div>
+                     </div>
+                  </x>
+            {% endfor %}
         </div>
-     </div>
-  </a>
-</div>
-</div>
+
+        <ul class="pagination justify-content-center mt-5">                                                   <!-- pagination -->
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+
+      </div>
+
+    {% csrf_token %}
 {% endblock %}
 
 {% block js %}
-    <script>
-        function ActiveButton()
-        {
-            if (document.getElementsByTagName("title")[0].innerText == 'User Settings')
-            {
-                document.getElementById('settings').classList.add('active');
-            }
-            else if (document.getElementsByTagName("title")[0].innerText == 'User Profile')
-            {
-                document.getElementById('user').classList.add('active');
-            }
-        }
-
-        function Grey(id)
-        {
-            if(id != document.getElementsByTagName("title")[0].innerText)
-            {
-                document.getElementById(id).style.color = "rgba(255,255,255,.75)";
-            }
-        }
-        function UnGrey(id)
-        {
-            if(id != document.getElementsByTagName("title")[0].innerText)
-            {
-                document.getElementById(id).style.color = "rgba(255,255,255,.5)";
-            }
-        }
-        function makeActive(id)
-        {
-            if(document.getElementById(id).classList.contains('active'))
-            {
-                document.getElementById(id).classList.remove('active');
-            }
-            else
-            {
-                document.getElementById(id).classList.add('active');
-            }
-        }
-  </script>
+<script>
+    function goToReviews()
+    {
+        window.location.href = '/places/{{ place.id }}/reviews';
+    }
+</script>
 {% endblock %}
