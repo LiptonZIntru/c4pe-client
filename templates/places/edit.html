@@ -1,0 +1,22 @@
+{% extends 'layouts/layout.html' %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        Name <input type="text" class="form-control" placeholder="name" name="name" value="{{ place.name }}"><br>
+        Street <input type="text" class="form-control" placeholder="street" name="street" value="{{ place.street }}"><br>
+        City <input type="text" class="form-control" placeholder="city" name="city" value="{{ place.city }}"><br>
+        Zipcode <input type="text" class="form-control" placeholder="zipCode" name="zipCode" value="{{ place.zipCode }}"><br>
+        Country <input type="text" class="form-control" placeholder="country" name="country" value="{{ place.country }}"><br>
+        Type <select name="type" class="form-control">
+            {% for type in types %}
+                {% if place.placeType.id == type.id %}
+                    <option value="{{ type.id }}" selected>{{ type.name }}</option>
+                {% else %}
+                    <option value="{{ type.id }}">{{ type.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Save changes">
+    </form>
+{% endblock %}

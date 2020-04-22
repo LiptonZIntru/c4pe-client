@@ -115,7 +115,7 @@ def edit(request, id):
     if request.method == 'GET':
         types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
         place = json.loads(requests.get('http://77.244.251.110/api/places/' + id).text)
-        return render(request, 'test/places/edit.html', {'types': types, 'place': place})
+        return render(request, 'places/edit.html', {'types': types, 'place': place})
     elif request.method == 'POST':
         headers = {
             'content-type': 'application/json',
