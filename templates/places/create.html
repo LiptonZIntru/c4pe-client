@@ -1,0 +1,18 @@
+{% extends 'layouts/layout.html' %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" class="form-control" placeholder="name" name="name">
+        <input type="text" class="form-control" placeholder="street" name="street">
+        <input type="text" class="form-control" placeholder="city" name="city">
+        <input type="text" class="form-control" placeholder="zipCode" name="zipCode">
+        <input type="text" class="form-control" placeholder="country" name="country">
+        <select name="type" class="form-control">
+            {% for type in types %}
+                <option value="{{ type.id }}">{{ type.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Create new place">
+    </form>
+{% endblock %}

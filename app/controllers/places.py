@@ -34,31 +34,7 @@ def index(request):
             open_hour = int(time['open'][0:2])
             close_minute = int(time['close'][3:5])
             close_hour = int(time['close'][0:2])
-            '''if int(open['day']) == int(datetime.today().weekday()):
-                if current_minute < close_minute:
-                    if open_hour <= current_hour <= close_hour:
-                        place['open']['time'] = open['close'][0:5]
-                        place['open']['state'] = 1
-                        if close_hour - current_hour < 1:
-                            place['open']['state'] = 2
-                            place['open']['time'] = open['close'][0:5]
-                    else:
-                        place['open']['state'] = 4
-                        if open_hour - current_hour < 1:
-                            place['open']['state'] = 3
-                            place['open']['time'] = open['open'][0:5]
-                else:
-                    if open_hour - 1 < current_hour < close_hour - 1:
-                        place['open']['time'] = open['close'][0:5]
-                        place['open']['state'] = 1
-                        if close_hour - 1 - current_hour < 1:
-                            place['open']['state'] = 2
-                            place['open']['time'] = open['close'][0:5]
-                    else:
-                        place['open']['state'] = 4
-                        if open_hour - current_hour < 1:
-                            place['open']['state'] = 3
-                            place['open']['time'] = open['open'][0:5]'''
+
             if int(time['day']) == int(datetime.today().weekday()):
                 if open_hour < current_hour < close_hour:
                     place['open']['state'] = 1
@@ -116,11 +92,11 @@ def profile(request, id):
 def create(request):
     if request.method == 'GET':
         types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
-        return render(request, 'test/places/create.html', {'types': types})
+        return render(request, 'places/create.html', {'types': types})
     elif request.method == 'POST':
         headers = {
             'content-type': 'application/json',
-            'Authorization': 'Bearer ' + token
+           # 'Authorization': 'Bearer ' + token
         }
         data = {
             "street": request.POST.get("street"),

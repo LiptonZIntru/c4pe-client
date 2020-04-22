@@ -25,7 +25,7 @@
                       {{ place.name }}
                   </h3>
                   <b style="font-size: smaller">Type: </b>
-                  {{ place.placeType.name }} (<a href="/place/filter='type:{{ place.placeType.name }}'" class="card-link" style="font-size: smaller">search others of the same type</a>)
+                  {{ place.placeType.name }} (<a href="#" class="card-link" style="font-size: smaller">search others of the same type</a>)
                   </br>
                   <div class="mt-2">
                       <b class="text-nowrap" style="font-size: smaller;">Opening times:</b>
@@ -37,8 +37,9 @@
                               {% if place.openingTimes.0.open %}
                                     {{ place.openingTimes.0.open }} - {{ place.openingTimes.0.close }}
                                     <br>
-                                {% else %}
+                              {% else %}
                                     not available
+                                  <br>
                               {% endif %}
                               {% if place.openingTimes.1.open %}
                                     {{ place.openingTimes.1.open }} - {{ place.openingTimes.1.close }}
@@ -97,7 +98,7 @@
               </div>
           </div>
         <div class="mr-5 mb-3" style="position: absolute; align-self: end; margin-top: 27%">
-            <a href="#" class="btn btn-light" style="border-color: black; background-color: white">Create a review</a>
+            <a href="/places/create/" class="btn btn-light" style="border-color: black; background-color: white">Create a review</a>
         </div>
 
             <hr/>
@@ -106,7 +107,7 @@
             <div class="row mx-1">
                 <ul class="nav col-9">
                   <li class="nav-item">
-                    <a class="nav-link text-info" href="#">All ({{ place.reviewCount }})</a>
+                    <a class="nav-link active text-info" href="#">All ({{ place.reviewCount }})</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link text-info" href="#">Positive (x)</a>   <!-- 4+ stars count -->
@@ -187,26 +188,6 @@
                         </div>
                     </div>
               {% endfor %}
-
-              <ul class="pagination justify-content-center mb-0">
-                    {% if pages.last %}
-                        <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.1 }}">Previous</a></li><!-- pagination -->
-                    {% elif not pages.first %}
-                        <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.0 }}">Previous</a></li>
-                    {% endif %}
-                    {% for i in pages.content %}
-                        {% if i == pages.current %}
-                            <li class="page-item active"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
-                        {% else %}
-                            <li class="page-item"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                    {% if pages.first %}
-                        <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.1 }}">Next</a></li>
-                    {% elif not pages.last %}
-                        <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.2 }}">Next</a></li>
-                    {% endif %}
-                </ul>
           </div>
         </div>
     </div>
