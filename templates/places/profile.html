@@ -176,6 +176,50 @@
               {% for review in reviews %}
                     <div class="card m-2 my-3">
                       <div class="card-body">
+                          <small class="float-right">
+                            {% if review.rating|floatformat:"0" == "0" %}
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% if review.rating|floatformat:"0" == "1" %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% if review.rating|floatformat:"0" == "2" %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% if review.rating|floatformat:"0" == "3" %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% if review.rating|floatformat:"0" == "4" %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% if review.rating|floatformat:"0" == "5" %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            {% endif %}
+                        </small>
                           <h2>{{ review.user.username }}</h2>
                             rating: {{ review.rating }}
                             <br>
@@ -185,6 +229,7 @@
                             <br>
                             {{ review.text }}
                             <br>
+
                         </div>
                     </div>
               {% endfor %}
