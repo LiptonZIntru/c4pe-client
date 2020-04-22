@@ -18,7 +18,7 @@ from django.urls import path
 from .controllers import home, places, reviews, users
 
 urlpatterns = [
-    # path('', home.index),
+    path('', home.index),
     path('example/', home.example),
 
     path('users/login/', users.login, name='login'),

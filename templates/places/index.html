@@ -9,59 +9,58 @@
 {% endblock %}
 
 {% block content %}
-
       <div class="container my-3">                                                  <!-- dává prostor doleva a doprava, aby stránka měla okraje -->
           <div class="m-auto p-0" style="width: 300px;">                                                                     <!-- záhlaví stránky - velké logo a název podniku -->
-              <a href="/index" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-3 d-block" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
+              <a href="/" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-3 d-block" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
           </div>
         <div class="list-group">                                                    <!-- seznam podniků -->
             {% for place in places %}
-                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start">
+                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start" style="background-color: #66adff">
                      <div class="row">
                         <div class="col-2">                         <!-- fotka restaurace -->
-                            <img src="{{ place.id.pic }}" class="rounded-2 img-thumbnail" alt="Place photo" style="width: 150px; height: 150px; vertical-align: center">
+                            <img src="https://cdn.pixabay.com/photo/2015/05/15/14/55/cafe-768771_960_720.jpg" class="rounded-2 img-thumbnail" alt="Place photo" style="width: 150px; height: 150px; vertical-align: center">
                         </div>
                         <div class="col-10">
                              <div class="d-flex w-100 justify-content-between">
                                  <h3 class="mb-2 text-nowrap">{{ place.name }}</h3>            <!-- název místa -->
                                  <a href="{{ place.id }}/reviews" style="color: black">                                       <!-- hodnocení - je potřeba dořešit zobrazení na základě dynamických dat -->
                                       <small class="float-right">
-                                          {% if place.rating == 0 %}
+                                          {% if place.rating|floatformat:"0" == "0" %}
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                           {% endif %}
-                                          {% if place.rating == 1 %}
+                                          {% if place.rating|floatformat:"0" == "1" %}
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                           {% endif %}
-                                          {% if place.rating == 2 %}
+                                          {% if place.rating|floatformat:"0" == "2" %}
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                           {% endif %}
-                                          {% if place.rating == 3 %}
+                                          {% if place.rating|floatformat:"0" == "3" %}
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star-o"></i>
                                             <i class="fa fa-star-o"></i>
                                           {% endif %}
-                                          {% if place.rating == 4 %}
+                                          {% if place.rating|floatformat:"0" == "4" %}
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star-o"></i>
                                           {% endif %}
-                                          {% if place.rating == 5 %}
+                                          {% if place.rating|floatformat:"0" == "5" %}
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -71,7 +70,7 @@
                                       </small>
                                       </br>
                                      <small class="mb-0 mt-0 float-right text-nowrap">
-                                         <b id="serRating">{{ place.rating }} / 5</b> ({{ place.reviewCount }} reviews)
+                                         <b id="serRating">{{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
                                      </small>
                                  </a>
                             </div>
@@ -82,7 +81,11 @@
                                 <b style="font-size: smaller">Location:</b> <x style="font-family: Consolas">{{ place.city }}</x> • <x id="street">{{ place.street }}</x> <y style="font-size: smaller">({{ place.country }})</y>
                             </p>
                             <p class="mb-0 text-nowrap">                                            <!-- status - je potřeba dořešit dynamické zobrazení -->
-                                <b style="font-size: smaller">State:</b> <x class="text-danger text-bold" style="font-size: medium"><b>closed</b></x>
+                                {% if place.open %}
+                                    <b style="font-size: smaller">State:</b> <x style="font-family: Consolas">Open until {{ place.open }}</x>
+                                {% else %}
+                                    <b style="font-size: smaller">State:</b> <x class="text-danger text-bold" style="font-size: medium"><b>closed</b></x>
+                                {% endif %}
                             </p>
                           <!--  <div class="row" class="collapse" id="Collapse1">                                 to, co driv bylo collapsable --><!--
                                 <div class="col-3">
@@ -130,20 +133,31 @@
                         </div>
                      </div>
                   </x>
+                <div style="padding: 15px"></div>
             {% endfor %}
         </div>
 
-        <ul class="pagination justify-content-center mt-5">                                                   <!-- pagination -->
-            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        <ul class="pagination justify-content-center mt-5">
+            {% if pages.last %}
+                <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.1 }}">Previous</a></li><!-- pagination -->
+            {% elif not pages.first %}
+                <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.0 }}">Previous</a></li>
+            {% endif %}
+            {% for i in pages.content %}
+                {% if i == pages.current %}
+                    <li class="page-item active"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if pages.first %}
+                <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.1 }}">Next</a></li>
+            {% elif not pages.last %}
+                <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.2 }}">Next</a></li>
+            {% endif %}
         </ul>
 
       </div>
-
-    {% csrf_token %}
 {% endblock %}
 
 {% block js %}
