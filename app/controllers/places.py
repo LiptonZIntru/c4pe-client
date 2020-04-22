@@ -96,7 +96,7 @@ def create(request):
     elif request.method == 'POST':
         headers = {
             'content-type': 'application/json',
-           # 'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + token
         }
         data = {
             "street": request.POST.get("street"),

@@ -34,55 +34,15 @@
                               MO</br>TU</br>WE</br>TH</br>FR</br>SA</br>SU
                           </small>
                           <small class="col-8 text-nowrap">
-                              {% if place.openingTimes.0.open %}
-                                    {{ place.openingTimes.0.open }} - {{ place.openingTimes.0.close }}
-                                    <br>
-                              {% else %}
-                                    not available
-                                  <br>
-                              {% endif %}
-                              {% if place.openingTimes.1.open %}
-                                    {{ place.openingTimes.1.open }} - {{ place.openingTimes.1.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
-                              {% if place.openingTimes.2.open %}
-                                    {{ place.openingTimes.2.open }} - {{ place.openingTimes.2.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
-                              {% if place.openingTimes.3.open %}
-                                    {{ place.openingTimes.3.open }} - {{ place.openingTimes.3.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
-                              {% if place.openingTimes.4.open %}
-                                    {{ place.openingTimes.4.open }} - {{ place.openingTimes.4.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
-                              {% if place.openingTimes.5.open %}
-                                    {{ place.openingTimes.5.open }} - {{ place.openingTimes.5.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
-                              {% if place.openingTimes.6.open %}
-                                    {{ place.openingTimes.6.open }} - {{ place.openingTimes.6.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
+                          {% for i in '0123456'|make_list %}
+                              <div id="time{{ i }}">
+                                  {% for time in place.openingTimes %}
+                                      {% if time.day == i|add:"0" %}
+                                          {{ time.open|slice:"0:5" }} - {{ time.close|slice:"0:5" }}
+                                      {% endif %}
+                                  {% endfor %}
+                              </div>
+                          {% endfor %}
                           </small>
                       </div>
                   </div>
@@ -105,9 +65,9 @@
 
           <div class="card-body pt-1">
             <div class="row mx-1">
-                <ul class="nav col-9">
+                <ul class="nav nav-tabs col-9">
                   <li class="nav-item">
-                    <a class="nav-link active text-info" href="#">All ({{ place.reviewCount }})</a>
+                    <a class="nav-link active" href="#">All ({{ place.reviewCount }})</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link text-info" href="#">Positive (x)</a>   <!-- 4+ stars count -->
@@ -194,4 +154,5 @@
 {% endblock %}
 
 {% block js %}
+<script type="text/javascript" src="{% static 'js/places/profile.js' %}"></script>
 {% endblock %}
