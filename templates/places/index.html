@@ -22,8 +22,9 @@
                         </div>
                         <div class="col-10">
                              <div class="d-flex w-100 justify-content-between">
-                                 <h3 class="mb-2 text-nowrap">{{ place.name }}</h3>            <!-- název místa -->
-                                 <a href="{{ place.id }}/reviews" style="color: black">                                       <!-- hodnocení - je potřeba dořešit zobrazení na základě dynamických dat -->
+                                 <h3 class="mb-2 text-nowrap" style="cursor: default">{{ place.name }}</h3>            <!-- název místa -->
+
+                                 <a href="{{ place.id }}/reviews" onmouseover="underline('{{ place.id }}_uLine');" onmouseout="unUnderline('{{ place.id }}_uLine');" style="color: black">                                       <!-- hodnocení - je potřeba dořešit zobrazení na základě dynamických dat -->
                                       <small class="float-right">
                                           {% if place.rating|floatformat:"0" == "0" %}
                                             <i class="fa fa-star-o"></i>
@@ -69,18 +70,18 @@
                                           {% endif %}
                                       </small>
                                       </br>
-                                     <small class="mb-0 mt-0 float-right text-nowrap">
-                                         <b id="serRating">{{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
+                                     <small class="mb-0 mt-0 float-right text-nowrap" id="{{ place.id }}_uLine">
+                                         <b>{{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
                                      </small>
                                  </a>
                             </div>
-                            <p class="mb-0 text-nowrap">                                            <!-- typ místa -->
+                            <p class="mb-0 text-nowrap" style="cursor: default">                                            <!-- typ místa -->
                                 <b style="font-size: smaller">Type:</b> <x style="font-family: Consolas">{{ place.placeType.name }}</x>
                             </p>
-                            <p class="mb-0 text-nowrap">                                            <!-- poloha místa -->
+                            <p class="mb-0 text-nowrap" style="cursor: default">                                            <!-- poloha místa -->
                                 <b style="font-size: smaller">Location:</b> <x style="font-family: Consolas">{{ place.city }}</x> • <x id="street">{{ place.street }}</x> <y style="font-size: smaller">({{ place.country }})</y>
                             </p>
-                            <p class="mb-0 text-nowrap">                                            <!-- status - je potřeba dořešit dynamické zobrazení -->
+                            <p class="mb-0 text-nowrap" style="cursor: default" >                                            <!-- status - je potřeba dořešit dynamické zobrazení -->
                                 {% if place.open.state == 1 %}
                                     <!--
                                     state 1: otevreno
@@ -99,7 +100,7 @@
                                     <b style="font-size: smaller">State:</b> <x class="text-bold" style="font-size: medium"><b>no data</b></x>
                                 {% endif %}
                             </p>
-                          <!--  <div class="row" class="collapse" id="Collapse1">                                 to, co driv bylo collapsable --><!--
+                          <!--  <div class="row" class="collapse" id="Collapse1">                                 to, co driv bylo collapsable
                                 <div class="col-3">
                                     <x class="text-nowrap"><b style="font-size: smaller">Opening time:</b></x>
                                     <div class="row">
@@ -177,6 +178,16 @@
     function goToReviews()
     {
         window.location.href = '/places/{{ place.id }}/reviews';
+    }
+
+    function underline(id)
+    {
+        document.getElementById(id).style.textDecoration = "underline";
+    }
+
+    function unUnderline(id)
+    {
+        document.getElementById(id).style.textDecoration = "";
     }
 </script>
 {% endblock %}

@@ -5,13 +5,212 @@
 {% endblock %}
 
 {% block title %}
-
+{{ place.name }}
 {% endblock %}
 
 {% block content %}
+    <div class="container mt-3 mb-3">
+        <div class="card">
+          <div class="card-body row">
+              <div class="col-3">
+                  <img class="rounded" src="https://cdn.pixabay.com/photo/2015/05/15/14/55/cafe-768771_960_720.jpg" width="250px" height="250px">
+              </div>
+              <div class="col-9">
+                  <h3>
+                      {% if place.isVerified == 'true' %}
+                          <i class="fas fa-check-circle" style="color:green" data-toggle="tooltip" data-placement="bottom" title="Verified place"></i>
+                          {% else %}
+                          <i class="fas fa-exclamation-circle" style="color:orange" data-toggle="tooltip" data-placement="bottom" title="Not verified place"></i>
+                      {% endif %}
+                      {{ place.name }}
+                  </h3>
+                  <b style="font-size: smaller">Type: </b>
+                  {{ place.placeType.name }} (<a href="/place/filter='type:{{ place.placeType.name }}'" class="card-link" style="font-size: smaller">search others of the same type</a>)
+                  </br>
+                  <div class="mt-2">
+                      <b class="text-nowrap" style="font-size: smaller;">Opening times:</b>
+                      <div class="row">
+                          <small class="col-1 text-nowrap font-weight-bold" style="text-align: center;">
+                              MO</br>TU</br>WE</br>TH</br>FR</br>SA</br>SU
+                          </small>
+                          <small class="col-8 text-nowrap">
+                              {% if place.openingTimes.0.open %}
+                                    {{ place.openingTimes.0.open }} - {{ place.openingTimes.0.close }}
+                                    <br>
+                                {% else %}
+                                    not available
+                              {% endif %}
+                              {% if place.openingTimes.1.open %}
+                                    {{ place.openingTimes.1.open }} - {{ place.openingTimes.1.close }}
+                                    <br>
+                                {% else %}
+                                    not available
+                                    <br>
+                              {% endif %}
+                              {% if place.openingTimes.2.open %}
+                                    {{ place.openingTimes.2.open }} - {{ place.openingTimes.2.close }}
+                                    <br>
+                                {% else %}
+                                    not available
+                                    <br>
+                              {% endif %}
+                              {% if place.openingTimes.3.open %}
+                                    {{ place.openingTimes.3.open }} - {{ place.openingTimes.3.close }}
+                                    <br>
+                                {% else %}
+                                    not available
+                                    <br>
+                              {% endif %}
+                              {% if place.openingTimes.4.open %}
+                                    {{ place.openingTimes.4.open }} - {{ place.openingTimes.4.close }}
+                                    <br>
+                                {% else %}
+                                    not available
+                                    <br>
+                              {% endif %}
+                              {% if place.openingTimes.5.open %}
+                                    {{ place.openingTimes.5.open }} - {{ place.openingTimes.5.close }}
+                                    <br>
+                                {% else %}
+                                    not available
+                                    <br>
+                              {% endif %}
+                              {% if place.openingTimes.6.open %}
+                                    {{ place.openingTimes.6.open }} - {{ place.openingTimes.6.close }}
+                                    <br>
+                                {% else %}
+                                    not available
+                                    <br>
+                              {% endif %}
+                          </small>
+                      </div>
+                  </div>
 
+                  <div class="mt-2">
+                      <b class="text-nowrap" style="font-size: smaller;">Location:</b>
+                      <div class="pl-2" style="font-size: small">
+                          {{ place.street }}
+                          <br> {{ place.city }} {{ place.zipCode }}
+                          <br> {{ place.country }}
+                      </div>
+                  </div>
+              </div>
+          </div>
+        <div class="mr-5 mb-3" style="position: absolute; align-self: end; margin-top: 27%">
+            <a href="#" class="btn btn-light" style="border-color: black; background-color: white">Create a review</a>
+        </div>
+
+            <hr/>
+
+          <div class="card-body pt-1">
+            <div class="row mx-1">
+                <ul class="nav col-9">
+                  <li class="nav-item">
+                    <a class="nav-link text-info" href="#">All ({{ place.reviewCount }})</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-info" href="#">Positive (x)</a>   <!-- 4+ stars count -->
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-info" href="#">Negative (y)</a>   <!-- 3- stars count -->
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-info" href="#">Verified users only (z)</a>   <!-- count of verified users reviews -->
+                  </li>
+                </ul>
+
+                <div class="col-3 row justify-content-end">                                    <!-- hodnocení - je potřeba dořešit zobrazení na základě dynamických dat -->
+                  <small style="font-size: large">
+                      {% if place.rating|floatformat:"0" == "0" %}
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                      {% endif %}
+                      {% if place.rating|floatformat:"0" == "1" %}
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                      {% endif %}
+                      {% if place.rating|floatformat:"0" == "2" %}
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                      {% endif %}
+                      {% if place.rating|floatformat:"0" == "3" %}
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+                      {% endif %}
+                      {% if place.rating|floatformat:"0" == "4" %}
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                      {% endif %}
+                      {% if place.rating|floatformat:"0" == "5" %}
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                      {% endif %}
+                  </small>
+                  <br>
+                  <small class="text-nowrap">
+                      <b>Overall rating: {{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
+                  </small>
+
+                </div>
+            </div>
+
+              {% for review in reviews %}
+                    <div class="card m-2 my-3">
+                      <div class="card-body">
+                          <h2>{{ review.user.username }}</h2>
+                            rating: {{ review.rating }}
+                            <br>
+                            date posted: {{ review.time }}
+                            <br>
+                            review text:
+                            <br>
+                            {{ review.text }}
+                            <br>
+                        </div>
+                    </div>
+              {% endfor %}
+
+              <ul class="pagination justify-content-center mb-0">
+                    {% if pages.last %}
+                        <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.1 }}">Previous</a></li><!-- pagination -->
+                    {% elif not pages.first %}
+                        <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.0 }}">Previous</a></li>
+                    {% endif %}
+                    {% for i in pages.content %}
+                        {% if i == pages.current %}
+                            <li class="page-item active"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if pages.first %}
+                        <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.1 }}">Next</a></li>
+                    {% elif not pages.last %}
+                        <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.2 }}">Next</a></li>
+                    {% endif %}
+                </ul>
+          </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
-
 {% endblock %}

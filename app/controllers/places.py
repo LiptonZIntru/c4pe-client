@@ -110,7 +110,7 @@ def index(request):
 def profile(request, id):
     place = json.loads(requests.get('http://77.244.251.110/api/places/' + id).text)
     reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
-    return render(request, 'test/places/profile.html', {'place': place, 'reviews': reviews})
+    return render(request, 'places/profile.html', {'place': place, 'reviews': reviews})
 
 
 def create(request):
