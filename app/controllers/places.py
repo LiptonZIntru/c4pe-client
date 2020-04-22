@@ -2,15 +2,41 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import requests
 import json
+from datetime import datetime
 
 # Create your views here.
 
 
 token = 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI3IiwidW5pcXVlX25hbWUiOiJ2aWxpIiwibmJmIjoxNTg3MTMwMzc4LCJleHAiOjE1ODcyMTY3NzgsImlhdCI6MTU4NzEzMDM3OH0.ker5TIH4LwAMK5qNnrDSKb3eS05PuUads0UjD0t74HU2kYV53LOdVFIqHtNlbrlMfvk3swkDfp3LycIhQ_JQcg'
 
+
 def index(request):
-    places = json.loads(requests.get('http://77.244.251.110/api/places').text)
-    return render(request, 'places/index.html', {'places': places})
+    page = request.GET.get('page')
+    if page is None:
+        page = '1'
+    response = requests.get('http://77.244.251.110/api/places?PageNumber=' + page)
+    places = json.loads(response.text)
+    current = json.loads(response.headers['X-Pagination'])['CurrentPage']
+    last = json.loads(response.headers['X-Pagination'])['TotalPages']
+    pages = {}
+    pages['current'] = int(current)
+
+    #  dodelat, place['open'] vraci cas, do ktereho je otevreno
+    '''for place in places:
+        for open in place['openingTimes']:
+            if int(open['day']) == int(datetime.today().weekday()) and int(open['open']) :
+                place['open']'''
+
+    if current == 1:
+        pages['content'] = [1, 2, 3]
+        pages['first'] = True
+    elif current == last:
+        pages['content'] = [last - 2, last - 1, last]
+        pages['last'] = True
+    else:
+        pages['content'] = [current - 1, current, current + 1]
+
+    return render(request, 'places/index.html', {'places': places, 'pages': pages})
 
 
 def profile(request, id):
