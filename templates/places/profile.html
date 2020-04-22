@@ -223,7 +223,7 @@
                           <h2>{{ review.user.username }}</h2>
                             rating: {{ review.rating }}
                             <br>
-                            date posted: {{ review.time }}
+                            date posted: {{ review.time|slice:"5:7"}}. {{ review.time|slice:"8:10"}}. {{ review.time|slice:"0:4"}}, {{ review.time|slice:"11:16"}}
                             <br>
                             review text:
                             <br>
