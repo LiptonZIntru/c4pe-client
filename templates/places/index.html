@@ -15,7 +15,7 @@
           </div>
         <div class="list-group">                                                    <!-- seznam podniků -->
             {% for place in places %}
-                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start" style="background-color: #66adff">
+                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start">
                      <div class="row">
                         <div class="col-2">                         <!-- fotka restaurace -->
                             <img src="https://cdn.pixabay.com/photo/2015/05/15/14/55/cafe-768771_960_720.jpg" class="rounded-2 img-thumbnail" alt="Place photo" style="width: 150px; height: 150px; vertical-align: center">
@@ -81,10 +81,22 @@
                                 <b style="font-size: smaller">Location:</b> <x style="font-family: Consolas">{{ place.city }}</x> • <x id="street">{{ place.street }}</x> <y style="font-size: smaller">({{ place.country }})</y>
                             </p>
                             <p class="mb-0 text-nowrap">                                            <!-- status - je potřeba dořešit dynamické zobrazení -->
-                                {% if place.open %}
-                                    <b style="font-size: smaller">State:</b> <x style="font-family: Consolas">Open until {{ place.open }}</x>
-                                {% else %}
+                                {% if place.open.state == 1 %}
+                                    <!--
+                                    state 1: otevreno
+                                    state 2: bude se otevirat
+                                    state 3: bude se zavirat
+                                    state 4: zavreno
+                                    -->
+                                    <b style="font-size: smaller">State:</b> <x class="text-success text-bold" style="font-size: medium"><b>opened</b></x>
+                                {% elif place.open.state == 2 %}
+                                    <b style="font-size: smaller">State:</b> <x class="text-warning text-bold" style="font-size: medium"><b>opened until {{ place.open.time }}</b></x>
+                                {% elif place.open.state == 3 %}
+                                    <b style="font-size: smaller">State:</b> <x class="text-warning text-bold" style="font-size: medium"><b>opening at {{ place.open.time }}</b></x>
+                                {% elif place.open.state == 4 %}
                                     <b style="font-size: smaller">State:</b> <x class="text-danger text-bold" style="font-size: medium"><b>closed</b></x>
+                                {% else %}
+                                    <b style="font-size: smaller">State:</b> <x class=" text-bold" style="font-size: medium"><b>no data</b></x>
                                 {% endif %}
                             </p>
                           <!--  <div class="row" class="collapse" id="Collapse1">                                 to, co driv bylo collapsable --><!--

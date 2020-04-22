@@ -14,31 +14,31 @@
         opening times:
         <br>
         {% for time in place.openingTimes %}
-            {% if time.day == 1 %}
+            {% if time.day == 0 %}
                 Monday: {{ time.open }} - {{ time.close }}
                 <br>
             {% endif %}
-            {% if time.day == 2 %}
+            {% if time.day == 1 %}
                 Tuesday: {{ time.open }} - {{ time.close }}
                 <br>
             {% endif %}
-            {% if time.day == 1 %}
+            {% if time.day == 2 %}
                 Wednesday: {{ time.open }} - {{ time.close }}
                 <br>
             {% endif %}
-            {% if time.day == 1 %}
+            {% if time.day == 3 %}
                 Thursday: {{ time.open }} - {{ time.close }}
                 <br>
             {% endif %}
-            {% if time.day == 1 %}
+            {% if time.day == 4 %}
                 Friday: {{ time.open }} - {{ time.close }}
                 <br>
             {% endif %}
-            {% if time.day == 1 %}
+            {% if time.day == 5 %}
                 Saturday: {{ time.open }} - {{ time.close }}
                 <br>
             {% endif %}
-            {% if time.day == 1 %}
+            {% if time.day == 6 %}
                 Sunday: {{ time.open }} - {{ time.close }}
                 <br>
             {% endif %}

@@ -21,12 +21,79 @@ def index(request):
     pages = {}
     pages['current'] = int(current)
 
-    #  dodelat, place['open'] vraci cas, do ktereho je otevreno
-    '''for place in places:
-        for open in place['openingTimes']:
-            if int(open['day']) == int(datetime.today().weekday()) and int(open['open']) :
-                place['open']'''
+    current_hour = int(datetime.now().hour)
+    current_minute = int(datetime.now().minute)
 
+    #  print(open['open'][3:5])
+
+    #  dodelat, place['open'] vraci cas, do ktereho je otevreno
+    for place in places:
+        for time in place['openingTimes']:
+            place['open'] = {}
+            open_minute = int(time['open'][3:5])
+            open_hour = int(time['open'][0:2])
+            close_minute = int(time['close'][3:5])
+            close_hour = int(time['close'][0:2])
+            '''if int(open['day']) == int(datetime.today().weekday()):
+                if current_minute < close_minute:
+                    if open_hour <= current_hour <= close_hour:
+                        place['open']['time'] = open['close'][0:5]
+                        place['open']['state'] = 1
+                        if close_hour - current_hour < 1:
+                            place['open']['state'] = 2
+                            place['open']['time'] = open['close'][0:5]
+                    else:
+                        place['open']['state'] = 4
+                        if open_hour - current_hour < 1:
+                            place['open']['state'] = 3
+                            place['open']['time'] = open['open'][0:5]
+                else:
+                    if open_hour - 1 < current_hour < close_hour - 1:
+                        place['open']['time'] = open['close'][0:5]
+                        place['open']['state'] = 1
+                        if close_hour - 1 - current_hour < 1:
+                            place['open']['state'] = 2
+                            place['open']['time'] = open['close'][0:5]
+                    else:
+                        place['open']['state'] = 4
+                        if open_hour - current_hour < 1:
+                            place['open']['state'] = 3
+                            place['open']['time'] = open['open'][0:5]'''
+            if int(time['day']) == int(datetime.today().weekday()):
+                if open_hour < current_hour < close_hour:
+                    place['open']['state'] = 1
+                    if 0 <= close_hour - current_hour < 2:
+                        place['open']['state'] = 2
+                        place['open']['time'] = time['close'][0:5]
+                elif open_hour == current_hour:
+                    if open_minute < current_minute:
+                        place['open']['state'] = 1
+                        if 0 <= close_hour - current_hour < 2:
+                            place['open']['state'] = 2
+                            place['open']['time'] = time['close'][0:5]
+                    else:
+                        place['open']['state'] = 4
+                        if 0 <= open_hour - current_hour < 2:
+                            place['open']['state'] = 3
+                            place['open']['time'] = time['open'][0:5]
+                elif close_hour == current_hour:
+                    if close_minute > current_minute:
+                        place['open']['state'] = 1
+                        if 0 <= close_hour - current_hour < 2:
+                            place['open']['state'] = 2
+                            place['open']['time'] = time['close'][0:5]
+                    else:
+                        place['open']['state'] = 4
+                        if 0 <= open_hour - current_hour < 2:
+                            place['open']['state'] = 3
+                            place['open']['time'] = time['open'][0:5]
+                elif open_hour > current_hour or close_hour < current_hour:
+                    place['open']['state'] = 4
+                    if 0 <= open_hour - current_hour < 2:
+                        place['open']['state'] = 3
+                        place['open']['time'] = time['open'][0:5]
+
+    #  pagination
     if current == 1:
         pages['content'] = [1, 2, 3]
         pages['first'] = True
@@ -35,6 +102,7 @@ def index(request):
         pages['last'] = True
     else:
         pages['content'] = [current - 1, current, current + 1]
+    #  pagination
 
     return render(request, 'places/index.html', {'places': places, 'pages': pages})
 
@@ -88,5 +156,3 @@ def edit(request, id):
         status = requests.post('http://77.244.251.110/api/places', data=json.dumps(data), headers=headers)
         print(status.status_code)
         return HttpResponse("status code: " + str(status.status_code))
-
-
