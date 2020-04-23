@@ -13,13 +13,25 @@
           <div class="m-auto p-0" style="width: 300px;">                                                                     <!-- záhlaví stránky - velké logo a název podniku -->
               <a href="/" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-3 d-block" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
           </div>
-        <div class="list-group">                                                    <!-- seznam podniků -->
+          <h3 style="font-family: 'Montserrat', sans-serif; font-size: 56px">What is your dream place?</h3>
+          <form>
+              <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Your favorite place is here">
+                  <div class="input-group-append">
+                      <button class="btn btn-secondary" type="button">
+                          <i class="fa fa-search"></i>
+                      </button>
+                  </div>
+              </div>
+          </form>
+        <div class="list-group" style="margin-top: 50px">                                                    <!-- seznam podniků -->
             {% for place in places %}
                   <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start">
                      <div class="row">
                         <div class="col-2">                         <!-- fotka restaurace -->
                             <img src="https://cdn.pixabay.com/photo/2015/05/15/14/55/cafe-768771_960_720.jpg" class="rounded-2 img-thumbnail" alt="Place photo" style="width: 150px; height: 150px; vertical-align: center">
                         </div>
+                         <!-- Search form -->
                         <div class="col-10">
                              <div class="d-flex w-100 justify-content-between">
                                  <h3 class="mb-2 text-nowrap" style="cursor: default">{{ place.name }}</h3>            <!-- název místa -->

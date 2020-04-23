@@ -25,7 +25,7 @@
                       {{ place.name }}
                   </h3>
                   <b style="font-size: smaller">Type: </b>
-                  {{ place.placeType.name }} (<a href="/place/filter='type:{{ place.placeType.name }}'" class="card-link" style="font-size: smaller">search others of the same type</a>)
+                  {{ place.placeType.name }} (<a href="#" class="card-link" style="font-size: smaller">search others of the same type</a>)
                   </br>
                   <div class="mt-2">
                       <b class="text-nowrap" style="font-size: smaller;">Opening times:</b>
@@ -34,54 +34,15 @@
                               MO</br>TU</br>WE</br>TH</br>FR</br>SA</br>SU
                           </small>
                           <small class="col-8 text-nowrap">
-                              {% if place.openingTimes.0.open %}
-                                    {{ place.openingTimes.0.open }} - {{ place.openingTimes.0.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                              {% endif %}
-                              {% if place.openingTimes.1.open %}
-                                    {{ place.openingTimes.1.open }} - {{ place.openingTimes.1.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
-                              {% if place.openingTimes.2.open %}
-                                    {{ place.openingTimes.2.open }} - {{ place.openingTimes.2.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
-                              {% if place.openingTimes.3.open %}
-                                    {{ place.openingTimes.3.open }} - {{ place.openingTimes.3.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
-                              {% if place.openingTimes.4.open %}
-                                    {{ place.openingTimes.4.open }} - {{ place.openingTimes.4.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
-                              {% if place.openingTimes.5.open %}
-                                    {{ place.openingTimes.5.open }} - {{ place.openingTimes.5.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
-                              {% if place.openingTimes.6.open %}
-                                    {{ place.openingTimes.6.open }} - {{ place.openingTimes.6.close }}
-                                    <br>
-                                {% else %}
-                                    not available
-                                    <br>
-                              {% endif %}
+                          {% for i in '0123456'|make_list %}
+                              <div id="time{{ i }}">
+                                  {% for time in place.openingTimes %}
+                                      {% if time.day == i|add:"0" %}
+                                          {{ time.open|slice:"0:5" }} - {{ time.close|slice:"0:5" }}
+                                      {% endif %}
+                                  {% endfor %}
+                              </div>
+                          {% endfor %}
                           </small>
                       </div>
                   </div>
@@ -97,16 +58,19 @@
               </div>
           </div>
         <div class="mr-5 mb-3" style="position: absolute; align-self: end; margin-top: 27%">
-            <a href="#" class="btn btn-light" style="border-color: black; background-color: white">Create a review</a>
+            <p class="mb-0 text-nowrap" style="cursor: default">
+                Have you visited this place?<br> Share your experience
+                <a href="#">here!</a>
+            </p>
         </div>
 
             <hr/>
 
           <div class="card-body pt-1">
             <div class="row mx-1">
-                <ul class="nav col-9">
+                <ul class="nav nav-tabs col-9">
                   <li class="nav-item">
-                    <a class="nav-link text-info" href="#">All ({{ place.reviewCount }})</a>
+                    <a class="nav-link active" href="#">All ({{ place.reviewCount }})</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link text-info" href="#">Positive (x)</a>   <!-- 4+ stars count -->
@@ -175,42 +139,68 @@
               {% for review in reviews %}
                     <div class="card m-2 my-3">
                       <div class="card-body">
+                          <small class="float-right">
+                            {% if review.rating|floatformat:"0" == "0" %}
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% if review.rating|floatformat:"0" == "1" %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% if review.rating|floatformat:"0" == "2" %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% if review.rating|floatformat:"0" == "3" %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% if review.rating|floatformat:"0" == "4" %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                            {% if review.rating|floatformat:"0" == "5" %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            {% endif %}
+                        </small>
                           <h2>{{ review.user.username }}</h2>
                             rating: {{ review.rating }}
                             <br>
-                            date posted: {{ review.time }}
+                            date posted: {{ review.time|slice:"5:7"}}. {{ review.time|slice:"8:10"}}. {{ review.time|slice:"0:4"}}, {{ review.time|slice:"11:16"}}
                             <br>
                             review text:
                             <br>
                             {{ review.text }}
                             <br>
+
                         </div>
                     </div>
               {% endfor %}
-
-              <ul class="pagination justify-content-center mb-0">
-                    {% if pages.last %}
-                        <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.1 }}">Previous</a></li><!-- pagination -->
-                    {% elif not pages.first %}
-                        <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.0 }}">Previous</a></li>
-                    {% endif %}
-                    {% for i in pages.content %}
-                        {% if i == pages.current %}
-                            <li class="page-item active"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
-                        {% else %}
-                            <li class="page-item"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                    {% if pages.first %}
-                        <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.1 }}">Next</a></li>
-                    {% elif not pages.last %}
-                        <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.2 }}">Next</a></li>
-                    {% endif %}
-                </ul>
           </div>
         </div>
     </div>
 {% endblock %}
 
 {% block js %}
+<script type="text/javascript" src="{% static 'js/places/profile.js' %}"></script>
 {% endblock %}

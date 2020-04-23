@@ -6,7 +6,7 @@ import json
 
 def login(request):
     if request.method == 'GET':
-        return render(request, 'test/users/login.html')
+        return render(request, 'users/login.html')
     elif request.method == 'POST':
         data = {
             'username': request.POST.get('username'),
@@ -16,13 +16,14 @@ def login(request):
             'content-type': 'application/json'
         }
         response = requests.post('http://77.244.251.110/api/users/login', data=json.dumps(data), headers=headers)
+        print(json.loads(response.text)['token'])
         # pls nevypisuj ten token priste
-        return HttpResponse(str(response.status_code) + '<br>' + str(json.loads(response.text)['tokenString']))
+        return HttpResponse('status code: ' + str(response.status_code) + '<br>token: ' + json.loads(response.text)['token'])
 
 
 def register(request):
     if request.method == 'GET':
-        return render(request, 'test/users/register.html')
+        return render(request, 'users/register.html')
     elif request.method == 'POST':
         data = {
             'username': request.POST.get('username'),
@@ -41,5 +42,5 @@ def register(request):
         response = requests.post('http://77.244.251.110/api/users/register', data=json.dumps(data), headers=headers)
         if not response.status_code == 201:
             print(response.status_code)
-            return render(request, 'test/users/register.html')
+            return render(request, 'users/register.html')
         return HttpResponse('logged')
