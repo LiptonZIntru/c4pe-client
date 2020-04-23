@@ -1,0 +1,22 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        User ID: <input type="number" class="form-control" name="user" placeholder="User ID" value=""><br> <!-- tohle bude hidden -->
+        Rating: <input type="number" max="5" min="1" class="form-control" placeholder="rating" name="rating"><br>
+        Text: <input type="text" class="form-control" placeholder="text" name="text"><br>
+        <br>
+        <input type="submit" value="Post review">
+    </form>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

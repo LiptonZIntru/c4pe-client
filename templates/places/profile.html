@@ -60,7 +60,7 @@
         <div class="mr-5 mb-3" style="position: absolute; align-self: end; margin-top: 27%">
             <p class="mb-0 text-nowrap" style="cursor: default">
                 Have you visited this place?<br> Share your experience
-                <a href="#">here!</a>
+                <a href="/places/{{ place.id }}/reviews/create">here!</a>
             </p>
         </div>
 
@@ -73,13 +73,13 @@
                     <a class="nav-link active" href="#">All ({{ place.reviewCount }})</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-info" href="#">Positive (x)</a>   <!-- 4+ stars count -->
+                    <a class="nav-link text-info" href="#">Positive ({{ positive }})</a>   <!-- 4+ stars count -->
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-info" href="#">Negative (y)</a>   <!-- 3- stars count -->
+                    <a class="nav-link text-info" href="#">Negative ({{ negative }})</a>   <!-- 3- stars count -->
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-info" href="#">Verified users only (z)</a>   <!-- count of verified users reviews -->
+                    <a class="nav-link text-info" href="#">Verified users only (x)</a>   <!-- count of verified users reviews -->
                   </li>
                 </ul>
 

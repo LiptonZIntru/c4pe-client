@@ -86,7 +86,15 @@ def index(request):
 def profile(request, id):
     place = json.loads(requests.get('http://77.244.251.110/api/places/' + id).text)
     reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
-    return render(request, 'places/profile.html', {'place': place, 'reviews': reviews})
+
+    positive = 0
+    negative = 0
+    for review in reviews:
+        if review['rating'] < 4:
+            negative = negative + 1
+        else:
+            positive = positive + 1
+    return render(request, 'places/profile.html', {'place': place, 'reviews': reviews, 'positive': positive, 'negative': negative})
 
 
 def create(request):
@@ -129,6 +137,6 @@ def edit(request, id):
             "name": request.POST.get("name"),
             "placeTypeID": int(request.POST.get("type"))
         }
-        status = requests.post('http://77.244.251.110/api/places', data=json.dumps(data), headers=headers)
+        status = requests.put('http://77.244.251.110/api/places/' + id, data=json.dumps(data), headers=headers)
         print(status.status_code)
         return HttpResponse("status code: " + str(status.status_code))
