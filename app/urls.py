@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .controllers import home, places, reviews, users
+from .controllers import home, places, reviews, users, placetypes
 
 urlpatterns = [
-    path('', home.index),
     path('example/', home.example),
+    path('urls/', home.urls),
+
+    path('', home.index),
+    path('about/', home.about),
 
     path('users/login/', users.login, name='login'),
     path('users/register/', users.register, name='register'),
@@ -31,4 +34,10 @@ urlpatterns = [
 
 
     path('places/<id>/reviews/', reviews.index, name='reviews'),
+    path('places/<id>/reviews/create/', reviews.create),
+    path('places/<place_id>/reviews/<id>/edit/', reviews.edit),
+
+    path('placetypes/', placetypes.index),
+    path('placetypes/create/', placetypes.create),
+    path('placetypes/<id>/edit/', placetypes.edit),
 ]

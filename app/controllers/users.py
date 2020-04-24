@@ -42,5 +42,5 @@ def register(request):
         response = requests.post('http://77.244.251.110/api/users/register', data=json.dumps(data), headers=headers)
         if not response.status_code == 201:
             print(response.status_code)
-            return render(request, 'users/register.html')
+            return HttpResponse(response.status_code)
         return HttpResponse('logged')
