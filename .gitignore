@@ -3,6 +3,7 @@ venv
 db.sqlite3
 manage.py
 templates/test
+app/controllers/__pycache__
 app/static/test
 notes.txt
 Prezentace C4PE.pdf
