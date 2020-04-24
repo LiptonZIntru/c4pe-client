@@ -1,0 +1,37 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+    {% csrf_token %}
+        Open:
+        <input type="number" name="openHour" class="form-control" style="width: 10%; display: inline-block" value="0"> :
+        <input type="number" name="openMinutes" class="form-control" style="width: 10%; display: inline-block" value="0">
+        <br>
+        Close:
+        <input type="number" name="closeHour" class="form-control" style="width: 10%; display: inline-block" value="0"> :
+        <input type="number" name="closeMinutes" class="form-control" style="width: 10%; display: inline-block" value="0">
+        <br>
+        Day:
+        <select class="form-control" name="day" style="width: 30%">
+            <option value="0">Monday</option>
+            <option value="1">Tuesday</option>
+            <option value="2">Wednesday</option>
+            <option value="3">Thursday</option>
+            <option value="4">Friday</option>
+            <option value="5">Saturday</option>
+            <option value="6">Sunday</option>
+        </select>
+        <br>
+        <input type="submit" value="Create opening time">
+    </form>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

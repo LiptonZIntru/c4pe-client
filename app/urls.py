@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .controllers import home, places, reviews, users, placetypes
+from .controllers import home, places, reviews, users, placetypes, openingtimes
 
 urlpatterns = [
     path('example/', home.example),
@@ -40,4 +40,8 @@ urlpatterns = [
     path('placetypes/', placetypes.index),
     path('placetypes/create/', placetypes.create),
     path('placetypes/<id>/edit/', placetypes.edit),
+
+    path('places/<place_id>/openingtimes/', openingtimes.index),
+    path('places/<place_id>/openingtimes/create/', openingtimes.create),
+    path('places/<place_id>/openingtimes/edit/', openingtimes.edit),
 ]

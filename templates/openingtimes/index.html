@@ -1,0 +1,35 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+    {% for time in openingTimes %}
+        <div class="jumbotron">
+            <h2>ID: {{ time.id }}</h2>
+            {% if time.day == 0 %}
+                <h4>Monday</h4><br>
+            {% elif time.day == 1 %}
+                <h4>Tuesday</h4><br>
+            {% elif time.day == 2 %}
+                <h4>Wednesday</h4><br>
+            {% elif time.day == 3 %}
+                <h4>Thursday</h4><br>
+            {% elif time.day == 4 %}
+                <h4>Friday</h4><br>
+            {% elif time.day == 5 %}
+                <h4>Saturday</h4><br>
+            {% elif time.day == 6 %}
+                <h4>Sunday</h4><br>
+            {% endif %}
+            <h4>{{ time.open }} - {{ time.close }}</h4><br>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+    {% for time in openingTimes %}
+        <form method="post">
+        {% csrf_token %}
+            <input type="hidden" name="id" value="{{ time.id }}">
+            Open:
+            <input type="number" name="openHour" class="form-control" style="width: 10%; display: inline-block" value="{{ time.open|slice:"0:2" }}"> :
+            <input type="number" name="openMinutes" class="form-control" style="width: 10%; display: inline-block" value="{{ time.open|slice:"3:5" }}">
+            <br>
+            Close:
+            <input type="number" name="closeHour" class="form-control" style="width: 10%; display: inline-block" value="{{ time.close|slice:"0:2" }}"> :
+            <input type="number" name="closeMinutes" class="form-control" style="width: 10%; display: inline-block" value="{{ time.close|slice:"3:5" }}">
+            <br>
+            Day:
+            <select class="form-control" name="day" style="width: 30%">
+                {% if time.day == 0 %}
+                    <option value="0" selected>Monday</option>
+                {% else %}
+                    <option value="0">Monday</option>
+                {% endif %}
+
+                {% if time.day == 1 %}
+                    <option value="1" selected>Tuesday</option>
+                {% else %}
+                    <option value="1">Tuesday</option>
+                {% endif %}
+
+                {% if time.day == 2 %}
+                    <option value="2" selected>Wednesday</option>
+                {% else %}
+                    <option value="2">Wednesday</option>
+                {% endif %}
+
+                {% if time.day == 3 %}
+                    <option value="3" selected>Thursday</option>
+                {% else %}
+                    <option value="3">Thursday</option>
+                {% endif %}
+
+                {% if time.day == 5 %}
+                    <option value="4" selected>Friday</option>
+                {% else %}
+                    <option value="4">Friday</option>
+                {% endif %}
+
+                {% if time.day == 5 %}
+                    <option value="5" selected>Saturday</option>
+                {% else %}
+                    <option value="5">Saturday</option>
+                {% endif %}
+
+                {% if time.day == 6 %}
+                    <option value="6" selected>Sunday</option>
+                {% else %}
+                    <option value="6">Sunday</option>
+                {% endif %}
+            </select>
+            <br>
+            <input type="submit" value="Save changes">
+        </form>
+        <br>
+    {% endfor %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
