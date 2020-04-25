@@ -36,6 +36,7 @@ urlpatterns = [
     path('places/<id>/reviews/', reviews.index, name='reviews'),
     path('places/<id>/reviews/create/', reviews.create),
     path('places/<place_id>/reviews/<id>/edit/', reviews.edit),
+    path('places/<id>/reviews/type/<type>/', places.get_json_reviews),  # get positive/negative/all reviews
 
     path('placetypes/', placetypes.index),
     path('placetypes/create/', placetypes.create),

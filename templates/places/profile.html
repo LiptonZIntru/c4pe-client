@@ -70,16 +70,16 @@
             <div class="row mx-1">
                 <ul class="nav nav-tabs col-9">
                   <li class="nav-item">
-                    <a class="nav-link active" href="#">All ({{ place.reviewCount }})</a>
+                    <a id="all-link" class="nav-link active" onclick="update(1);">All ({{ place.reviewCount }})</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-info" href="#">Positive ({{ positive }})</a>   <!-- 4+ stars count -->
+                    <a id="positive-link" class="nav-link text-info" onclick="update(2);">Positive ({{ positive }})</a>   <!-- 4+ stars count -->
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-info" href="#">Negative ({{ negative }})</a>   <!-- 3- stars count -->
+                    <a id="negative-link" class="nav-link text-info" onclick="update(3);">Negative ({{ negative }})</a>   <!-- 3- stars count -->
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-info" href="#">Only verified users (x)</a>   <!-- count of verified users reviews -->
+                    <a class="nav-link text-info">Only verified users (x)</a>   <!-- count of verified users reviews -->
                   </li>
                 </ul>
 
@@ -135,7 +135,7 @@
 
                 </div>
             </div>
-
+            <div id="card-content">
               {% for review in reviews %}
                     <div class="card m-2 my-3">
                       <div class="card-body">
@@ -196,6 +196,7 @@
                         </div>
                     </div>
               {% endfor %}
+            </div>
           </div>
         </div>
     </div>

@@ -140,3 +140,18 @@ def edit(request, id):
         status = requests.put('http://77.244.251.110/api/places/' + id, data=json.dumps(data), headers=headers)
         print(status.status_code)
         return HttpResponse("status code: " + str(status.status_code))
+
+
+def get_json_reviews(request, id, type):
+    reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
+    response_reviews = []
+    for review in reviews:
+        if int(type) == 1:  # all
+            return HttpResponse(json.dumps(reviews))
+        elif int(type) == 2:  # positive
+            if review['rating'] > 3:
+                response_reviews.append(review)
+        elif int(type) == 3:  # negative
+            if review['rating'] < 4:
+                response_reviews.append(review)
+    return HttpResponse(json.dumps(response_reviews))
