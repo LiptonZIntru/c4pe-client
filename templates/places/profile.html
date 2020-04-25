@@ -139,10 +139,11 @@
                     <div class="card m-2 my-3">
                       {% if review.user.isVerified == 1 %}
                         <div class="card-body pb-2 pt-2">
+                            <small class="float-right pt-2">
                       {% else %}
                         <div class="card-body pb-2 pt-3">
+                            <small class="float-right">
                       {% endif %}
-                              <small class="float-right">
                                 {% if review.rating|floatformat:"0" == "0" %}
                                     <i class="fa fa-star-o"></i>
                                     <i class="fa fa-star-o"></i>
@@ -186,14 +187,14 @@
                                     <i class="fa fa-star"></i>
                                 {% endif %}
                             </small>
-                            <p class="text-nowrap mb-1">
+                            <p class="text-nowrap mb-2">
                                 User
                                 {% if review.user.isVerified == 1 %}
                                     <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
                                 {% endif %}
                                 <b>{{ review.user.username }}</b> says:
                             </p>
-                            <div class="card p-2">
+                            <div class="card p-2 pl-3">
                                 {{ review.text }}
                             </div>
                             <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
