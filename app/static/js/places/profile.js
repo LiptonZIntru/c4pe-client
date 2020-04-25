@@ -39,7 +39,7 @@ function update(type) {
         reviews.forEach(review => {
             var rating = "";
             var user_icon = '';
-            var review_time = review.time.slice(5,7) + "." + review.time.slice(8,10) + "." + review.time.slice(0,4) +
+            var review_time = review.time.slice(5,7) + "." + review.time.slice(8,10) + "." + review.time.slice(0,4) + ' ' +
                 review.time.slice(11,16);
             if(review.user.isVerified == 1)
             {
@@ -67,7 +67,7 @@ function update(type) {
                 review.text +
                 '</div>' +
                 '<p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">' +
-                'Review added' +
+                'Review added ' + review_time +
                 '</p>' +
                 '</div>' +
                 '</div>'
