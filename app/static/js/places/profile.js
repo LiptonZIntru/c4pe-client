@@ -47,11 +47,11 @@ function update(type) {
             }
             for(var i = 0; i < review.rating; i++)
             {
-                rating += '<i class="fa fa-star"></i>';
+                rating += '<i class="fa fa-star"></i> ';
             }
             for(var i = 0; i < 5 - review.rating; i++)
             {
-                rating += '<i class="fa fa-star-o"></i>';
+                rating += '<i class="fa fa-star-o"></i> ';
             }
             content += '<div class="card m-2 my-3">' +
                 '<div class="card-body pb-2 pt-2">' +
@@ -63,7 +63,7 @@ function update(type) {
                 '<b>' + review.user.username + '</b>' +
                 ' says:' +
                 '</p>' +
-                '<div class="card p-2 pl-3">' +
+                '<div class="card p-2 pl-3 text-justify">' +
                 review.text +
                 '</div>' +
                 '<p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">' +
