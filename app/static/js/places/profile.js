@@ -13,7 +13,7 @@ function update(type) {
     document.getElementById('all-link').classList = "nav-link text-info";
     document.getElementById('positive-link').classList = "nav-link text-info";
     document.getElementById('negative-link').classList = "nav-link text-info";
-    var place_id = 1;
+    var place_id = document.getElementById('page_id').value;
 
     if(type == 1)
     {

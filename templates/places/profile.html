@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+    <input id="page_id" value="{{ place.id }}" type="hidden">
     <div class="container mt-3 mb-3">
         <div class="card">
           <div class="card-body row">
@@ -192,7 +193,6 @@
                             <br>
                             {{ review.text }}
                             <br>
-
                         </div>
                     </div>
               {% endfor %}
