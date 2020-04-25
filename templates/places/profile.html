@@ -79,7 +79,7 @@
                     <a id="negative-link" class="nav-link text-info" onclick="update(3);">Negative ({{ negative }})</a>   <!-- 3- stars count -->
                   </li>
                   <li class="nav-item" style="cursor:pointer;">
-                    <a class="nav-link text-info">Only verified users (x)</a>   <!-- count of verified users reviews -->
+                    <a id="verified-link" class="nav-link text-info" onclick="update(4);">Only verified users ({{ verified }})</a>   <!-- count of verified users reviews -->
                   </li>
                 </ul>
 
@@ -137,13 +137,8 @@
             <div id="card-content">
               {% for review in reviews %}
                     <div class="card m-2 my-3">
-                      {% if review.user.isVerified == 1 %}
                         <div class="card-body pb-2 pt-2">
                             <small class="float-right pt-2">
-                      {% else %}
-                        <div class="card-body pb-2 pt-3">
-                            <small class="float-right">
-                      {% endif %}
                                 {% if review.rating|floatformat:"0" == "0" %}
                                     <i class="fa fa-star-o"></i>
                                     <i class="fa fa-star-o"></i>
@@ -205,6 +200,7 @@
               {% endfor %}
             </div>
           </div>
+        </div>
         </div>
     </div>
 {% endblock %}

@@ -13,6 +13,7 @@ function update(type) {
     document.getElementById('all-link').classList = "nav-link text-info";
     document.getElementById('positive-link').classList = "nav-link text-info";
     document.getElementById('negative-link').classList = "nav-link text-info";
+    document.getElementById('verified-link').classList = "nav-link text-info";
     var place_id = document.getElementById('page_id').value;
 
     if(type == 1)
@@ -27,72 +28,49 @@ function update(type) {
     {
         document.getElementById('negative-link').classList = "nav-link active";
     }
+    else if(type == 4)
+    {
+        document.getElementById('verified-link').classList = "nav-link active";
+    }
 
     $.get( "/places/" + place_id + "/reviews/type/" + type, function( data ) {
         var content = "";
         var reviews = JSON.parse(data);
         reviews.forEach(review => {
             var rating = "";
-            if(review.rating == 0)
+            var user_icon = '';
+            var review_time = review.time.slice(5,7) + "." + review.time.slice(8,10) + "." + review.time.slice(0,4) +
+                review.time.slice(11,16);
+            if(review.user.isVerified == 1)
             {
-                rating = '<i class="fa fa-star-o"></i>\n' +
-                    '<i class="fa fa-star-o"></i>\n' +
-                    '<i class="fa fa-star-o"></i>\n' +
-                    '<i class="fa fa-star-o"></i>\n' +
-                    '<i class="fa fa-star-o"></i>';
+                user_icon = '<i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i> '
             }
-            else if(review.rating == 1)
+            for(var i = 0; i < review.rating; i++)
             {
-                rating = '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star-o"></i>\n' +
-                    '<i class="fa fa-star-o"></i>\n' +
-                    '<i class="fa fa-star-o"></i>\n' +
-                    '<i class="fa fa-star-o"></i>';
+                rating += '<i class="fa fa-star"></i>';
             }
-            else if(review.rating == 2)
+            for(var i = 0; i < 5 - review.rating; i++)
             {
-                rating = '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star-o"></i>\n' +
-                    '<i class="fa fa-star-o"></i>\n' +
-                    '<i class="fa fa-star-o"></i>';
+                rating += '<i class="fa fa-star-o"></i>';
             }
-            else if(review.rating == 3)
-            {
-                rating = '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star-o"></i>\n' +
-                    '<i class="fa fa-star-o"></i>';
-            }
-            else if(review.rating == 4)
-            {
-                rating = '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star-o"></i>';
-            }
-            else if(review.rating == 5)
-            {
-                rating = '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star"></i>\n' +
-                    '<i class="fa fa-star"></i>';
-            }
-            content += '<div class="card m-2 my-3">\n' +
-                '<div class="card-body">\n' +
-                '<small class="float-right">' +
+            content += '<div class="card m-2 my-3">' +
+                '<div class="card-body pb-2 pt-2">' +
+                '<small class="float-right pt-2">' +
                 rating +
                 '</small>' +
-                '<h2>' + review.user.username +'</h2>' +
-                'rating: ' + review.rating +
-                '<br>date posted: ' + review.time.slice(5,7) + '. ' + review.time.slice(8,10) + '. ' + review.time.slice(0,4) + ', ' + review.time.slice(11,16) + '. ' +
-                '<br>review text: ' + review.text +
-                '<br>' +
+                '<p class="text-nowrap mb-2">User ' +
+                user_icon +
+                '<b>' + review.user.username + '</b>' +
+                ' says:' +
+                '</p>' +
+                '<div class="card p-2 pl-3">' +
+                review.text +
                 '</div>' +
-                '</div>';
+                '<p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">' +
+                'Review added' +
+                '</p>' +
+                '</div>' +
+                '</div>'
 
         });
         $( "#card-content" ).html( content );
