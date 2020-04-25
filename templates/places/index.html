@@ -24,9 +24,9 @@
                   </div>
               </div>
           </form>
-        <div class="list-group" style="margin-top: 50px">                                                    <!-- seznam podniků -->
+        <div class="list-group mt-3">                                                    <!-- seznam podniků -->
             {% for place in places %}
-                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start">
+                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start rounded mt-3" style="border-top-width: thin">
                      <div class="row">
                         <div class="col-2">                         <!-- fotka restaurace -->
                             <img src="https://cdn.pixabay.com/photo/2015/05/15/14/55/cafe-768771_960_720.jpg" class="rounded-2 img-thumbnail" alt="Place photo" style="width: 150px; height: 150px; vertical-align: center">
@@ -36,7 +36,7 @@
                              <div class="d-flex w-100 justify-content-between">
                                  <h3 class="mb-2 text-nowrap" style="cursor: default">{{ place.name }}</h3>            <!-- název místa -->
 
-                                 <a href="{{ place.id }}/reviews" onmouseover="underline('{{ place.id }}_uLine');" onmouseout="unUnderline('{{ place.id }}_uLine');" style="color: black">                                       <!-- hodnocení - je potřeba dořešit zobrazení na základě dynamických dat -->
+                                 <a style="color: black; cursor: default;">                                       <!-- hodnocení -->
                                       <small class="float-right">
                                           {% if place.rating|floatformat:"0" == "0" %}
                                             <i class="fa fa-star-o"></i>
@@ -158,7 +158,6 @@
                         </div>
                      </div>
                   </x>
-                <div style="padding: 15px"></div>
             {% endfor %}
         </div>
 
@@ -183,23 +182,4 @@
         </ul>
 
       </div>
-{% endblock %}
-
-{% block js %}
-<script>
-    function goToReviews()
-    {
-        window.location.href = '/places/{{ place.id }}/reviews';
-    }
-
-    function underline(id)
-    {
-        document.getElementById(id).style.textDecoration = "underline";
-    }
-
-    function unUnderline(id)
-    {
-        document.getElementById(id).style.textDecoration = "";
-    }
-</script>
 {% endblock %}

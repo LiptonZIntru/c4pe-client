@@ -18,7 +18,7 @@
               </div>
               <div class="col-9">
                   <h3>
-                      {% if place.isVerified == 'true' %}
+                      {% if place.isVerified == 1 %}
                           <i class="fas fa-check-circle" style="color:green" data-toggle="tooltip" data-placement="bottom" title="Verified place"></i>
                           {% else %}
                           <i class="fas fa-exclamation-circle" style="color:orange" data-toggle="tooltip" data-placement="bottom" title="Not verified place"></i>
@@ -66,20 +66,19 @@
         </div>
 
             <hr/>
-
-          <div class="card-body pt-1">
-            <div class="row mx-1">
+          <div class="card-body pt-2">
+            <div class="row mr-1 ml-4 mb-4">
                 <ul class="nav nav-tabs col-9">
-                  <li class="nav-item">
+                  <li class="nav-item" style="cursor:pointer;">
                     <a id="all-link" class="nav-link active" onclick="update(1);">All ({{ place.reviewCount }})</a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" style="cursor:pointer;">
                     <a id="positive-link" class="nav-link text-info" onclick="update(2);">Positive ({{ positive }})</a>   <!-- 4+ stars count -->
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" style="cursor:pointer;">
                     <a id="negative-link" class="nav-link text-info" onclick="update(3);">Negative ({{ negative }})</a>   <!-- 3- stars count -->
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" style="cursor:pointer;">
                     <a class="nav-link text-info">Only verified users (x)</a>   <!-- count of verified users reviews -->
                   </li>
                 </ul>
@@ -133,66 +132,73 @@
                   <small class="text-nowrap">
                       <b>Overall rating: {{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
                   </small>
-
                 </div>
             </div>
             <div id="card-content">
               {% for review in reviews %}
                     <div class="card m-2 my-3">
-                      <div class="card-body">
-                          <small class="float-right">
-                            {% if review.rating|floatformat:"0" == "0" %}
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            {% endif %}
-                            {% if review.rating|floatformat:"0" == "1" %}
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            {% endif %}
-                            {% if review.rating|floatformat:"0" == "2" %}
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            {% endif %}
-                            {% if review.rating|floatformat:"0" == "3" %}
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            {% endif %}
-                            {% if review.rating|floatformat:"0" == "4" %}
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                            {% endif %}
-                            {% if review.rating|floatformat:"0" == "5" %}
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            {% endif %}
-                        </small>
-                          <h2>{{ review.user.username }}</h2>
-                            rating: {{ review.rating }}
-                            <br>
-                            date posted: {{ review.time|slice:"5:7"}}. {{ review.time|slice:"8:10"}}. {{ review.time|slice:"0:4"}}, {{ review.time|slice:"11:16"}}
-                            <br>
-                            review text:
-                            <br>
-                            {{ review.text }}
-                            <br>
+                      {% if review.user.isVerified == 1 %}
+                        <div class="card-body pb-2 pt-2">
+                      {% else %}
+                        <div class="card-body pb-2 pt-3">
+                      {% endif %}
+                              <small class="float-right">
+                                {% if review.rating|floatformat:"0" == "0" %}
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                {% if review.rating|floatformat:"0" == "1" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                {% if review.rating|floatformat:"0" == "2" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                {% if review.rating|floatformat:"0" == "3" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                {% if review.rating|floatformat:"0" == "4" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                {% if review.rating|floatformat:"0" == "5" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                {% endif %}
+                            </small>
+                            <p class="text-nowrap mb-1">
+                                User
+                                {% if review.user.isVerified == 1 %}
+                                    <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
+                                {% endif %}
+                                <b>{{ review.user.username }}</b> says:
+                            </p>
+                            <div class="card p-2">
+                                {{ review.text }}
+                            </div>
+                            <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
+                                Review added {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
+                            </p>
                         </div>
                     </div>
               {% endfor %}
