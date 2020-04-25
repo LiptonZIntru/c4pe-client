@@ -14,7 +14,7 @@
         <div class="card">
           <div class="card-body">
               <div class="media">
-                  <img class="rounded mr-3 align-self-start" src="https://cdn.pixabay.com/photo/2015/05/15/14/55/cafe-768771_960_720.jpg" style="height: 250px; width: 250px;">
+                  <img class="rounded mr-3 align-self-start img-responsive" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" style="width: 250px;">
                   <div class="media-body">
                       <h3>
                           {% if place.isVerified == 1 %}
@@ -56,7 +56,7 @@
                           </div>
                       </div>
                       <div class="col-4 text-nowrap">
-                        <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" href="#writeReview" aria-expanded="false" aria-controls="writeReview" id="buttonCollapse" style="bottom:10px; right: 10px;">Write a review!</button>
+                        <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" id="buttonCollapse" style="bottom:10px; right: 10px;">Write a review!</button>
                       </div>
                 </div>
               </div>
@@ -144,7 +144,7 @@
                             </small>
                             <label for="newReview" class="text-nowrap" style="font-size: smaller">Share your experience with other users:</label>
                             <textarea class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReview" rows="3" style="min-height: 40px"></textarea>
-                            <button type="button" class="btn float-right mt-2 border-primary text-primary" data-toggle="collapse" href="#writeReview" aria-expanded="false" aria-controls="writeReview" onclick="document.getElementById('newReview').value = ''">Cancel</button>
+                            <button type="button" class="btn float-right mt-2 border-primary text-primary" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" onclick="document.getElementById('newReview').value = ''">Cancel</button>
                         </div>
                     </div>
             <div id="card-content">
@@ -222,16 +222,11 @@
 {% block js %}
 <script type="text/javascript" src="{% static 'js/places/profile.js' %}"></script>
 <script>
-    $(".collapse").on('show.bs.collapse', function(){
+    $("#writeReview").on('show.bs.collapse', function(){
         document.getElementById('buttonCollapse').innerText = "Collapse review";
       });
-    $(".collapse").on('hide.bs.collapse', function(){
+    $("#writeReview").on('hide.bs.collapse', function(){
         document.getElementById('buttonCollapse').innerText = "Write a review!";
       });
-
-   /* function deleteReview()
-    {
-        document.getElementById("newReview").value = "";
-    }*/
 </script>
 {% endblock %}

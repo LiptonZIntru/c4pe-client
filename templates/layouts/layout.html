@@ -38,7 +38,7 @@
               <li class="nav-item"><a class="nav-link" href="/places" id="Browse">Browse places</a></li>
             </ul>
 
-            <ul class="navbar-nav ml-auto" onmouseover="Grey('Your Profile')" onmouseout="UnGrey('Your Profile')">
+            <ul class="navbar-nav ml-auto">
                 {% if session.user == 1 %}                                                                          <!-- pokud je user logged, dá mu to username a profilepic -->
                   <li class="nav-item">
                       <a class="nav-link" href="/users/id" id="Your Profile">
@@ -47,18 +47,17 @@
                       <x> (<y class="text-success">logged</y>) </x>
                   </li>
                   <li class="nav-item d-none d-md-block">
-                    <a href="/users/id">
-                        <img src="{{ user.id.avatar }}" alt="Profile Picture" class="rounded" style="width: 40px;">
+                    <a href="/users/{{ user.id }}">
+                        <img src="{{ user.id.avatar }}" alt="Profile Picture" class="rounded" style="width: 40px;" id="profilePic">
                     </a>
                   </li>
-                {% endif %}
-
-                                                                                         <!-- pokud logged není, dá mu to Log In / Register -->
+                {% else %}                                                                 <!-- pokud logged není, dá mu to Log In / Register -->
                     <li class="nav-item text-nowrap row mx-0">
                         <a class="nav-link px-0" href="/users/login" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" id="Log In">Log In</a>
                         <a class="nav-link px-1">/</a>
                         <a class="nav-link px-0" href="/users/register" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" id="Register">Register</a>
                     </li>
+                {% endif %}
 
             </ul>
           </div>
