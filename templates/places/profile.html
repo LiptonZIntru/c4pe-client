@@ -131,8 +131,7 @@
                   </small>
                 </div>
             </div>
-            <div id="card-content">
-                    <div class="card m-2 my-3 collapse border-primary" id="writeReview">
+          <div class="card m-2 my-3 collapse border-primary" id="writeReview">
                         <div class="card-body pb-2 pt-2 form-group" style="font-size: 150%;">
                             <small class="float-right pt-2">
                                 <label class="mr-1" for="rating" style="font-size: smaller">Your rating:</label>
@@ -148,6 +147,8 @@
                             <button type="button" class="btn float-right mt-2 border-primary text-primary" data-toggle="collapse" href="#writeReview" aria-expanded="false" aria-controls="writeReview" onclick="document.getElementById('newReview').value = ''">Cancel</button>
                         </div>
                     </div>
+            <div id="card-content">
+
               {% for review in reviews %}
                     <div class="card m-2 my-3">
                         <div class="card-body pb-2 pt-2">
