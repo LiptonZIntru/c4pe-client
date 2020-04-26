@@ -4,7 +4,7 @@
     {% load static %}
     <style>
         .collapsing {transition: none !important;}
-        @media only screen and (max-width: 992px)
+        @media only screen and (max-width: 991px)
         {
             #responsiveBreak{
                 display: none;
@@ -13,6 +13,30 @@
                 margin-top: 0 !important;
             }
         }
+        @media only screen and (min-width: 768px)
+        {
+            #labelWrap{
+                display: none;
+            }
+        }
+        @media only screen and (min-width: 992px)
+        {
+            #line{
+                display: none;
+            }
+        }
+        hr {
+            width: 100%;
+            color: #FFFF00;
+            height: 2px;
+            margin-top: 0px;
+        }
+        #line {
+            width: 90%;
+            height: 10px;
+            margin-left: 5%;
+        }
+
     </style>
 {% endblock %}
 
@@ -23,9 +47,9 @@
 {% block content %}
       <div class="container my-3">                                                  <!-- dává prostor doleva a doprava, aby stránka měla okraje -->
           <div class="m-auto p-0" style="width: 300px;">                                                                     <!-- záhlaví stránky - velké logo a název podniku -->
-              <a href="/" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-4 d-block" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
+            <a href="/" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-4 d-block unselectable" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
           </div>
-          <h3 class="text-center" style="font-family: 'Corbel'; font-size: 46px;"><i><b>What is your dream place?</b></i></h3>
+          <h3 class="text-center text-nowrap unselectable pb-2" style="font-family: 'Corbel'; font-size: 46px;"><i><b>What is your dream<b id="labelWrap"><br/></b> place?</b></i></h3>
           <form>
               <div class="input-group">
                   <input type="text" class="form-control" placeholder="Your favorite place is here">
@@ -42,55 +66,64 @@
                     Show filters
                 </button>
                 <br id="responsiveBreak" hidden/>
-                <button type="button" class="btn collapse border-primary text-primary mt-5" id="filters">
+                <button type="button" class="btn collapse border-primary text-primary mt-5 unselectable" id="filters">
                     Apply filters
                 </button>
             </div>
             <div class="col-lg-10 mt-2 collapse row" id="filters">
-                 <div class="col-lg-4 mb-2">
-                     <label class="font-weight-bold" for="placeTypeFilter">Type of place:</label>
-                     <select class="custom-select" id="placeTypeFilter">
-                          <option value="any" selected>any</option>
-                          {% for placetype in placetypes %}
-                              <option value="{{ placetype.id }}">{{ placetype.name }}</option>
-                          {% endfor %}
-                     </select>
+                 <div class="col-lg-3 mb-2">
+                     <label class="font-weight-bold text-nowrap" for="placeTypeFilter">Type of place:</label>
+                     <div>
+                         <div class="custom-control custom-control-inline custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="0.any" value="0.any" checked>
+                           <label class="custom-control-label" for="0.any">any</label>
+                         </div>
+                         <br/>
+                         {% for placetype in placetypes %}
+                            <div class="custom-control custom-control-inline custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="{{ placetype.id }}.{{ placetype.name }}" value="{{ placetype.id }}.{{ placetype.name }}">
+                              <label class="custom-control-label" for="{{ placetype.id }}.{{ placetype.name }}">{{ placetype.name }}</label>
+                            </div>
+                         {% endfor %}
+                     </div>
                  </div>
+                 <div id="line"><hr /></div>
                  <div class="col-lg-3 mb-2">
                      <div class="custom-control custom-checkbox">
-                       <input type="checkbox" class="custom-control-input" id="openedOnly" onclick="toggleHide();">
+                       <input type="checkbox" class="custom-control-input" id="openedOnly" onclick="toggleHide();" value="openedOnly">
                        <label class="custom-control-label" for="openedOnly">opened only places</label>
                      </div>
-                     <div class="custom-control custom-checkbox pt-2" id="canHide" hidden>
-                       <input type="checkbox" class="custom-control-input" id="noDataIncluding">
+                     <div class="custom-control custom-checkbox pt-2">
+                       <input type="checkbox" class="custom-control-input" id="noDataIncluding" value="noDataIncluding" disabled>
                        <label class="custom-control-label" for="noDataIncluding">"no data" state including</label>
                      </div>
                  </div>
+                 <div id="line"><hr /></div>
                  <div class="col-lg-3 mb-2">
-                     <label class="text-nowrap font-weight-bold" for="reviewCountFilter">Number of reviews:</label>
-                     <select class="custom-select" id="reviewCountFilter" style="width: max-content">
-                         <option value="any" selected>any</option>
-                         <option value="0-5">0 - 5</option>
-                         <option value="5-15">5 - 15</option>
-                         <option value="15">15 and more</option>
-                     </select>
-                 </div>
-                 <div class="col-lg-2">
-                     <label class="text-nowrap font-weight-bold">Rating range:</label>
-                     <div class="row pl-3">
-                         <label class="pt-2 pr-2" for="ratingLowerRange">from</label>
-                         <input class="form-control" id="ratingLowerRange" type="number" value="5" min="0" max="5" step="1" style="width: 80px;"/>
+                     <div class="custom-control custom-checkbox">
+                       <input type="checkbox" class="custom-control-input" value="testedFilter" id="testedFilter">
+                       <label class="custom-control-label" for="testedFilter">tested by people (5 reviews and more)</label>
                      </div>
-                     <div class="row pt-2 pl-3">
-                         <label class="pt-2 pr-2" for="ratingUpperRange">up to</label>
-                         <input class="form-control" id="ratingUpperRange" type="number" value="5" min="0" max="5" step="1" style="width: 80px;"/>
+                 </div>
+                 <div id="line"><hr /></div>
+                 <div class="col-lg-2">
+                     <label class="text-nowrap font-weight-bold">Rating:</label>
+                     <div class="ml-3">
+                         <div class="row pl-1">
+                             <label class="pt-2 pr-2" for="ratingLowerRange">min:</label>
+                             <input class="form-control" id="ratingLowerRange" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
+                         </div>
+                         <div class="row pt-2">
+                             <label class="pt-2 pr-2" for="ratingUpperRange">max:</label>
+                             <input class="form-control" id="ratingUpperRange" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
+                         </div>
                      </div>
                  </div>
             </div>
         </div>
         <div class="list-group mt-1">                                                    <!-- seznam podniků -->
             {% for place in places %}
-                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start rounded mt-3" style="border-top-width: thin">
+                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start rounded mt-3 unselectable" style="border-top-width: thin">
                      <div class="row">
                         <div class="col-md-2">                         <!-- fotka restaurace -->
                             <img src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" class="rounded-2 img-thumbnail img-responsive" alt="Place photo" style="width: 150px; vertical-align: center">
@@ -207,14 +240,14 @@
 {% block js %}
 <script>
     $(document).ready( function(){
-        if(document.getElementById('openedOnly').checked) document.getElementById('canHide').classList.remove('invisible');
+        if(document.getElementById('openedOnly').checked) document.getElementById('noDataIncluding').disabled = false;
     });
 
     function toggleHide(){
-        if(document.getElementById('canHide').hidden) document.getElementById('canHide').hidden = false;
+        if(document.getElementById('noDataIncluding').disabled) document.getElementById('noDataIncluding').disabled = false;
         else
         {
-            document.getElementById('canHide').hidden = true;
+            document.getElementById('noDataIncluding').disabled = true;
             document.getElementById('noDataIncluding').checked = false;
         }
     }
