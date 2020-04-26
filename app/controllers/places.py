@@ -15,6 +15,7 @@ def index(request):
     if page is None:
         page = '1'
     response = requests.get('http://77.244.251.110/api/places?PageNumber=' + page)
+    types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
     places = json.loads(response.text)
     current = json.loads(response.headers['X-Pagination'])['CurrentPage']
     last = json.loads(response.headers['X-Pagination'])['TotalPages']
@@ -81,7 +82,7 @@ def index(request):
         pages['content'] = [current - 1, current, current + 1]
     #  pagination
 
-    return render(request, 'places/index.html', {'places': places, 'pages': pages})
+    return render(request, 'places/index.html', {'places': places, 'pages': pages, 'types': types})
 
 
 def profile(request, id):
