@@ -76,8 +76,11 @@
             </div>
             <div class="col-lg-10 mt-2 collapse row" id="filters">
                  <div class="col-lg-3 mb-2">
-                     <label class="font-weight-bold text-nowrap" for="placeTypeFilter">Type of place:</label>
-                     <div>
+                    <a data-toggle="collapse" data-target="#typesFilter" aria-expanded="false" aria-controls="typesFilter" class="unselectable text-nowrap">
+                        <i class="fas fa-caret-right" id="iconTypesFilter" style="cursor: pointer;"></i>
+                        <label class="font-weight-bold pl-1" for="placeTypeFilter" style="cursor: pointer;">Types of place:</label>
+                    </a>
+                     <div id="typesFilter" class="collapse">
                          <div class="custom-control custom-control-inline custom-checkbox">
                            <input type="checkbox" class="custom-control-input" id="0.any" value="0.any" checked>
                            <label class="custom-control-label" for="0.any">any</label>
@@ -94,6 +97,10 @@
                  <div id="line"><hr /></div>
                  <div class="col-lg-3 mb-2">
                      <div class="custom-control custom-checkbox">
+                       <input type="checkbox" class="custom-control-input" value="testedFilter" id="testedFilter">
+                       <label class="custom-control-label" for="testedFilter">verified places only</label>
+                     </div>
+                     <div class="custom-control custom-checkbox pt-2">
                        <input type="checkbox" class="custom-control-input" id="openedOnly" onclick="toggleHide();" value="openedOnly">
                        <label class="custom-control-label" for="openedOnly">opened places only</label>
                      </div>
@@ -104,14 +111,12 @@
                  </div>
                  <div id="line"><hr /></div>
                  <div class="col-lg-3 mb-2">
-                     <div class="custom-control custom-checkbox">
-                       <input type="checkbox" class="custom-control-input" value="testedFilter" id="testedFilter">
-                       <label class="custom-control-label" for="testedFilter">verified places only</label>
-                     </div>
+                     <label class="font-weight-bold text-nowrap unselectable" for="cityFilter">City:</label>
+                     <input type="text" class="form-control" id="cityFilter" placeholder="Enter a city"/>
                  </div>
                  <div id="line"><hr /></div>
                  <div class="col-lg-2">
-                     <label class="text-nowrap font-weight-bold">Rating:</label>
+                     <label class="text-nowrap font-weight-bold unselectable">Rating:</label>
                      <div class="row ml-3">
                          <div class="row">
                              <label class="pt-2 pr-2" for="ratingLowerRange">min:</label>
@@ -264,6 +269,16 @@
     $("#filters").on('hidden.bs.collapse', function(){
         document.getElementById('filtersToggler').innerText = "Show filters";
         document.getElementById('responsiveBreak').hidden = true;
+      });
+
+    $("#typesFilter").on('show.bs.collapse', function(){
+        document.getElementById('iconTypesFilter').classList.remove('fa-caret-right');
+        document.getElementById('iconTypesFilter').classList.add('fa-caret-up');
+      });
+
+    $("#typesFilter").on('hide.bs.collapse', function(){
+        document.getElementById('iconTypesFilter').classList.remove('fa-caret-up');
+        document.getElementById('iconTypesFilter').classList.add('fa-caret-right');
       });
 </script>
 {% endblock %}
