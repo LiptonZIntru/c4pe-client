@@ -68,6 +68,7 @@ def index(request):
                     if 0 <= open_hour - current_hour < 2:
                         place['open']['state'] = 3
                         place['open']['time'] = time['open'][0:5]
+                break
 
     #  pagination
     if current == 1:
