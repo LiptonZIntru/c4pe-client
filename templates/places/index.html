@@ -24,6 +24,10 @@
             #line{
                 display: none;
             }
+            #responsiveMarginLeft0 {
+                margin-left: -1rem !important;
+                margin-top: 2% !important;
+            }
         }
         hr {
             width: 100%;
@@ -79,10 +83,10 @@
                            <label class="custom-control-label" for="0.any">any</label>
                          </div>
                          <br/>
-                         {% for placetype in placetypes %}
+                         {% for type in types %}
                             <div class="custom-control custom-control-inline custom-checkbox">
-                              <input type="checkbox" class="custom-control-input" id="{{ placetype.id }}.{{ placetype.name }}" value="{{ placetype.id }}.{{ placetype.name }}">
-                              <label class="custom-control-label" for="{{ placetype.id }}.{{ placetype.name }}">{{ placetype.name }}</label>
+                              <input type="checkbox" class="custom-control-input" id="{{ type.id }}.{{ type.name }}" value="{{ type.id }}.{{ type.name }}">
+                              <label class="custom-control-label" for="{{ type.id }}.{{ type.name }}">{{ type.name }}</label>
                             </div>
                          {% endfor %}
                      </div>
@@ -91,29 +95,29 @@
                  <div class="col-lg-3 mb-2">
                      <div class="custom-control custom-checkbox">
                        <input type="checkbox" class="custom-control-input" id="openedOnly" onclick="toggleHide();" value="openedOnly">
-                       <label class="custom-control-label" for="openedOnly">open places</label>
+                       <label class="custom-control-label" for="openedOnly">opened places only</label>
                      </div>
                      <div class="custom-control custom-checkbox pt-2">
                        <input type="checkbox" class="custom-control-input" id="noDataIncluding" value="noDataIncluding" disabled>
-                       <label class="custom-control-label" for="noDataIncluding">"no data" state including</label>
+                       <label class="custom-control-label" for="noDataIncluding">"no data" including</label>
                      </div>
                  </div>
                  <div id="line"><hr /></div>
                  <div class="col-lg-3 mb-2">
                      <div class="custom-control custom-checkbox">
                        <input type="checkbox" class="custom-control-input" value="testedFilter" id="testedFilter">
-                       <label class="custom-control-label" for="testedFilter">tested by people (5 reviews and more)</label>
+                       <label class="custom-control-label" for="testedFilter">verified places only</label>
                      </div>
                  </div>
                  <div id="line"><hr /></div>
                  <div class="col-lg-2">
                      <label class="text-nowrap font-weight-bold">Rating:</label>
-                     <div class="ml-3">
-                         <div class="row pl-1">
+                     <div class="row ml-3">
+                         <div class="row">
                              <label class="pt-2 pr-2" for="ratingLowerRange">min:</label>
                              <input class="form-control" id="ratingLowerRange" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
                          </div>
-                         <div class="row pt-2">
+                         <div class="row ml-4" id="responsiveMarginLeft0">
                              <label class="pt-2 pr-2" for="ratingUpperRange">max:</label>
                              <input class="form-control" id="ratingUpperRange" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
                          </div>
