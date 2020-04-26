@@ -2,6 +2,42 @@
 
 {% block css %}
     {% load static %}
+    <style>
+        .collapsing {transition: none !important;}
+        @media only screen and (max-width: 991px)
+        {
+            #responsiveBreak{
+                display: none;
+            }
+            .mt-5{
+                margin-top: 0 !important;
+            }
+        }
+        @media only screen and (min-width: 768px)
+        {
+            #labelWrap{
+                display: none;
+            }
+        }
+        @media only screen and (min-width: 992px)
+        {
+            #line{
+                display: none;
+            }
+        }
+        hr {
+            width: 100%;
+            color: #FFFF00;
+            height: 2px;
+            margin-top: 0px;
+        }
+        #line {
+            width: 90%;
+            height: 10px;
+            margin-left: 5%;
+        }
+
+    </style>
 {% endblock %}
 
 {% block title %}
@@ -11,82 +47,91 @@
 {% block content %}
       <div class="container my-3">                                                  <!-- dává prostor doleva a doprava, aby stránka měla okraje -->
           <div class="m-auto p-0" style="width: 300px;">                                                                     <!-- záhlaví stránky - velké logo a název podniku -->
-              <a href="/" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-3 d-block" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
+            <a href="/" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-4 d-block unselectable" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
           </div>
-          <h3 style="font-family: 'Montserrat', sans-serif; font-size: 56px">What is your dream place?</h3>
+          <h3 class="text-center text-nowrap unselectable pb-2" style="font-family: 'Corbel'; font-size: 46px;"><i><b>What is your dream<b id="labelWrap"><br/></b> place?</b></i></h3>
           <form>
               <div class="input-group">
                   <input type="text" class="form-control" placeholder="Your favorite place is here">
                   <div class="input-group-append">
-                      <button class="btn btn-secondary" type="button">
+                      <button class="btn btn-primary" type="button">
                           <i class="fa fa-search"></i>
                       </button>
                   </div>
               </div>
           </form>
-        <div class="list-group mt-3">                                                    <!-- seznam podniků -->
-            {% for place in places %}
-                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start rounded mt-3" style="border-top-width: thin">
-                     <div class="row">
-                        <div class="col-2">                         <!-- fotka restaurace -->
-                            <img src="https://cdn.pixabay.com/photo/2015/05/15/14/55/cafe-768771_960_720.jpg" class="rounded-2 img-thumbnail" alt="Place photo" style="width: 150px; height: 150px; vertical-align: center">
-                        </div>
-                         <!-- Search form -->
-                        <div class="col-10">
-                             <div class="d-flex w-100 justify-content-between">
-                                 <h3 class="mb-2 text-nowrap" style="cursor: default">{{ place.name }}</h3>            <!-- název místa -->
-
-                                 <a style="color: black; cursor: default;">                                       <!-- hodnocení -->
-                                      <small class="float-right">
-                                          {% if place.rating|floatformat:"0" == "0" %}
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                          {% endif %}
-                                          {% if place.rating|floatformat:"0" == "1" %}
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                          {% endif %}
-                                          {% if place.rating|floatformat:"0" == "2" %}
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                          {% endif %}
-                                          {% if place.rating|floatformat:"0" == "3" %}
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                          {% endif %}
-                                          {% if place.rating|floatformat:"0" == "4" %}
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                          {% endif %}
-                                          {% if place.rating|floatformat:"0" == "5" %}
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                          {% endif %}
-                                      </small>
-                                      </br>
-                                     <small class="mb-0 mt-0 float-right text-nowrap" id="{{ place.id }}_uLine">
-                                         <b>{{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
-                                     </small>
-                                 </a>
+        <div class="row mt-3">
+            <div class="col-lg-2 text-nowrap">
+                <button type="button" class="btn btn-secondary mr-2" href="#filters" aria-expanded="false" aria-controls="writeReview" data-toggle="collapse" id="filtersToggler">
+                    Show filters
+                </button>
+                <br id="responsiveBreak" hidden/>
+                <button type="button" class="btn collapse border-primary text-primary mt-5 unselectable" id="filters">
+                    Apply filters
+                </button>
+            </div>
+            <div class="col-lg-10 mt-2 collapse row" id="filters">
+                 <div class="col-lg-3 mb-2">
+                     <label class="font-weight-bold text-nowrap" for="placeTypeFilter">Type of place:</label>
+                     <div>
+                         <div class="custom-control custom-control-inline custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="0.any" value="0.any" checked>
+                           <label class="custom-control-label" for="0.any">any</label>
+                         </div>
+                         <br/>
+                         {% for placetype in placetypes %}
+                            <div class="custom-control custom-control-inline custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="{{ placetype.id }}.{{ placetype.name }}" value="{{ placetype.id }}.{{ placetype.name }}">
+                              <label class="custom-control-label" for="{{ placetype.id }}.{{ placetype.name }}">{{ placetype.name }}</label>
                             </div>
+                         {% endfor %}
+                     </div>
+                 </div>
+                 <div id="line"><hr /></div>
+                 <div class="col-lg-3 mb-2">
+                     <div class="custom-control custom-checkbox">
+                       <input type="checkbox" class="custom-control-input" id="openedOnly" onclick="toggleHide();" value="openedOnly">
+                       <label class="custom-control-label" for="openedOnly">opened only places</label>
+                     </div>
+                     <div class="custom-control custom-checkbox pt-2">
+                       <input type="checkbox" class="custom-control-input" id="noDataIncluding" value="noDataIncluding" disabled>
+                       <label class="custom-control-label" for="noDataIncluding">"no data" state including</label>
+                     </div>
+                 </div>
+                 <div id="line"><hr /></div>
+                 <div class="col-lg-3 mb-2">
+                     <div class="custom-control custom-checkbox">
+                       <input type="checkbox" class="custom-control-input" value="testedFilter" id="testedFilter">
+                       <label class="custom-control-label" for="testedFilter">tested by people (5 reviews and more)</label>
+                     </div>
+                 </div>
+                 <div id="line"><hr /></div>
+                 <div class="col-lg-2">
+                     <label class="text-nowrap font-weight-bold">Rating:</label>
+                     <div class="ml-3">
+                         <div class="row pl-1">
+                             <label class="pt-2 pr-2" for="ratingLowerRange">min:</label>
+                             <input class="form-control" id="ratingLowerRange" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
+                         </div>
+                         <div class="row pt-2">
+                             <label class="pt-2 pr-2" for="ratingUpperRange">max:</label>
+                             <input class="form-control" id="ratingUpperRange" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+        </div>
+        <div class="list-group mt-1">                                                    <!-- seznam podniků -->
+            {% for place in places %}
+                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start rounded mt-3 unselectable" style="border-top-width: thin">
+                     <div class="row">
+                        <div class="col-md-2">                         <!-- fotka restaurace -->
+                            <img src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" class="rounded-2 img-thumbnail img-responsive" alt="Place photo" style="width: 150px; vertical-align: center">
+                        </div>
+                        <div class="col-md-10">
+                             <div class="d-flex w-100">
+                                 <h3 class="mb-2 text-nowrap" style="cursor: default">{{ place.name }}</h3>            <!-- název místa -->
+                             </div>
                             <p class="mb-0 text-nowrap" style="cursor: default">                                            <!-- typ místa -->
                                 <b style="font-size: smaller">Type:</b> <x style="font-family: Consolas">{{ place.placeType.name }}</x>
                             </p>
@@ -112,56 +157,64 @@
                                     <b style="font-size: smaller">State:</b> <x class="text-bold" style="font-size: medium"><b>no data</b></x>
                                 {% endif %}
                             </p>
-                          <!--  <div class="row" class="collapse" id="Collapse1">                                 to, co driv bylo collapsable
-                                <div class="col-3">
-                                    <x class="text-nowrap"><b style="font-size: smaller">Opening time:</b></x>
-                                    <div class="row">
-                                        <small class="col-1"></small>
-                                        <small class="col-2" style="text-align: end">MO</br>TU</br>WE</br>TH</br>FR</br>SA</br>SU</small>
-                                        <small class="col-8 text-nowrap">
-                                            <one id="day1">07:00 - 18:00</one>
-                                            </br>
-                                            <two id="day2">07:00 - 18:00</two>
-                                            </br>
-                                            <three id="day3">07:00 - 18:00</three>
-                                            </br>
-                                            <four id="day4">07:00 - 18:00</four>
-                                            </br>
-                                            <five id="day5">07:00 - 18:00</five>
-                                            </br>
-                                            <six class="text-danger font-weight-bold" id="day6">closed</six>
-                                            </br>
-                                            <seven class="text-danger font-weight-bold" id="day7">closed</seven>
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="col-9 container">
-                                    <p class="mb-2 text-nowrap"><b style="font-size: smaller">Most recent review:</b></p>
-                                    <div class="container pl-3 pr-3 pt-2 pb-2 border rounded-lg">
-                                        <div class="d-flex w-100 justify-content-between align-text-center">
-                                            <x>
-                                                <i class="fa fa-check-circle-o" id="isVerified"></i>
-                                                <b style="font-size: smaller" id="reviewAuthor">Willy Nyguen</b> <y style="font-size: smaller">(12.03.2020)</y>
-                                            </x>
-                                            <small class="row float-right pr-2">
-                                                <i class="fa fa-star pt-1 pr-1" id="star1rev"></i>
-                                                <i class="fa fa-star-o pt-1 pr-1" id="star2rev"></i>
-                                                <i class="fa fa-star-o pt-1 pr-1" id="star3rev"></i>
-                                                <i class="fa fa-star-o pt-1 pr-1" id="star4rev"></i>
-                                                <i class="fa fa-star-o pt-1 pr-1" id="star5rev"></i>
-                                            </small>
-                                        </div>
-                                        <p class="text-justify mt-2 mb-1" style="font-size: small" id="latestReview">Takže tahle restaurace je fakt k hovnu.</br>Objednal jsem si sushi a dali mi sušenou rybu? Pardon, nikdy víc.</br>Jedna hvězda z pěti.</p>
-                                    </div>
-                                </div>
-                            </div>  -->
                         </div>
-                     </div>
+
+                         <a class="position-absolute" style="color: black; cursor: default; top: 10px; right: 14px;">                                       <!-- hodnocení -->
+                              <small class="float-right">
+                                  {% if place.rating|floatformat:"0" == "0" %}
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                  {% endif %}
+                                  {% if place.rating|floatformat:"0" == "1" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                  {% endif %}
+                                  {% if place.rating|floatformat:"0" == "2" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                  {% endif %}
+                                  {% if place.rating|floatformat:"0" == "3" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                  {% endif %}
+                                  {% if place.rating|floatformat:"0" == "4" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                  {% endif %}
+                                  {% if place.rating|floatformat:"0" == "5" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                  {% endif %}
+                              </small>
+                              </br>
+                             <small class="mb-0 mt-0 float-right text-nowrap" id="{{ place.id }}_uLine">
+                                 <b>{{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
+                             </small>
+                         </a>
+                        </div>
                   </x>
             {% endfor %}
         </div>
 
-        <ul class="pagination justify-content-center mt-5">
+        <ul class="pagination justify-content-center mt-3 mb-4">
             {% if pages.last %}
                 <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.1 }}">Previous</a></li><!-- pagination -->
             {% elif not pages.first %}
@@ -182,4 +235,31 @@
         </ul>
 
       </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready( function(){
+        if(document.getElementById('openedOnly').checked) document.getElementById('noDataIncluding').disabled = false;
+    });
+
+    function toggleHide(){
+        if(document.getElementById('noDataIncluding').disabled) document.getElementById('noDataIncluding').disabled = false;
+        else
+        {
+            document.getElementById('noDataIncluding').disabled = true;
+            document.getElementById('noDataIncluding').checked = false;
+        }
+    }
+
+    $("#filters").on('shown.bs.collapse', function(){
+        document.getElementById('filtersToggler').innerText = "Hide filters";
+        document.getElementById('responsiveBreak').hidden = false;
+      });
+
+    $("#filters").on('hidden.bs.collapse', function(){
+        document.getElementById('filtersToggler').innerText = "Show filters";
+        document.getElementById('responsiveBreak').hidden = true;
+      });
+</script>
 {% endblock %}

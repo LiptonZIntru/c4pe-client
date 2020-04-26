@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
       {% block css %}
       {% endblock %}
     <!-- END Dodrzet strukturu! -->
@@ -23,22 +24,22 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">                                          <!-- navbar -->
         <div class="container-fluid">
             <a class="navbar-brand" href="/">                                                                <!-- logo + project name -->
-                <img src="{% static "img/PlacesToEatInverted.svg" %}" alt="PlacesToEatInverted.svg" width="40"> <!-- alternate src="PlacesToEat.svg" -->
+                <img class="unselectable" src="{% static "img/PlacesToEatInverted.svg" %}" alt="PlacesToEatInverted.svg" width="40"> <!-- alternate src="PlacesToEat.svg" -->
             </a>
             <a class="navbar-brand" href="/">
-                <strong class="text-nowrap">Yummy Places</strong>
+                <strong class="text-nowrap unselectable">Yummy Places</strong>
             </a>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" id="datatoggler">    <!-- dropdown menu pro malé obrazovky -->
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <div class="collapse navbar-collapse unselectable" id="collapsibleNavbar">
             <ul class="navbar-nav" onmouseover="Grey('Browse')" onmouseout="UnGrey('Browse')">                    <!-- odkaz na list podniků -->
               <li class="nav-item"><a class="nav-link" href="/places" id="Browse">Browse places</a></li>
             </ul>
 
-            <ul class="navbar-nav ml-auto" onmouseover="Grey('Your Profile')" onmouseout="UnGrey('Your Profile')">
+            <ul class="navbar-nav ml-auto">
                 {% if session.user == 1 %}                                                                          <!-- pokud je user logged, dá mu to username a profilepic -->
                   <li class="nav-item">
                       <a class="nav-link" href="/users/id" id="Your Profile">
@@ -47,18 +48,17 @@
                       <x> (<y class="text-success">logged</y>) </x>
                   </li>
                   <li class="nav-item d-none d-md-block">
-                    <a href="/users/id">
-                        <img src="{{ user.id.avatar }}" alt="Profile Picture" class="rounded" style="width: 40px;">
+                    <a href="/users/{{ user.id }}">
+                        <img src="{{ user.id.avatar }}" alt="Profile Picture" class="rounded" style="width: 40px;" id="profilePic">
                     </a>
                   </li>
-                {% endif %}
-
-                                                                                         <!-- pokud logged není, dá mu to Log In / Register -->
+                {% else %}                                                                 <!-- pokud logged není, dá mu to Log In / Register -->
                     <li class="nav-item text-nowrap row mx-0">
                         <a class="nav-link px-0" href="/users/login" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" id="Log In">Log In</a>
                         <a class="nav-link px-1">/</a>
                         <a class="nav-link px-0" href="/users/register" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" id="Register">Register</a>
                     </li>
+                {% endif %}
 
             </ul>
           </div>
