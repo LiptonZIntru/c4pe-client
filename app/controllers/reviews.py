@@ -11,7 +11,6 @@ def index(request, id):
     reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
     return render(request, 'reviews/index.html', {'reviews': reviews})
 
-
 def create(request, id):
     if request.method == 'GET':
         return render(request, 'reviews/create.html')

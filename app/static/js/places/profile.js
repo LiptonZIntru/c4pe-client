@@ -10,10 +10,10 @@ $(function () {
 });
 
 function update(type) {
-    document.getElementById('all-link').classList = "nav-link text-info";
-    document.getElementById('positive-link').classList = "nav-link text-info";
-    document.getElementById('negative-link').classList = "nav-link text-info";
-    document.getElementById('verified-link').classList = "nav-link text-info";
+    document.getElementById('all-link').classList = "nav-link text-primary";
+    document.getElementById('positive-link').classList = "nav-link text-primary";
+    document.getElementById('negative-link').classList = "nav-link text-primary";
+    document.getElementById('verified-link').classList = "nav-link text-primary";
     var place_id = document.getElementById('page_id').value;
 
     if(type == 1)

@@ -18,6 +18,11 @@
             #labelWrap{
                 display: none;
             }
+            #searchField{
+                width: 690px;
+                margin-left: auto;
+                margin-right: auto;
+            }
         }
         @media only screen and (min-width: 992px)
         {
@@ -53,9 +58,9 @@
           <div class="m-auto p-0" style="width: 300px;">                                                                     <!-- záhlaví stránky - velké logo a název podniku -->
             <a href="/" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-4 d-block unselectable" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
           </div>
-          <h3 class="text-center text-nowrap unselectable pb-2" style="font-family: 'Corbel'; font-size: 46px;"><i><b>What is your dream<b id="labelWrap"><br/></b> place?</b></i></h3>
+          <h3 class="text-center text-nowrap unselectable pb-2" style="font-family: 'Corbel'; font-size: 5ex;"><i><b>What is your dream<b id="labelWrap"><br/></b> place?</b></i></h3>
           <form>
-              <div class="input-group">
+              <div class="input-group" id="searchField">
                   <input type="text" class="form-control" placeholder="Your favorite place is here">
                   <div class="input-group-append">
                       <button class="btn btn-primary" type="button">
@@ -112,7 +117,9 @@
                  <div id="line"><hr /></div>
                  <div class="col-lg-3 mb-2">
                      <label class="font-weight-bold text-nowrap unselectable" for="cityFilter">City:</label>
-                     <input type="text" class="form-control" id="cityFilter" placeholder="Enter a city"/>
+                     <input type="text" class="form-control" id="cityFilter" placeholder="Enter your city"/>
+                     <label class="font-weight-bold text-nowrap unselectable pt-1" for="countryFilter">Country:</label>
+                     <input type="text" class="form-control" id="countryFilter" placeholder="Enter your country ('CZ', 'AT', ..)"/>
                  </div>
                  <div id="line"><hr /></div>
                  <div class="col-lg-2">
@@ -120,7 +127,7 @@
                      <div class="row ml-3">
                          <div class="row">
                              <label class="pt-2 pr-2" for="ratingLowerRange">min:</label>
-                             <input class="form-control" id="ratingLowerRange" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
+                             <input class="form-control" id="ratingLowerRange" type="number" value="0" min="0" max="5" step="1" style="width: 3.5em;"/>
                          </div>
                          <div class="row ml-4" id="responsiveMarginLeft0">
                              <label class="pt-2 pr-2" for="ratingUpperRange">max:</label>
@@ -135,11 +142,11 @@
                   <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start rounded mt-3 unselectable" style="border-top-width: thin">
                      <div class="row">
                         <div class="col-md-2">                         <!-- fotka restaurace -->
-                            <img src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" class="rounded-2 img-thumbnail img-responsive" alt="Place photo" style="width: 150px; vertical-align: center">
+                            <img src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" class="img-thumbnail img-responsive" alt="Place photo" style="width: 150px; vertical-align: center">
                         </div>
                         <div class="col-md-10">
-                             <div class="d-flex w-100">
-                                 <h3 class="mb-2 text-nowrap" style="cursor: default">{{ place.name }}</h3>            <!-- název místa -->
+                             <div class="d-flex w-100 pt-2">
+                                 <h3 class="mb-2" style="cursor: default">{{ place.name }}</h3>            <!-- název místa -->
                              </div>
                             <p class="mb-0 text-nowrap" style="cursor: default">                                            <!-- typ místa -->
                                 <b style="font-size: smaller">Type:</b> <x style="font-family: Consolas">{{ place.placeType.name }}</x>

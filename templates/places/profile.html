@@ -2,6 +2,37 @@
 
 {% block css %}
     {% load static %}
+    <style>
+    @media only screen and (max-width: 991px)
+    {
+        #reviewContent {
+            font-size: smaller;
+        }
+    }
+    @media only screen and (min-width: 1200px)
+    {
+        #increaseBottomMargin{
+            margin-bottom: 1.5rem !important;
+        }
+    }
+
+    @media only screen and (max-width: 767px)
+    {
+        #maxWidthOnSmall{
+            width:300px;
+            margin-bottom: 10px;
+        }
+        #lowerTheFontSize{
+            padding-top: 0 !important;
+        }
+        #lowerThisItem{
+            padding-top: 1rem !important;
+        }
+        #increaseBottomPadding{
+            margin-bottom: 1.5rem !important;
+        }
+    }
+    </style>
 {% endblock %}
 
 {% block title %}
@@ -13,9 +44,11 @@
     <div class="container mt-3 mb-3">
         <div class="card">
           <div class="card-body">
-              <div class="media">
-                  <img class="rounded mr-3 align-self-start img-responsive" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" style="width: 250px;">
-                  <div class="media-body">
+              <div class="row">
+                  <div class="col-md-4">
+                      <img class="rounded img-fluid mx-auto d-block" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" style="width: available; vertical-align: center;" id="maxWidthOnSmall">
+                  </div>
+                  <div class="col-md-8" id="increaseHeightOnLarge">
                       <h3>
                           {% if place.isVerified == 1 %}
                               <i class="fas fa-check-circle" style="color:green" data-toggle="tooltip" data-placement="bottom" title="Verified place"></i>
@@ -47,7 +80,7 @@
                           </div>
                       </div>
                   <div class="row">
-                      <div class="text-nowrap pt-2 col-8">
+                      <div class="text-nowrap pt-2 col-8" id="increaseBottomMargin">
                           <b style="font-size: smaller;">Location:</b>
                           <div class="pl-2" style="font-size: small">
                               {{ place.street }}
@@ -56,85 +89,74 @@
                           </div>
                       </div>
                       <div class="col-4 text-nowrap">
-                        <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" id="buttonCollapse" style="bottom:10px; right: 10px;">Write a review!</button>
+                        <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" id="buttonCollapse" style="bottom:10px; right: 10px;">
+                            Write a review!
+                        </button>
                       </div>
                 </div>
               </div>
            </div>
 
-            <hr/>
-          <div class="card-body pt-2 pb-0">
-            <div class="row mr-1 ml-4 mb-4">
-                <ul class="nav nav-tabs col-9">
-                  <li class="nav-item" style="cursor:pointer;">
-                    <a id="all-link" class="nav-link active" onclick="update(1);">All ({{ place.reviewCount }})</a>
-                  </li>
-                  <li class="nav-item" style="cursor:pointer;">
-                    <a id="positive-link" class="nav-link text-info" onclick="update(2);">Positive ({{ positive }})</a>   <!-- 4+ stars count -->
-                  </li>
-                  <li class="nav-item" style="cursor:pointer;">
-                    <a id="negative-link" class="nav-link text-info" onclick="update(3);">Negative ({{ negative }})</a>   <!-- 3- stars count -->
-                  </li>
-                  <li class="nav-item" style="cursor:pointer;">
-                    <a id="verified-link" class="nav-link text-info" onclick="update(4);">Only verified users ({{ verified }})</a>   <!-- count of verified users reviews -->
-                  </li>
-                </ul>
-
-                <div class="col-3 row justify-content-end">                                    <!-- hodnocení - je potřeba dořešit zobrazení na základě dynamických dat -->
-                  <small style="font-size: large">
-                      {% if place.rating|floatformat:"0" == "0" %}
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                      {% endif %}
-                      {% if place.rating|floatformat:"0" == "1" %}
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                      {% endif %}
-                      {% if place.rating|floatformat:"0" == "2" %}
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                      {% endif %}
-                      {% if place.rating|floatformat:"0" == "3" %}
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                      {% endif %}
-                      {% if place.rating|floatformat:"0" == "4" %}
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                      {% endif %}
-                      {% if place.rating|floatformat:"0" == "5" %}
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                      {% endif %}
-                  </small>
-                  <br>
-                  <small class="text-nowrap">
-                      <b>Overall rating: {{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
-                  </small>
-                </div>
-            </div>
-          <div class="card m-2 my-3 collapse border-primary" id="writeReview">
+            <hr style="margin-bottom: 0.75rem !important;"/>
+      <div class="card-body pt-0 row justify-content-between pb-0" id="increaseBottomPadding">                                       <!-- hodnocení -->
+          <div class="col-auto position-relative pt-2" style="left: -14px;" id="lowerTheFontSize">
+              <x style="font-size: 2em">Reviews:</x>
+          </div>
+          <div class="col-auto" id="lowerThisItem">
+              <small class="float-right position-relative text-nowrap" style="font-size: large; color: black; cursor: default; right: -14px;">
+                  {% if place.rating|floatformat:"0" == "0" %}
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  {% endif %}
+                  {% if place.rating|floatformat:"0" == "1" %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  {% endif %}
+                  {% if place.rating|floatformat:"0" == "2" %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  {% endif %}
+                  {% if place.rating|floatformat:"0" == "3" %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  {% endif %}
+                  {% if place.rating|floatformat:"0" == "4" %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                  {% endif %}
+                  {% if place.rating|floatformat:"0" == "5" %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                  {% endif %}
+              </small>
+              </br>
+              <small class="position-absolute text-nowrap pt-1" style="font-size: smaller; right: 0px">
+                  <b>Overall rating: {{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
+              </small>
+          </div>
+        </div>
+          <div class="card m-2 mt-1 mb-3 collapse border-primary" id="writeReview">
                         <div class="card-body pb-2 pt-2 form-group" style="font-size: 150%;">
                             <small class="float-right pt-2">
-                                <label class="mr-1" for="rating" style="font-size: smaller">Your rating:</label>
+                                <label class="mr-1 font-weight-bold" for="rating" style="font-size: smaller">Your rating:</label>
                                 <input type="number" value="5" min="0" max="5" step="1" style="width: 50px;" hidden/>
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
@@ -142,14 +164,14 @@
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
                             </small>
-                            <label for="newReview" class="text-nowrap" style="font-size: smaller">Share your experience with other users:</label>
-                            <textarea class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReview" rows="3" style="min-height: 40px"></textarea>
+                            <label for="newReview" style="font-size: smaller">Share your experience with other users:</label>
+                            <textarea class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReview" rows="3" style="min-height: 2.7em; max-height: 27em;"></textarea>
                             <button type="button" class="btn float-right mt-2 border-primary text-primary" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" onclick="document.getElementById('newReview').value = ''">Cancel</button>
                         </div>
                     </div>
             <div id="card-content">
               {% for review in reviews %}
-                    <div class="card m-2 my-3">
+                    <div class="card m-2 mt-1 mb-3">
                         <div class="card-body pb-2 pt-2">
                             <small class="float-right pt-2">
                                 {% if review.rating|floatformat:"0" == "0" %}
@@ -202,7 +224,7 @@
                                 {% endif %}
                                 <b>{{ review.user.username }}</b> says:
                             </p>
-                            <div class="card p-2 pl-3 text-justify">
+                            <div class="card p-2 pl-3 text-justify" id="reviewContent">
                                 {{ review.text }}
                             </div>
                             <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
@@ -211,6 +233,9 @@
                         </div>
                     </div>
               {% endfor %}
+              <div class="card mx-2 mt-3 mb-0" style="border-width: 0px;">
+                  <a href="/places/{{ place.id }}/reviews" style="width: max-content;">Show all reviews here</a>
+              </div>
             </div>
           </div>
         </div>
@@ -222,7 +247,7 @@
 <script type="text/javascript" src="{% static 'js/places/profile.js' %}"></script>
 <script>
     $("#writeReview").on('show.bs.collapse', function(){
-        document.getElementById('buttonCollapse').innerText = "Collapse review";
+        document.getElementById('buttonCollapse').innerText = "Close your review";
       });
     $("#writeReview").on('hide.bs.collapse', function(){
         document.getElementById('buttonCollapse').innerText = "Write a review!";
