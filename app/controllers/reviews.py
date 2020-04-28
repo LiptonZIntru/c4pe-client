@@ -8,8 +8,20 @@ token = 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI3IiwidW5pcXVlX25hbW
 
 
 def index(request, id):
+    place = json.loads(requests.get('http://77.244.251.110/api/places/' + id).text)
     reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
-    return render(request, 'reviews/index.html', {'reviews': reviews})
+
+    positive = 0
+    negative = 0
+    verified = 0
+    for review in reviews:
+        if review['rating'] < 4:
+            negative = negative + 1
+        elif review['rating'] > 3:
+            positive = positive + 1
+        if review['user']['isVerified']:
+            verified = verified + 1
+    return render(request, 'reviews/index.html', {'place': place, 'reviews': reviews, 'positive': positive, 'negative': negative, 'verified': verified})
 
 def create(request, id):
     if request.method == 'GET':
