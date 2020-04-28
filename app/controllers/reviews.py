@@ -23,6 +23,7 @@ def index(request, id):
             verified = verified + 1
     return render(request, 'reviews/index.html', {'place': place, 'reviews': reviews, 'positive': positive, 'negative': negative, 'verified': verified})
 
+
 def create(request, id):
     if request.method == 'GET':
         return render(request, 'reviews/create.html')
