@@ -158,11 +158,13 @@
                             <small class="float-right pt-2">
                                 <label class="mr-1 font-weight-bold" for="rating" style="font-size: smaller">Your rating:</label>
                                 <input type="number" value="5" min="0" max="5" step="1" style="width: 50px;" hidden/>
-                                <i id="oneStar" class="fa fa-star" onmouseover="star(this);"></i>
-                                <i id="twoStar" class="fa fa-star-o" onmouseover="star(this);"></i>
-                                <i id="threeStar" class="fa fa-star-o" onmouseover="star(this);"></i>
-                                <i id="fourStar" class="fa fa-star-o" onmouseover="star(this);"></i>
-                                <i id="fiveStar" class="fa fa-star-o" onmouseover="star(this);"></i>
+                                <div onclick="save();">
+                                    <i id="oneStar" class="fa fa-star" onmouseover="star(this);"></i>
+                                    <i id="twoStar" class="fa fa-star-o" onmouseover="star(this);"></i>
+                                    <i id="threeStar" class="fa fa-star-o" onmouseover="star(this);"></i>
+                                    <i id="fourStar" class="fa fa-star-o" onmouseover="star(this);"></i>
+                                    <i id="fiveStar" class="fa fa-star-o" onmouseover="star(this);"></i>
+                                </div>
                             </small>
                             <label for="newReview" style="font-size: smaller">Share your experience with other users:</label>
                             <textarea class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReview" rows="3" style="min-height: 2.7em; max-height: 27em;"></textarea>
