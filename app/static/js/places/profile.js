@@ -53,7 +53,7 @@ function update(type) {
             {
                 rating += '<i class="fa fa-star-o"></i> ';
             }
-            content += '<div class="card m-2 my-3">' +
+            content += '<div class="card m-2 mt-1 mb-3">' +
                 '<div class="card-body pb-2 pt-2">' +
                 '<small class="float-right pt-2">' +
                 rating +
@@ -63,7 +63,7 @@ function update(type) {
                 '<b>' + review.user.username + '</b>' +
                 ' says:' +
                 '</p>' +
-                '<div class="card p-2 pl-3 text-justify">' +
+                '<div class="card p-2 pl-3 text-justify" id="reviewContent">' +
                 review.text +
                 '</div>' +
                 '<p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">' +

@@ -93,9 +93,9 @@ def profile(request, id):
     negative = 0
     verified = 0
     for review in reviews:
-        if review['rating'] < 4:
+        if review['rating'] < 3:
             negative = negative + 1
-        elif review['rating'] > 3:
+        elif review['rating'] > 2:
             positive = positive + 1
         if review['user']['isVerified']:
             verified = verified + 1
@@ -154,10 +154,10 @@ def get_json_reviews(request, id, type):
         if int(type) == 1:  # all
             return HttpResponse(json.dumps(reviews))
         elif int(type) == 2:  # positive
-            if review['rating'] > 3:
+            if review['rating'] > 2:
                 response_reviews.append(review)
         elif int(type) == 3:  # negative
-            if review['rating'] < 4:
+            if review['rating'] < 3:
                 response_reviews.append(review)
         elif int(type) == 4:  # verified
             if review['user']['isVerified']:

@@ -15,9 +15,9 @@ def index(request, id):
     negative = 0
     verified = 0
     for review in reviews:
-        if review['rating'] < 4:
+        if review['rating'] < 3:
             negative = negative + 1
-        elif review['rating'] > 3:
+        elif review['rating'] > 2:
             positive = positive + 1
         if review['user']['isVerified']:
             verified = verified + 1
