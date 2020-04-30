@@ -89,7 +89,8 @@ def profile(request, id):
     place = json.loads(requests.get('http://77.244.251.110/api/places/' + id).text)
     reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
 
-    reviews = reviews[len(reviews) - 6:len(reviews) - 1]
+    if len(reviews) > 5:
+        reviews = reviews[len(reviews) - 6:len(reviews) - 1]
 
     return render(request, 'places/profile.html', {'place': place, 'reviews': reviews})
 
