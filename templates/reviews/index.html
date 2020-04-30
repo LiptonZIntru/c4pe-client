@@ -182,8 +182,14 @@
                                 </div>
                             </small>
                             <label for="newReview" style="font-size: smaller">Share your experience with other users:</label>
-                            <textarea class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReview" rows="3" style="min-height: 2.7em; max-height: 27em;"></textarea>
-                            <button type="button" class="btn float-right mt-2 border-primary text-primary" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" onclick="document.getElementById('newReview').value = ''">Cancel</button>
+                            <form method="post" action="/places/{{ place.id }}/reviews/create/">
+                                {% csrf_token %}
+                                <input id="rating" name="rating" type="hidden">
+                                <input type="hidden" name="user" value="2"><!--tohle pak smazat btw-->
+                                <input type="hidden" name="text" id="text">
+                                <textarea onchange="updateText();" class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReview" rows="3" style="min-height: 2.7em; max-height: 27em;"></textarea>
+                                <button type="submit" class="btn float-right mt-2 border-primary text-primary" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" onclick="document.getElementById('newReview').value = ''">Post review</button>
+                            </form>
                         </div>
                     </div>
             <div id="card-content">
