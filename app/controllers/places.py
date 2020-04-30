@@ -89,17 +89,10 @@ def profile(request, id):
     place = json.loads(requests.get('http://77.244.251.110/api/places/' + id).text)
     reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
 
-    positive = 0
-    negative = 0
-    verified = 0
-    for review in reviews:
-        if review['rating'] < 4:
-            negative = negative + 1
-        elif review['rating'] > 3:
-            positive = positive + 1
-        if review['user']['isVerified']:
-            verified = verified + 1
-    return render(request, 'places/profile.html', {'place': place, 'reviews': reviews, 'positive': positive, 'negative': negative, 'verified': verified})
+    if len(reviews) > 5:
+        reviews = reviews[len(reviews) - 6:len(reviews) - 1]
+
+    return render(request, 'places/profile.html', {'place': place, 'reviews': reviews})
 
 
 def create(request):
@@ -154,10 +147,10 @@ def get_json_reviews(request, id, type):
         if int(type) == 1:  # all
             return HttpResponse(json.dumps(reviews))
         elif int(type) == 2:  # positive
-            if review['rating'] > 3:
+            if review['rating'] > 2:
                 response_reviews.append(review)
         elif int(type) == 3:  # negative
-            if review['rating'] < 4:
+            if review['rating'] < 3:
                 response_reviews.append(review)
         elif int(type) == 4:  # verified
             if review['user']['isVerified']:
