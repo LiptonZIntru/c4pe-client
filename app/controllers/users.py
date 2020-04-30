@@ -4,6 +4,16 @@ import requests
 import json
 
 
+def index(request, id):
+    user = json.loads(requests.get('http://77.244.251.110/api/users/' + id).text)
+    return render(request, 'users/index.html', {'user': user})
+
+
+def reviews(request, id):
+    user = json.loads(requests.get('http://77.244.251.110/api/users/' + id).text)
+    return render(request, 'users/reviews.html', {'user': user})
+
+
 def login(request):
     if request.method == 'GET':
         return render(request, 'users/login.html')

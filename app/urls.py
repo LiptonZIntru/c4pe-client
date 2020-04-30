@@ -26,6 +26,8 @@ urlpatterns = [
 
     path('users/login/', users.login, name='login'),
     path('users/register/', users.register, name='register'),
+    path('users/<id>/', users.index, name='user'),
+    path('users/<id>/reviews', users.reviews, name='user'),
 
     path('places/', places.index, name='places'),
     path('places/create/', places.create, name='places.create'),

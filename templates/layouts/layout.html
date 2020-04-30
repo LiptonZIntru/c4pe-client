@@ -40,17 +40,11 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                {% if session.user == 1 %}                                                                          <!-- pokud je user logged, dá mu to username a profilepic -->
-                  <li class="nav-item">
-                      <a class="nav-link" href="/users/id" id="Your Profile">
-                        {{ user.id.name }}
-                      </a>
-                      <x> (<y class="text-success">logged</y>) </x>
-                  </li>
-                  <li class="nav-item d-none d-md-block">
-                    <a href="/users/{{ user.id }}">
-                        <img src="{{ user.id.avatar }}" alt="Profile Picture" class="rounded" style="width: 40px;" id="profilePic">
-                    </a>
+                {% if session.user != NULL %}                                                                          <!-- pokud je user logged, dá mu to username a profilepic -->
+                  <li class="nav-item row mr-2">
+                      <a class="nav-link" href="/users/{{ currentUser.id }}/" id="Your Profile">
+                        {{ currentUser.username }}Username
+                        ( <y class="text-light">logged</y> )</a>
                   </li>
                 {% else %}                                                                 <!-- pokud logged není, dá mu to Log In / Register -->
                     <li class="nav-item text-nowrap row mx-0">

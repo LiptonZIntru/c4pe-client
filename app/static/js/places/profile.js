@@ -60,7 +60,7 @@ function update(type) {
                 '</small>' +
                 '<p class="text-nowrap mb-2">User ' +
                 user_icon +
-                '<b>' + review.user.username + '</b>' +
+                '<a href="/users/' + review.user.id + '" class="text-dark"><b>' + review.user.username + '</b></a>' +
                 ' says:' +
                 '</p>' +
                 '<div class="card p-2 pl-3 text-justify" id="reviewContent">' +
