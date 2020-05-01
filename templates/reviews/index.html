@@ -3,86 +3,171 @@
 {% block css %}
     {% load static %}
     <style>
-        @media only screen and (max-width: 575px)
-        {
-            #description{
-                font-size: smaller;
-            }
+    @media only screen and (max-width: 991px)
+    {
+        #reviewContent {
+            font-size: smaller;
         }
+    }
+    @media only screen and (min-width: 1200px)
+    {
+        #increaseBottomMargin{
+            margin-bottom: 1.5rem !important;
+        }
+    }
 
-        @media only screen and (min-width: 576px)
-        {
-            #country{
-                width: 14rem;
-            }
+    @media only screen and (max-width: 767px)
+    {
+        #maxWidthOnSmall{
+            width:300px;
+            margin-bottom: 10px;
         }
-
-        @media only screen and (min-width: 992px)
-        {
-            #country{
-                width: 11rem;
-            }
-            #zip{
-                width: 13rem;
-            }
-            #city{
-                width: 13rem;
-            }
+    }
+    @media only screen and (min-width: 992px) {
+        #lowerNavs {
+            display: none !important;
         }
+    }
     </style>
 {% endblock %}
 
 {% block title %}
-{{ user.username }}
+{{ place.name }}
 {% endblock %}
 
 {% block content %}
+    <input id="page_id" value="{{ place.id }}" type="hidden">
     <div class="container mt-3 mb-3">
         <div class="card">
-            <div class="card-body row">
-                <div class="col-sm-3">
-                    {% if user.avatar != NULL and user.avatar != "" and user.avatar != "None" %}
-                        <img src="{{ user.avatar }}"/>
-                    {% else %}
-                        <img src="{% static '/img/AvatarPlaceholder.svg' %}" style="width: available; max-width: 250px;"/>
-                    {% endif %}
-                </div>
-
-                <div class="col-sm-9 pt-2">
-                    <div class="row container">
-                        <h3 class="font-weight-bold">
-                              {% if user.isVerified == 1 %}
-                                  <i class="fas fa-check-circle" style="color:green" data-toggle="tooltip" data-placement="bottom" title="Verified user"></i>
-                              {% endif %}
-                              {% if user.id != NULL %}
-                                {{ user.username }}
+          <div class="card-body">
+              <div class="row">
+                  <div class="col-md-4">
+                      <img class="rounded img-fluid mx-auto d-block" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" style="width: available; vertical-align: center;" id="maxWidthOnSmall">
+                  </div>
+                  <div class="col-md-8">
+                      <h3>
+                          {% if place.isVerified == 1 %}
+                              <i class="fas fa-check-circle" style="color:green" data-toggle="tooltip" data-placement="bottom" title="Verified place"></i>
                               {% else %}
-                                User not found!
-                              {% endif %}
-                        </h3>
-                        {% if user.country != NULL and user.country != "" %}
-                        <p class="text-muted pl-2" style="padding-top: 0.5rem !important;">({{ user.country }})</p>
-                        {% endif %}
-                    </div>
-                    {% if user.description != NULL and user.description != "" %}
-                        <h7 class="font-weight-bold font-size-smaller">
-                            User biography:<br/>
-                        </h7>
-                        <p class="pl-2">{{ user.description }}</p>
-                    {% endif %}
-                    {% if currentUser.id == user.id and currentUser.id != NULL %}
-                        <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#editProfile">Edit your profile</button>
-                    {% endif %}
+                              <i class="fas fa-exclamation-circle" style="color:orange" data-toggle="tooltip" data-placement="bottom" title="Not verified place"></i>
+                          {% endif %}
+                          {{ place.name }}
+                      </h3>
+                      <b style="font-size: smaller">Type: </b>
+                      {{ place.placeType.name }} (<a href="#" class="card-link" style="font-size: smaller">search others of the same type</a>)
+                      </br>
+                      <div class="mt-2">
+                          <b class="text-nowrap" style="font-size: smaller;">Opening times:</b>
+                          <div class="row">
+                              <small class="col-1 text-nowrap font-weight-bold" style="text-align: center;">
+                                  MO</br>TU</br>WE</br>TH</br>FR</br>SA</br>SU
+                              </small>
+                              <small class="col-8 text-nowrap">
+                              {% for i in '0123456'|make_list %}
+                                  <div id="time{{ i }}">
+                                      {% for time in place.openingTimes %}
+                                          {% if time.day == i|add:"0" %}
+                                              {{ time.open|slice:"0:5" }} - {{ time.close|slice:"0:5" }}
+                                          {% endif %}
+                                      {% endfor %}
+                                  </div>
+                              {% endfor %}
+                              </small>
+                          </div>
+                      </div>
+                  <div class="row">
+                      <div class="text-nowrap pt-2 col-8" id="increaseBottomMargin">
+                          <b style="font-size: smaller;">Location:</b>
+                          <div class="pl-2" style="font-size: small">
+                              {{ place.street }}
+                              <br> {{ place.city }} {{ place.zipCode }}
+                              <br> {{ place.country }}
+                          </div>
+                      </div>
+                      <div class="col-4 text-nowrap">
+                        <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" id="buttonCollapse" style="bottom:10px; right: 10px;">
+                            Write a review!
+                        </button>
+                      </div>
+                </div>
+              </div>
+           </div>
+
+            <hr/>
+
+            <div class="float-right" style="margin-right: 1rem !important; margin-top: -0.5rem !important; position: absolute; right: 14px;">
+              <small class="float-right text-nowrap" style="font-size: large; color: black; cursor: default;">
+                  {% if place.rating|floatformat:"0" == "0" %}
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  {% endif %}
+                  {% if place.rating|floatformat:"0" == "1" %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  {% endif %}
+                  {% if place.rating|floatformat:"0" == "2" %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  {% endif %}
+                  {% if place.rating|floatformat:"0" == "3" %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  {% endif %}
+                  {% if place.rating|floatformat:"0" == "4" %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                  {% endif %}
+                  {% if place.rating|floatformat:"0" == "5" %}
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                  {% endif %}
+              </small>
+              </br>
+              <small class="text-nowrap pt-1" style="font-size: smaller;">
+                  <b>Overall rating: {{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
+              </small>
+          </div>
+          <div class="card-body pb-0 pt-0">
+                <div class="pt-0 pb-0">
+                    <ul class="nav nav-pills invisible mb-2" id="lowerNavs">
+                      <li class="nav-item">
+                        <a class="nav-link">a</a>
+                      </li>
+                    </ul>
+                    <ul class="nav nav-pills" style="margin-left: -0.75rem !important;">
+                      <li class="nav-item" style="cursor:pointer;">
+                        <a id="all-link" class="nav-link active" onclick="update(1);">All ({{ place.reviewCount }})</a>
+                      </li>
+                      <li class="nav-item" style="cursor:pointer;">
+                        <a id="positive-link" class="nav-link text-primary" onclick="update(2);">Positive ({{ positive }})</a>   <!-- 4+ stars count -->
+                      </li>
+                      <li class="nav-item" style="cursor:pointer;">
+                        <a id="negative-link" class="nav-link text-primary" onclick="update(3);">Negative ({{ negative }})</a>   <!-- 3- stars count -->
+                      </li>
+                      <li class="nav-item" style="cursor:pointer;">
+                        <a id="verified-link" class="nav-link text-primary" onclick="update(4);">Only verified users ({{ verified }})</a>   <!-- count of verified users reviews -->
+                      </li>
+                    </ul>
                 </div>
             </div>
-<<<<<<< HEAD
-
-            <hr class="mx-4"/>
-
-            <div class="card-body pt-0 pb-3">
-                <b>Most useful reviews written by {{ user.username }}:</b>
-                {% for review in user.reviews %}
-=======
           <div class="card m-2 mt-1 mb-3 collapse border-primary" id="writeReview">
                         <div class="card-body pb-2 pt-2 form-group" style="font-size: 150%;">
                             <small class="float-right pt-2">
@@ -109,7 +194,6 @@
                     </div>
             <div id="card-content">
               {% for review in reviews %}
->>>>>>> fbd25ebbd8b56f22e7f01f047bda44a363ea0969
                     <div class="card m-2 mt-1 mb-3">
                         <div class="card-body pb-2 pt-2">
                             <small class="float-right pt-2">
@@ -157,95 +241,31 @@
                                 {% endif %}
                             </small>
                             <p class="text-nowrap mb-2">
-                                <b>{{ user.username }}</b> reviewed <a href="/places/{{ review.place.id }}" class="text-dark">{{ review.place.name }}</a> ({{ review.place.street }} street in {{ review.place.country }})
+                                User
+                                {% if review.user.isVerified == 1 %}
+                                    <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
+                                {% endif %}
+                                <b>{{ review.user.username }}</b> says:
                             </p>
                             <div class="card p-2 pl-3 text-justify" id="reviewContent">
                                 {{ review.text }}
                             </div>
                             <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
-                                Review written {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
+                                Review added {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
                             </p>
                         </div>
                     </div>
-                {% endfor %}
+              {% endfor %}
             </div>
+          </div>
         </div>
-
-        <div class="modal fade" id="editProfile">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-
-                <div class="modal-header">
-                  <h4 class="modal-title">Edit your profile</h4>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <div class="modal-body"><!-- uname, fname, lname, dsc, street, city, zip, country, pwd? -->
-                    <form>
-                        <div class="form-inline">
-                            <div class="form-group mb-2 col-lg-12 mx-0 px-0">
-                              <label for="Username" class="mr-2">Username: </label>
-                              <input type="text" class="form-control" id="username" value="{{ user.username }}" placeholder="Enter your username" style="width: available;">
-                            </div>
-                        </div>
-
-                        <div class="form-inline row">
-                            <div class="form-group mb-2 col-lg-6">
-                              <label for="fName" class="mr-2">First name: </label>
-                              <input type="text" class="form-control" id="fName" value="{{ user.firstName }}" placeholder="Enter your first name">
-                            </div>
-                            <div class="form-group col-lg-6">
-                              <label for="lName" class="mr-2">Last name: </label>
-                              <input type="text" class="form-control" id="lName" value="{{ user.lastName }}" placeholder="Enter your last name">
-                            </div>
-                        </div>
-
-                        <hr class="mb-4"/>
-
-                        <div class="form-inline">
-                            <div class="form-group mb-2 col-lg-12 px-0 mx-0">
-                              <label for="street" class="mr-2">Street: </label>
-                              <input type="text" class="form-control" id="street" value="{{ user.street }}" placeholder="Enter street you live on">
-                            </div>
-                        </div>
-
-                        <div class="form-inline">
-                            <div class="form-group mb-2 col-lg-4 px-0 mx-0">
-                              <label for="city" class="mr-2">City: </label>
-                              <input type="text" class="form-control" id="city" value="{{ user.city }}" placeholder="Enter your city">
-                            </div>
-                            <div class="form-group mb-2 col-lg-4 px-0 mx-0">
-                              <label for="country" class="mr-2">Country: </label>
-                              <select id="country" class="form-control">
-                                <option selected>{{ user.country }}</option>
-                                <option>...</option>
-                              </select>
-                            </div>
-                            <div class="form-group mb-2 col-lg-4 px-0 mx-0">
-                              <label for="zip" class="mr-2">Zip: </label>
-                              <input type="text" class="form-control" id="zip" value="{{ user.zipCode }}" placeholder="Enter your zip">
-                            </div>
-                        </div>
-
-                        <hr class="mb-4"/>
-
-                        <div class="form-group">
-                          <label for="description">Your biography:</label>
-                          <textarea class="form-control" id="description" rows="3" placeholder="Your biography">{{ user.description }}</textarea>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                </div>
-
-              </div>
-            </div>
         </div>
     </div>
 {% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/places/profile.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/reviews/index.js' %}"></script>
     <script>
         $("#writeReview").on('show.bs.collapse', function(){
             document.getElementById('buttonCollapse').innerText = "Close your review";
@@ -254,6 +274,4 @@
             document.getElementById('buttonCollapse').innerText = "Write a review!";
           });
     </script>
-{% block js %}
-
 {% endblock %}
