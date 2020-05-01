@@ -7,5 +7,4 @@ app/controllers/__pycache__
 app/static/test
 notes.txt
 __pycache__*
-Runserver.bat
 app/__pycache__

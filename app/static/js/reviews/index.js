@@ -1,9 +1,9 @@
 var stars = ['oneStar', 'twoStar', 'threeStar', 'fourStar', 'fiveStar'];
 var freezed = false;
+var rating = 0;
 
 function star(element) {
     if(!freezed) {
-        var rating = 0;
         for (var i = 0; i < stars.length; i++) {
             document.getElementById(stars[i]).classList = "fa fa-star-o";
         }
@@ -27,10 +27,15 @@ function save()
 {
     if(!freezed)
     {
+        document.getElementById('rating').value = rating;
         freezed = true;
     }
     else
     {
         freezed = false;
     }
+}
+function updateText() {
+    document.getElementById('text').value = document.getElementById('newReview').value;
+
 }

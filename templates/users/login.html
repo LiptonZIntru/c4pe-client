@@ -5,10 +5,23 @@ Log In
 {% endblock %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        <input class="form-control" type="text" name="username" placeholder="username">
-        <input class="form-control" type="password" name="password" placeholder="password">
-        <button class="btn btn-info" type="submit">Login</button>
-    </form>
+ <body style="background-color: #007dff">
+        <div class="wrapper" style="position: absolute; left: 50%; top: 50%;transform: translate(-50%, -50%); width: 380px; background-color: #fff; padding: 15px 40px 50px; border: 1px solid #fff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
+            <form  method="post" style="margin-bottom: 10px; margin-top: 20px">
+                {% csrf_token %}
+                <a href="/" style="width: 300px;">
+                    <img src="/static/img/PlacesToEat.svg" class="mx-auto mb-4 d-block unselectable" alt="PlacesToEat.svg" style="width: 150px;">
+                </a>
+                <div class="form-group" style=" margin: 10px auto">
+                    <label style="color: #007dff; font-weight: bold" for="uname">Username:</label>
+                    <input class="form-control" type="text" id="uname" name="username" placeholder="Your username" required>
+                </div>
+                <div class="form-group">
+                    <label style="color: #007dff; font-weight: bold" for="pwd"> Password:</label>
+                    <input class="form-control" type="password" id="pwd" name="password" placeholder="Your password" required>
+                </div>
+                <button class="btn btn-lg btn-block btn-primary" style="background-color: #007dff; border-color: #f2f2f2; color: #fff; font-weight: bold; border-radius: 15px" type="submit">Login</button>
+            </form>
+        </div>
+  </body>
 {% endblock %}
