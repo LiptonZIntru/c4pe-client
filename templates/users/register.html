@@ -5,18 +5,45 @@ Register
 {% endblock %}
 
 {% block content %}
-    <form method="post">
-    {% csrf_token %}
-        <input class="form-control" type="text" name="username" placeholder="username">
-        <input class="form-control" type="password" name="password" placeholder="password">
-        not required
-        <input class="form-control" type="text" name="firstName" placeholder="firstName">
-        <input class="form-control" type="text" name="lastName" placeholder="lastName">
-        <input class="form-control" type="text" name="description" placeholder="description">
-        <input class="form-control" type="text" name="street" placeholder="street">
-        <input class="form-control" type="text" name="city" placeholder="city">
-        <input class="form-control" type="text" name="country" placeholder="country">
-
-        <button class="btn btn-info" type="submit">Register</button>
-    </form>
+<body class="bg-primary">
+    <div class="wrapper" style="margin-top: 1%; position: absolute; left: 50%; top: 50%;transform: translate(-50%, -50%); width: 550px; background-color: #fff; padding: 15px 40px 50px; border: 1px solid #fff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
+        <form method="post">
+        {% csrf_token %}
+                <div class="form-group mt-4" style="margin: 10px auto">
+                   <label class="text-primary font-weight-bold" for="uname">Username:</label>
+                        <input class="form-control" type="text" id="uname" placeholder="Your username" required>
+                </div>
+                <div class="form-group">
+                    <label class="text-primary font-weight-bold" for="pwd"> Password:</label>
+                    <input class="form-control" type="password" id="pwd" placeholder="Your password" required>
+                </div>
+                <label class="text-primary font-weight-bold" style="padding: 0px 0px 0px 35%; font-size: larger"> Not required</label>
+                <div class="form-group">
+                    <label class="text-primary font-weight-bold" for="fname"> First name:</label>
+                    <input class="form-control" id="fname" type="text" name="firstName" placeholder="Your first name">
+                </div>
+                <div class="form-group">
+                    <label class="text-primary font-weight-bold" for="lname"> Last name:</label>
+                    <input class="form-control" id="lname" type="text" name="lastName" placeholder="Your last name">
+                </div>
+                <div class="form-group">
+                    <label class="text-primary font-weight-bold" for="description"> Description:</label>
+                    <textarea class="form-control" id="description" name="description" placeholder="Your description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="text-primary font-weight-bold" for="street"> Street:</label>
+                    <input class="form-control" id="street" type="text" name="street" placeholder="Your street">
+                </div>
+                <div class="form-group">
+                    <label class="text-primary font-weight-bold" for="city"> City:</label>
+                    <input class="form-control" id="city" type="text" name="city" placeholder="Your city">
+                </div>
+                <div class="form-group">
+                    <label class="text-primary font-weight-bold" for="pwd"> Country:</label>
+                    <input class="form-control" type="text" name="country" placeholder="Your country">
+                </div>
+                <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px" type="submit">Login</button>
+        </form>
+    </div>
+</body>
 {% endblock %}
