@@ -70,7 +70,7 @@
                         </h7>
                         <p class="pl-2">{{ user.description }}</p>
                     {% endif %}
-                    {% if currentUser.id != user.id and currentUser.id == NULL %}
+                    {% if currentUser.id == user.id and currentUser.id != NULL %}
                         <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#editProfile">Edit your profile</button>
                     {% endif %}
                 </div>
