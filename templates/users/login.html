@@ -3,12 +3,32 @@
 {% block css %}
     {% load static %}
     <style>
-    @media only screen and (min-width: 768px)
-    {
-        #registering{
-            display: none;
+        @media only screen and (min-width: 768px)
+        {
+            #registering{
+                visibility: hidden;
+            }
         }
-    }
+        @media only screen and (max-height: 620px)
+        {
+            #myDiv{
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 1rem !important;
+                margin-top: 0;
+            }
+        }
+        @media only screen and (min-height: 620px){
+            .vertically-center{
+                margin: 0%;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+        }
+
     </style>
 {% endblock %}
 
@@ -17,30 +37,30 @@ Log In
 {% endblock %}
 
 {% block content %}
- <body class="bg-primary">
-        <div class="wrapper" style="position: absolute; left: 50%; top: 50%;transform: translate(-50%, -50%); width: 380px; background-color: #fff; padding: 15px 40px 50px; border: 1px solid #fff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
-            <form  method="post" style="margin-top: 20px">
-                {% csrf_token %}
-                <div href="/" style="width: 150px;" class="mx-auto d-block unselectable">
-                    <a href="/">
-                        <img src="{% static 'img/PlacesToEat.svg' %}" alt="PlacesToEat.svg" style="height: 150px;">
-                    </a>
-                </div>
-                <div class="form-group mt-4" style="margin: 10px auto">
-                    <label class="text-primary font-weight-bold" for="uname">Username:</label>
-                    <input class="form-control" type="text" id="uname" placeholder="Your username" required>
-                </div>
-                <div class="form-group">
-                    <label class="text-primary font-weight-bold" for="pwd"> Password:</label>
-                    <input class="form-control" type="password" id="pwd" placeholder="Your password" required>
-                </div>
-                <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px" type="submit">Login</button>
-                <div class="mt-2 mb-0 pb-0 position-absolute pr-5" id="registering" style="right: 0px; font-size: 15px; padding-top: 5px">
-                    <a class="text-primary text-decoration-none font-weight-bold" href="/users/register">
-                        Click Here for Sign Up
-                    </a>
-                </div>
-            </form>
-        </div>
+ <body class="bg-primary px-3 pt-3">
+    <div class="vertically-center wrapper pt-3 pb-3 px-4" id="myDiv" style="width: 360px; background-color: #fff; border: 1px solid #fff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
+        <form  method="post">
+            {% csrf_token %}
+            <div href="/" style="width: 150px;" class="mx-auto unselectable">
+                <a href="/">
+                    <img src="{% static 'img/PlacesToEat.svg' %}" alt="PlacesToEat.svg" style="height: 150px;">
+                </a>
+            </div>
+            <div class="form-group mt-4" style="margin: 10px auto">
+                <label class="text-primary font-weight-bold" for="uname">Username:</label>
+                <input class="form-control" type="text" id="uname" placeholder="Your username" required>
+            </div>
+            <div class="form-group">
+                <label class="text-primary font-weight-bold" for="pwd"> Password:</label>
+                <input class="form-control" type="password" id="pwd" placeholder="Your password" required>
+            </div>
+            <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px" type="submit">Login</button>
+            <div class="position-relative pr-1" id="registering" style="font-size: 15px; text-align: right; margin-top: 0.75rem !important;">
+                <a class="text-primary text-decoration-none font-weight-bold my-0 py-0" href="/users/register">
+                    Click Here for Sign Up
+                </a>
+            </div>
+        </form>
+    </div>
   </body>
 {% endblock %}
