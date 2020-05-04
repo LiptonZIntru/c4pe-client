@@ -8,3 +8,4 @@ app/static/test
 notes.txt
 __pycache__*
 app/__pycache__
+app/controllers/__pycache__
