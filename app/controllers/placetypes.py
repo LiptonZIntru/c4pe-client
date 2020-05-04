@@ -54,7 +54,6 @@ def edit(request, id):
                       })
     elif request.method == 'POST':
         data = {
-            'id': int(id),
             'name': request.POST.get('name')
         }
         headers = {
