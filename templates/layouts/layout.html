@@ -40,10 +40,10 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                {% if session.user != NULL %}                                                                          <!-- pokud je user logged, dá mu to username a profilepic -->
+                {% if currentUser %}                                                                          <!-- pokud je user logged, dá mu to username a profilepic -->
                   <li class="nav-item row mr-2">
                       <a class="nav-link" href="/users/{{ currentUser.id }}/" id="Your Profile">
-                        {{ currentUser.username }}Username
+                        {{ currentUser.username }}
                         ( <y class="text-light">logged</y> )</a>
                   </li>
                 {% else %}                                                                 <!-- pokud logged není, dá mu to Log In / Register -->

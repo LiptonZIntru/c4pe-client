@@ -3,19 +3,24 @@ from django.shortcuts import render, redirect
 import requests
 import json
 from datetime import datetime
-from .auth import validate
-
-token = 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI3IiwidW5pcXVlX25hbWUiOiJ2aWxpIiwibmJmIjoxNTg3MTMwMzc4LCJleHAiOjE1ODcyMTY3NzgsImlhdCI6MTU4NzEzMDM3OH0.ker5TIH4LwAMK5qNnrDSKb3eS05PuUads0UjD0t74HU2kYV53LOdVFIqHtNlbrlMfvk3swkDfp3LycIhQ_JQcg'
+from .auth import authorized, get_user
 
 
 def index(request, place_id):
     openingTimes = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id + '/openingTimes').text)
-    return render(request, 'openingtimes/index.html', {'openingTimes': openingTimes})
+    return render(request, 'openingtimes/index.html',
+                  {
+                      'openingTimes': openingTimes,
+                      'currentUser': get_user(request)
+                  })
 
 
 def create(request, place_id):
     if request.method == 'GET':
-        return render(request, 'openingtimes/create.html')
+        return render(request, 'openingtimes/create.html',
+                      {
+                          'currentUser': get_user(request)
+                      })
 
     elif request.method == 'POST':
         open_min = int(request.POST.get("openMinutes"))
@@ -24,12 +29,11 @@ def create(request, place_id):
         close_hour = int(request.POST.get("closeHour"))
 
         open_time = str(open_hour) + ':' + str(open_min) + ':00'
-        print(open_time)
         close_time = str(close_hour) + ':' + str(close_min) + ':00'
-        print(close_time)
+
         headers = {
             'content-type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + request.COOKIES['token']
         }
         data = {
             "day": int(request.POST.get("day")),
@@ -37,30 +41,48 @@ def create(request, place_id):
             "close": close_time,
         }
         response = requests.post('http://77.244.251.110/api/places/' + place_id + '/openingTimes',
-                                 data=json.dumps(data), headers=headers)
-        print(data)
-        return HttpResponse('status code: ' + str(response.status_code))
+                                 data=json.dumps(data),
+                                 headers=headers)
+        if response.status_code == 201:
+            return redirect('places')  # TODO: opening time added
+        else:
+            return render(request, 'openingtimes/create.html',  # TODO: form validation error
+                          {
+                              'currentUser': get_user(request)
+                          })
 
 
 def edit(request, place_id):
     if request.method == 'GET':
         openingTimes = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id + '/openingTimes').text)
-        return render(request, 'openingtimes/edit.html', {'openingTimes': openingTimes})
+        return render(request, 'openingtimes/edit.html',
+                      {
+                          'openingTimes': openingTimes,
+                          'currentUser': get_user(request)
+                      })
 
     elif request.method == 'POST':
         open_time = request.POST.get("openHour") + ':' + request.POST.get("openMinutes") + ':00'
         close_time = request.POST.get("closeHour") + ':' + request.POST.get("closeMinutes") + ':00'
 
-        id = request.POST.get("id")
+        id = request.POST.get("id")  # get from hidden input
 
         headers = {
             'content-type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + request.COOKIES['token']
         }
         data = {
             "day": int(request.POST.get("day")),
             "open": open_time,
             "close": close_time,
         }
-        response = requests.put('http://77.244.251.110/api/places/' + place_id + '/openingTimes/' + id, data=json.dumps(data), headers=headers)
-        return HttpResponse('status code: ' + str(response.status_code))
+        response = requests.put('http://77.244.251.110/api/places/' + place_id + '/openingTimes/' + id,
+                                data=json.dumps(data),
+                                headers=headers)
+        if response.status_code == 201:
+            return redirect('places')  # TODO: opening time saved
+        else:
+            return render(request, 'openingtimes/edit.html',  # TODO: form validation error
+                          {
+                              'currentUser': get_user(request)
+                          })

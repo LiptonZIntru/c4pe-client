@@ -3,17 +3,25 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 import requests
 import json
-from .auth import validate
+from .auth import authorized, get_user
 
 
-def index(request, id):
+def profile(request, id):
     user = json.loads(requests.get('http://77.244.251.110/api/users/' + id).text)
-    return render(request, 'users/index.html', {'user': user})
+    return render(request, 'users/index.html',
+                  {
+                      'user': user,
+                      'currentUser': get_user(request)
+                  })
 
 
 def reviews(request, id):
-    user = json.loads(requests.get('http://77.244.251.110/api/users/' + id).text)
-    return render(request, 'users/reviews.html', {'user': user})
+    reviews = json.loads(requests.get('http://77.244.251.110/api/users/' + id + '/reviews').text)
+    return render(request, 'users/reviews.html',
+                  {
+                      'reviews': reviews,
+                      'currentUser': get_user(request)  # TODO: vykreslovani reviews
+                  })
 
 
 def login(request):
@@ -31,12 +39,12 @@ def login(request):
 
         api_response_content = json.loads(api_response.text)
         if api_response.status_code == 200:
-            response = HttpResponse('logged')
+            response = redirect('places')  # TODO: welcome message
             # response = render(request, 'users/login.html')
-            response.set_cookie('token', api_response_content['token'])  # with user is logged
+            response.set_cookie('token', api_response_content['token'])  # user is logged
             request.session['isLogged'] = 1
         else:
-            response = render(request, 'users/login.html')  # wrong credentials
+            response = render(request, 'users/login.html')  # TODO: message - wrong credentials
         return response
 
 
@@ -60,11 +68,14 @@ def register(request):
 
         response = requests.post('http://77.244.251.110/api/users/register', data=json.dumps(data), headers=headers)
         if not response.status_code == 201:
-            return render(request, 'users/register.html')
-        return render(request, 'users/login.html')
+            return redirect('register')  # TODO: message - return response content
+        return redirect('login')  # TODO: message - Registration successful! Please login
 
 
 def logout(request):
-    del(request.session['isLogged'])
-    del(request.session['token'])
-    return render(request, 'home/index.html')
+    response = redirect('index')
+    if request.session.get('isLogged'):
+        del (request.session['isLogged'])
+    if request.COOKIES.get('token'):
+        response.delete_cookie('token')
+    return response  # TODO: message - You have been logged out

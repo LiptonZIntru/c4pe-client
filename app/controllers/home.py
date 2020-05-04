@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 import json
 import requests
-from .auth import validate
+from .auth import get_user
 
 
 # Create your views here.
@@ -14,7 +14,10 @@ def example(request):
 
 
 def urls(request):
-    return render(request, 'urls.html')
+    return render(request, 'urls.html',
+                  {
+                      'currentUser': get_user(request)
+                  })
 
 
 def index(request):
@@ -23,9 +26,13 @@ def index(request):
                   {
                       'places': response['amountPlaces'],
                       'users': response['amountUsers'],
-                      'reviews': response['amountReviews']
+                      'reviews': response['amountReviews'],
+                      'currentUser': get_user(request)
                   })
 
 
 def about(request):
-    return render(request, 'home/about.html')
+    return render(request, 'home/about.html',
+                  {
+                      'currentUser': get_user(request)
+                  })

@@ -19,19 +19,19 @@ Register
 {% block content %}
 <body class="bg-primary pt-3 px-3">
     <div class="wrapper mx-auto mb-3 pt-2 pb-3 px-4" id="myDiv" style="min-width: 360px; max-width: 475px; background-color: #fff; border: 1px solid #fff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
-        <form method="post">
+        <form id="register" method="post">
             {% csrf_token %}
             <div class="form-group" style="margin: 10px auto">
                <label class="text-primary font-weight-bold" for="uname">Username:</label>
-                <input class="form-control" type="text" id="uname" placeholder="Your username" required>
+                <input name="username" class="form-control" type="text" id="uname" placeholder="Your username" required>
             </div>
             <div class="form-group">
                 <label class="text-primary font-weight-bold" for="pwd">Password:</label>
-                <input class="form-control" type="password" id="pwd" placeholder="Your password" required>
+                <input id="password" name="password" class="form-control" type="password" id="pwd" placeholder="Your password" required>
             </div>
             <div class="form-group">
                 <label class="text-primary font-weight-bold" for="pwdCheck">Repeat password:</label>
-                <input class="form-control" type="password" id="pwdCheck" placeholder="Password again" required>
+                <input id="confirmation" name="confirmation" class="form-control" type="password" id="pwdCheck" placeholder="Password again" required>
             </div>
             <div class="text-center">
                 <label class="text-primary font-weight-bold p-0 mx-auto mt-2" style="font-size: larger">Not required</label>
@@ -97,5 +97,11 @@ Register
           .replace(/[^\d]/g, '');
         });
       });
+    $('#register').submit(function () {
+        if($('#password').val() != $('#confirmation').val())
+        {
+            this.preventDefault(); // TODO: raise password doesn't match error
+        }
+    })
 </script>
 {% endblock %}

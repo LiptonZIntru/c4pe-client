@@ -21,31 +21,33 @@ urlpatterns = [
     path('example/', home.example),
     path('urls/', home.urls),
 
-    path('', home.index),
-    path('about/', home.about),
+    path('', home.index, name='index'),
+    path('about/', home.about, name='about'),
 
     path('users/login/', users.login, name='login'),
     path('users/register/', users.register, name='register'),
     path('users/logout/', users.logout, name='logout'),
-    path('users/<id>/', users.index, name='user'),
-    path('users/<id>/reviews', users.reviews, name='user'),
+    path('users/<id>/', users.profile, name='user profile'),
+    path('users/<id>/reviews/', users.reviews, name='user reviews'),
 
     path('places/', places.index, name='places'),
-    path('places/create/', places.create, name='places.create'),
-    path('places/<id>/', places.profile, name='place'),
-    path('places/<id>/edit/', places.edit, name='places.edit'),
+    path('places/create/', places.create, name='place create '),
+    path('places/<id>/', places.profile, name='place profile'),
+    path('places/<id>/edit/', places.edit, name='place edit'),
 
 
     path('places/<id>/reviews/', reviews.index, name='reviews'),
-    path('places/<id>/reviews/create/', reviews.create),
-    path('places/<place_id>/reviews/<id>/edit/', reviews.edit),
-    path('places/<id>/reviews/type/<type>/', places.get_json_reviews),  # get positive/negative/all reviews
+    path('places/<id>/reviews/create/', reviews.create, name='reviews create'),
+    path('places/<place_id>/reviews/<id>/edit/', reviews.edit, name='reviews edit'),
 
-    path('placetypes/', placetypes.index),
-    path('placetypes/create/', placetypes.create),
-    path('placetypes/<id>/edit/', placetypes.edit),
+    # get positive/negative/all reviews in json
+    path('places/<id>/reviews/type/<type>/', places.get_json_reviews, name='reviews specific type'),
 
-    path('places/<place_id>/openingtimes/', openingtimes.index),
-    path('places/<place_id>/openingtimes/create/', openingtimes.create),
-    path('places/<place_id>/openingtimes/edit/', openingtimes.edit),
+    # path('placetypes/', placetypes.index, name='placetypes'),
+    # path('placetypes/create/', placetypes.create, name='placetype create'),
+    # path('placetypes/<id>/edit/', placetypes.edit, name='placetype edit'),
+
+    path('places/<place_id>/openingtimes/', openingtimes.index, name='openingtimes'),
+    path('places/<place_id>/openingtimes/create/', openingtimes.create, name='openingtimes create'),
+    path('places/<place_id>/openingtimes/edit/', openingtimes.edit, name='openingtimes edit'),
 ]
