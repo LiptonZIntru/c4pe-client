@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_http_methods
 import requests
 import json
 
@@ -25,10 +26,16 @@ def login(request):
         headers = {
             'content-type': 'application/json'
         }
-        response = requests.post('http://77.244.251.110/api/users/login', data=json.dumps(data), headers=headers)
-        print(json.loads(response.text)['token'])
-        # pls nevypisuj ten token priste
-        return HttpResponse('status code: ' + str(response.status_code) + '<br>token: ' + json.loads(response.text)['token'])
+        api_response = requests.post('http://77.244.251.110/api/users/login', data=json.dumps(data), headers=headers)
+
+        api_response_content = json.loads(api_response.text)
+        if api_response.status_code == 200:
+            response = HttpResponse('logged')
+            # response = render(request, 'users/login.html')
+            response.set_cookie('auth', api_response_content['token'])  # with user is logged
+        else:
+            response = render(request, 'users/login.html')  # wrong credentials
+        return response
 
 
 def register(request):
@@ -51,6 +58,11 @@ def register(request):
 
         response = requests.post('http://77.244.251.110/api/users/register', data=json.dumps(data), headers=headers)
         if not response.status_code == 201:
-            print(response.status_code)
-            return HttpResponse(response.status_code)
-        return HttpResponse('logged')
+            return render(request, 'users/register.html')
+        return render(request, 'users/login.html')
+
+'''@require_http_methods(["POST"])
+def logout(request):
+    response = render(request, 'home/index.html')
+    response.set_cookie('auth', api_response_content['token'])
+    return response'''

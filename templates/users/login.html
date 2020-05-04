@@ -3,12 +3,12 @@
 {% block css %}
     {% load static %}
     <style>
-    @media only screen and (min-width: 768px)
-    {
-        #registering{
-            display: none;
+        @media only screen and (min-width: 768px)
+        {
+            #registering{
+                display: none;
+            }
         }
-    }
     </style>
 {% endblock %}
 
@@ -17,7 +17,7 @@ Log In
 {% endblock %}
 
 {% block content %}
- <body class="bg-primary">
+    <body class="bg-primary">
         <div class="wrapper" style="position: absolute; left: 50%; top: 50%;transform: translate(-50%, -50%); width: 380px; background-color: #fff; padding: 15px 40px 50px; border: 1px solid #fff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
             <form  method="post" style="margin-top: 20px">
                 {% csrf_token %}
@@ -28,11 +28,11 @@ Log In
                 </div>
                 <div class="form-group mt-4" style="margin: 10px auto">
                     <label class="text-primary font-weight-bold" for="uname">Username:</label>
-                    <input class="form-control" type="text" id="uname" placeholder="Your username" required>
+                    <input name="username" class="form-control" type="text" id="uname" placeholder="Your username" required>
                 </div>
                 <div class="form-group">
                     <label class="text-primary font-weight-bold" for="pwd"> Password:</label>
-                    <input class="form-control" type="password" id="pwd" placeholder="Your password" required>
+                    <input name="password" class="form-control" type="password" id="pwd" placeholder="Your password" required>
                 </div>
                 <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px" type="submit">Login</button>
                 <div class="mt-2 mb-0 pb-0 position-absolute pr-5" id="registering" style="right: 0px; font-size: 15px; padding-top: 5px">
@@ -42,5 +42,5 @@ Log In
                 </div>
             </form>
         </div>
-  </body>
+    </body>
 {% endblock %}
