@@ -8,6 +8,7 @@ from .auth import validate
 
 
 def example(request):
+    #  For testing
     #  return render(request, 'example.html')
     return HttpResponse(str(request.session.get('isLogged')) + ", " + str(request.COOKIES['token']))
 
