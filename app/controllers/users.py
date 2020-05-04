@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 import requests
 import json
+from .auth import validate
 
 
 def index(request, id):
@@ -32,7 +33,8 @@ def login(request):
         if api_response.status_code == 200:
             response = HttpResponse('logged')
             # response = render(request, 'users/login.html')
-            response.set_cookie('auth', api_response_content['token'])  # with user is logged
+            response.set_cookie('token', api_response_content['token'])  # with user is logged
+            request.session['isLogged'] = 1
         else:
             response = render(request, 'users/login.html')  # wrong credentials
         return response
@@ -61,8 +63,8 @@ def register(request):
             return render(request, 'users/register.html')
         return render(request, 'users/login.html')
 
-'''@require_http_methods(["POST"])
+
 def logout(request):
-    response = render(request, 'home/index.html')
-    response.set_cookie('auth', api_response_content['token'])
-    return response'''
+    del(request.session['isLogged'])
+    del(request.session['token'])
+    return render(request, 'home/index.html')

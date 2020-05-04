@@ -1,13 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 import json
 import requests
+from .auth import validate
 
 
 # Create your views here.
 
 
 def example(request):
-    return render(request, 'example.html')
+    #  return render(request, 'example.html')
+    return HttpResponse(str(request.session.get('isLogged')) + ", " + str(request.COOKIES['token']))
 
 
 def urls(request):
@@ -15,10 +17,13 @@ def urls(request):
 
 
 def index(request):
-    places = json.loads(requests.get('http://77.244.251.110/api/places').headers['X-pagination'])['TotalCount']
-    users = len(json.loads(requests.get('http://77.244.251.110/api/users').text))
-    reviews = 96
-    return render(request, 'home/index.html', {'places': places, 'users': users, 'reviews': reviews})
+    response = json.loads(requests.get('http://77.244.251.110/api/stats').text)
+    return render(request, 'home/index.html',
+                  {
+                      'places': response['amountPlaces'],
+                      'users': response['amountUsers'],
+                      'reviews': response['amountReviews']
+                  })
 
 
 def about(request):
