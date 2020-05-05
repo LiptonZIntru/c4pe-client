@@ -4,6 +4,7 @@ from django.views.decorators.http import require_http_methods
 import requests
 import json
 from .auth import authorized, get_user
+import binascii
 
 
 def profile(request, id):
@@ -46,6 +47,28 @@ def edit(request, id):
             return redirect('user profile', id=id)  # TODO: message - successfully updated
         else:
             return redirect('user profile', id=id)  # TODO: form validation error
+
+
+# @require_http_methods('POST')
+'''
+def avatar(request):
+    url = 'image.png'
+    if request.method == 'GET':
+        return render(request, 'users/avatar.html')
+    avatar = request.FILES.get('avatar')
+    file = open(url, 'wb+')
+    for chunk in avatar.chunks():
+        file.write(chunk)
+    headers = {
+        'Authorization': 'Bearer ' + request.COOKIES['token'],
+        'content-type': 'multipart/form-data'
+    }
+    data = {
+        "image": open(url, 'rb')
+    }
+    print(data)
+    response = requests.post('http://77.244.251.110/api/users/me/avatar', data=data, headers=headers)
+    return HttpResponse(response.status_code)'''
 
 
 def login(request):

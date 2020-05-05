@@ -1,4 +1,6 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, HttpResponse
+from django.views.defaults import page_not_found
 import json
 import requests
 from .auth import get_user
@@ -9,8 +11,7 @@ from .auth import get_user
 
 def example(request):
     #  For testing
-    #  return render(request, 'example.html')
-    return HttpResponse(str(request.session.get('isLogged')) + ", " + str(request.COOKIES['token']))
+    return render(request, 'example.html')
 
 
 def urls(request):
