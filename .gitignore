@@ -5,6 +5,5 @@ manage.py
 templates/test
 app/controllers/__pycache__
 app/static/test
-__pycache__*
+__pycache__
 app/__pycache__
-app/controllers/__pycache__
