@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .auth import get_user, authorized
+from django.contrib import messages
 import requests
 import json
 from datetime import datetime
@@ -73,12 +74,24 @@ def index(request):
     #  pagination
     if current == 1:
         pages['content'] = [1, 2, 3]
-        pages['first'] = True
+        pages['next'] = True
     elif current == last:
         pages['content'] = [last - 2, last - 1, last]
-        pages['last'] = True
+        pages['previous'] = True
     else:
         pages['content'] = [current - 1, current, current + 1]
+        pages['next'] = True
+        pages['previous'] = True
+
+    if last == 1:
+        pages['content'] = [1, ]
+        del (pages['next'])
+    elif last == 2:
+        pages['content'] = [1, 2]
+        del (pages['next'])
+    elif last == 3:
+        pages['content'] = [1, 2, 3]
+        del (pages['next'])
     #  pagination
 
     return render(request, 'places/index.html',
@@ -128,9 +141,11 @@ def create(request):
         }
         response = requests.post('http://77.244.251.110/api/places', data=json.dumps(data), headers=headers)
         if response.status_code == 201:
-            return redirect('places')  # TODO: message - place created
+            messages.success(request, 'Place created')
+            return redirect('places')
         else:
             types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+            messages.error(request, 'Unknown error. Please try again')
             return render(request, 'places/create.html',
                       {
                           'types': types,
@@ -163,9 +178,11 @@ def edit(request, id):
         }
         response = requests.put('http://77.244.251.110/api/places/' + id, data=json.dumps(data), headers=headers)
         if response.status_code == 201:
-            return redirect('places')  # TODO: message - place edited/saved
+            messages.success(request, 'Place updated')
+            return redirect('places')
         else:
             types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+            messages.success(request, 'Unknown error. Please try again')
             return render(request, 'places/edit.html',
                           {
                               'types': types,

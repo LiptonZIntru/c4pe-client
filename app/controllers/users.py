@@ -1,10 +1,10 @@
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
+from django.contrib import messages
 import requests
 import json
 from .auth import authorized, get_user
-import binascii
 
 
 def profile(request, id):
@@ -48,8 +48,10 @@ def edit(request, id):
         }
         response = requests.put('http://77.244.251.110/api/users/me', data=json.dumps(data), headers=headers)
         if response.status_code == 204:
-            return redirect('user profile', id=id)  # TODO: message - successfully updated
+            messages.success(request, 'Profile updated')
+            return redirect('user profile', id=id)
         else:
+            messages.error(request, 'Unknown error. Please try again')
             return redirect('user profile', id=id)  # TODO: form validation error
 
 
@@ -93,12 +95,13 @@ def login(request):
 
         api_response_content = json.loads(api_response.text)
         if api_response.status_code == 200:
-            response = redirect('places')  # TODO: welcome message
-            # response = render(request, 'users/login.html')
+            response = redirect('places')
+            messages.success(request, 'Welcome back!')
             response.set_cookie('token', api_response_content['token'])  # user is logged
             request.session['isLogged'] = 1
         else:
-            response = render(request, 'users/login.html')  # TODO: message - wrong credentials
+            messages.error(request, 'Wrong credentials!')
+            response = render(request, 'users/login.html')
         return response
 
 
@@ -125,8 +128,10 @@ def register(request):
 
         response = requests.post('http://77.244.251.110/api/users/register', data=json.dumps(data), headers=headers)
         if not response.status_code == 201:
+            messages.error(request, response.text)
             return redirect('register')  # TODO: message - return response content
-        return redirect('login')  # TODO: message - Registration successful! Please login
+        messages.success(request, 'Registration was successful! Please login here')
+        return redirect('login')
 
 
 def logout(request):
@@ -135,4 +140,5 @@ def logout(request):
         del (request.session['isLogged'])
     if request.COOKIES.get('token'):
         response.delete_cookie('token')
-    return response  # TODO: message - You have been logged out
+    messages.success(request, 'You have been logged out')
+    return response

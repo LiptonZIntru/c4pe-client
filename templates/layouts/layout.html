@@ -42,9 +42,10 @@
             <ul class="navbar-nav ml-auto">
                 {% if currentUser %}                                                                          <!-- pokud je user logged, dá mu to username a profilepic -->
                   <li class="nav-item row mr-2">
-                      <a class="nav-link" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" href="/users/{{ currentUser.id }}/" id="user">
+                        <a class="nav-link" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" href="/users/{{ currentUser.id }}/" id="user">
                           <b id="uname">{{ currentUser.username }}</b>
                         (<y class="text-light">logged</y>)</a>
+                        <a class="nav-link" href="/users/logout">Logout</a>
                   </li>
                 {% else %}                                                                 <!-- pokud logged není, dá mu to Log In / Register -->
                     <li class="nav-item text-nowrap row mx-0">
@@ -59,6 +60,15 @@
         </div>
       </nav>
     <div class="container pb-3" style="margin-top:50px"></div>                      <!-- odsazení odvrchu, aby navbar neprekryval content -->
+    <div id="messages" style="padding-top: 20px">
+        {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                  {{ message }}
+              </div>
+            {% endfor %}
+         {% endif %}
+    </div>
 
     {% block content %}
     {% endblock %}
