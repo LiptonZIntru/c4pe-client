@@ -20,7 +20,7 @@
     <!-- END Dodrzet strukturu! -->
 
   </head>
-  <body ng-app="HomeLayout" onload="ActiveButton()">
+  <body ng-app="HomeLayout" onload="ActiveButton({{ currentUser.id }})">
     <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">                                          <!-- navbar -->
         <div class="container-fluid">
             <a class="navbar-brand" href="/">                                                                <!-- logo + project name -->
@@ -42,9 +42,9 @@
             <ul class="navbar-nav ml-auto">
                 {% if currentUser %}                                                                          <!-- pokud je user logged, dá mu to username a profilepic -->
                   <li class="nav-item row mr-2">
-                      <a class="nav-link" href="/users/{{ currentUser.id }}/" id="Your Profile">
-                        {{ currentUser.username }}
-                        ( <y class="text-light">logged</y> )</a>
+                      <a class="nav-link" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" href="/users/{{ currentUser.id }}/" id="user">
+                          <b id="uname">{{ currentUser.username }}</b>
+                        (<y class="text-light">logged</y>)</a>
                   </li>
                 {% else %}                                                                 <!-- pokud logged není, dá mu to Log In / Register -->
                     <li class="nav-item text-nowrap row mx-0">
@@ -68,7 +68,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script>
-        function ActiveButton()
+        function ActiveButton(currentUser)
         {
             document.getElementsByTagName("body")[0].style.height = "50px";
             if (document.getElementsByTagName("title")[0].innerText.includes('Browse'))
@@ -87,15 +87,20 @@
             {
                 document.getElementById('Register').classList.add('active');
             }
+            else if (document.getElementsByTagName("title")[0].baseURI.endsWith('/users/' + currentUser + '/'))
+            {
+                document.getElementById('user').classList.add('active');
+            }
         }
 
         function Grey(id)
         {
-            if(!document.getElementsByTagName("title")[0].innerText.includes(id))
+            if (!document.getElementsByTagName("title")[0].innerText.includes(id))
             {
                 document.getElementById(id).style.color = "rgba(255,255,255,.75)";
             }
         }
+
         function UnGrey(id)
         {
             if(!document.getElementsByTagName("title")[0].innerText.includes(id))

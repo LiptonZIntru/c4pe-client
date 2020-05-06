@@ -39,6 +39,7 @@ def edit(request, id):
             'description': request.POST.get('description'),
             'street': request.POST.get('street'),
             'city': request.POST.get('city'),
+            'zipCode': request.POST.get('zipCode'),
             'country': request.POST.get('country')
         }
         headers = {

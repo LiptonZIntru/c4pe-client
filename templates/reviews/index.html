@@ -245,7 +245,7 @@
                                 {% if review.user.isVerified == 1 %}
                                     <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
                                 {% endif %}
-                                <b>{{ review.user.username }}</b> says:
+                                <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
                             </p>
                             <div class="card p-2 pl-3 text-justify" id="reviewContent">
                                 {{ review.text }}
