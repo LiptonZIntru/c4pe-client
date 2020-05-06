@@ -47,9 +47,9 @@ urlpatterns = [
     # get positive/negative/all reviews in json
     path('places/<id>/reviews/type/<type>/', places.get_json_reviews, name='reviews specific type'),
 
-    # path('placetypes/', placetypes.index, name='placetypes'),
-    # path('placetypes/create/', placetypes.create, name='placetype create'),
-    # path('placetypes/<id>/edit/', placetypes.edit, name='placetype edit'),
+    path('placetypes/', placetypes.index, name='placetypes'),
+    path('placetypes/create/', placetypes.create, name='placetype create'),
+    path('placetypes/<id>/edit/', placetypes.edit, name='placetype edit'),
 
     path('places/<place_id>/openingtimes/', openingtimes.index, name='openingtimes'),
     path('places/<place_id>/openingtimes/create/', openingtimes.create, name='openingtimes create'),

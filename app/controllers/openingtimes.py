@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib import messages
 import requests
 import json
 from datetime import datetime
@@ -44,8 +45,10 @@ def create(request, place_id):
                                  data=json.dumps(data),
                                  headers=headers)
         if response.status_code == 201:
-            return redirect('places')  # TODO: opening time added
+            messages.success(request, 'Opening time added')
+            return redirect('places')
         else:
+            messages.error(request, 'Unknown error. Please try again')
             return render(request, 'openingtimes/create.html',  # TODO: form validation error
                           {
                               'currentUser': get_user(request)
@@ -80,8 +83,10 @@ def edit(request, place_id):
                                 data=json.dumps(data),
                                 headers=headers)
         if response.status_code == 201:
-            return redirect('places')  # TODO: opening time saved
+            messages.success(request, 'Opening times updated')
+            return redirect('places')
         else:
+            messages.error(request, 'Unknown error. Please try again')
             return render(request, 'openingtimes/edit.html',  # TODO: form validation error
                           {
                               'currentUser': get_user(request)

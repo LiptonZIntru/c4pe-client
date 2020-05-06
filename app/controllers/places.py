@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .auth import get_user, authorized
+from django.contrib import messages
 import requests
 import json
 from datetime import datetime
@@ -128,9 +129,11 @@ def create(request):
         }
         response = requests.post('http://77.244.251.110/api/places', data=json.dumps(data), headers=headers)
         if response.status_code == 201:
-            return redirect('places')  # TODO: message - place created
+            messages.success(request, 'Place created')
+            return redirect('places')
         else:
             types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+            messages.error(request, 'Unknown error. Please try again')
             return render(request, 'places/create.html',
                       {
                           'types': types,
@@ -163,9 +166,11 @@ def edit(request, id):
         }
         response = requests.put('http://77.244.251.110/api/places/' + id, data=json.dumps(data), headers=headers)
         if response.status_code == 201:
-            return redirect('places')  # TODO: message - place edited/saved
+            messages.success(request, 'Place updated')
+            return redirect('places')
         else:
             types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+            messages.success(request, 'Unknown error. Please try again')
             return render(request, 'places/edit.html',
                           {
                               'types': types,

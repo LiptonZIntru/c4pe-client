@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.contrib.messages import constants
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +27,11 @@ SECRET_KEY = '46lp@6i@txgnn1%so8ewan!0fq8auc*cgo$=avl3k7bz(ju!xa'
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '192.168.0.127', '127.0.0.1', '192.168.0.21', '192.168.0.11', '192.168.1.180', '40.114.229.170']
+
+
+MESSAGE_TAGS = {
+    constants.ERROR: 'danger',
+}
 
 
 # Application definition
