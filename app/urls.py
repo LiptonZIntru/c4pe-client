@@ -22,6 +22,7 @@ urlpatterns = [
 
     path('example/', home.example),
     path('urls/', home.urls),
+    path('test/', home.test),
 
     path('', home.index, name='index'),
     path('about/', home.about, name='about'),

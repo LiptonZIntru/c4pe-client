@@ -37,3 +37,14 @@ def about(request):
                   {
                       'currentUser': get_user(request)
                   })
+
+
+def test(request):
+    response = json.loads(requests.get('http://77.244.251.110/api/stats').text)
+    return render(request, 'karel/index.html',
+                  {
+                      'places': response['amountPlaces'],
+                      'users': response['amountUsers'],
+                      'reviews': response['amountReviews'],
+                      'currentUser': get_user(request)
+                  })
