@@ -229,12 +229,9 @@
                   </x>
             {% endfor %}
         </div>
-
         <ul class="pagination justify-content-center mt-3 mb-4">
-            {% if pages.last %}
+            {% if pages.previous %}
                 <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.1 }}">Previous</a></li><!-- pagination -->
-            {% elif not pages.first %}
-                <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.0 }}">Previous</a></li>
             {% endif %}
             {% for i in pages.content %}
                 {% if i == pages.current %}
@@ -243,13 +240,10 @@
                     <li class="page-item"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
                 {% endif %}
             {% endfor %}
-            {% if pages.first %}
-                <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.1 }}">Next</a></li>
-            {% elif not pages.last %}
+            {% if pages.next %}
                 <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.2 }}">Next</a></li>
             {% endif %}
         </ul>
-
       </div>
 {% endblock %}
 

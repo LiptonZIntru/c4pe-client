@@ -74,12 +74,24 @@ def index(request):
     #  pagination
     if current == 1:
         pages['content'] = [1, 2, 3]
-        pages['first'] = True
+        pages['next'] = True
     elif current == last:
         pages['content'] = [last - 2, last - 1, last]
-        pages['last'] = True
+        pages['previous'] = True
     else:
         pages['content'] = [current - 1, current, current + 1]
+        pages['next'] = True
+        pages['previous'] = True
+
+    if last == 1:
+        pages['content'] = [1, ]
+        del (pages['next'])
+    elif last == 2:
+        pages['content'] = [1, 2]
+        del (pages['next'])
+    elif last == 3:
+        pages['content'] = [1, 2, 3]
+        del (pages['next'])
     #  pagination
 
     return render(request, 'places/index.html',
