@@ -18,8 +18,10 @@ def profile(request, id):
 
 def reviews(request, id):
     reviews = json.loads(requests.get('http://77.244.251.110/api/users/' + id + '/reviews').text)
+    user = json.loads(requests.get('http://77.244.251.110/api/users/' + id).text)
     return render(request, 'users/reviews.html',
                   {
+                      'user': user,
                       'reviews': reviews,
                       'currentUser': get_user(request)  # TODO: vykreslovani reviews
                   })
