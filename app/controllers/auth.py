@@ -6,7 +6,7 @@ def authorized(token):
     """
         This function takes authorization token and authorized it
         :param token:   Token that user gets if he log in
-        :return:        Status code of request (200 - OK, 401 - unauthorized
+        :return:        Status code of request (200 - OK, 401 - unauthorized)
     """
     headers = {
         "Authorization": "Bearer " + token

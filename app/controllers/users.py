@@ -73,7 +73,10 @@ def avatar(request):
 
 def login(request):
     if request.method == 'GET':
-        return render(request, 'users/login.html')
+        if authorized(request.COOKIES.get('token')) == 200:
+            return redirect('places')
+        else:
+            return render(request, 'users/login.html')
     elif request.method == 'POST':
         data = {
             'username': request.POST.get('username'),
@@ -97,7 +100,10 @@ def login(request):
 
 def register(request):
     if request.method == 'GET':
-        return render(request, 'users/register.html')
+        if authorized(request.COOKIES.get('token')) == 200:
+            return redirect('places')
+        else:
+            return render(request, 'users/register.html')
     elif request.method == 'POST':
         data = {
             'username': request.POST.get('username'),
