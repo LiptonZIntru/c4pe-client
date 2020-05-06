@@ -9,9 +9,11 @@ import binascii
 
 def profile(request, id):
     user = json.loads(requests.get('http://77.244.251.110/api/users/' + id).text)
+    reviews = json.loads(requests.get('http://77.244.251.110/api/users/' + id + '/reviews').text)
     return render(request, 'users/index.html',
                   {
                       'user': user,
+                      'reviews': reviews,
                       'currentUser': get_user(request)
                   })
 
@@ -44,7 +46,6 @@ def edit(request, id):
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
         response = requests.put('http://77.244.251.110/api/users/me', data=json.dumps(data), headers=headers)
-        print(response)
         if response.status_code == 204:
             return redirect('user profile', id=id)  # TODO: message - successfully updated
         else:
