@@ -24,3 +24,14 @@ def get_user(request):
         }
         return json.loads(requests.get('http://77.244.251.110/api/users/me', headers=headers).text)
     return None
+
+
+def is_admin(request):
+    if request.COOKIES.get('token'):
+        headers = {
+            "Authorization": "Bearer " + request.COOKIES['token']
+        }
+        role = json.loads(requests.get('http://77.244.251.110/api/users/me', headers=headers).text)['role']
+        if role == 'Admin':
+            return True
+    return False

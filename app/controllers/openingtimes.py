@@ -82,7 +82,7 @@ def edit(request, place_id):
         response = requests.put('http://77.244.251.110/api/places/' + place_id + '/openingTimes/' + id,
                                 data=json.dumps(data),
                                 headers=headers)
-        if response.status_code == 201:
+        if response.status_code == 204:
             messages.success(request, 'Opening times updated')
             return redirect('places')
         else:

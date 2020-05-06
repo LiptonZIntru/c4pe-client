@@ -38,10 +38,11 @@
             <ul class="navbar-nav" onmouseover="Grey('Browse')" onmouseout="UnGrey('Browse')">                    <!-- odkaz na list podniků -->
               <li class="nav-item"><a class="nav-link" href="/places" id="Browse">Browse places</a></li>
             </ul>
-
-            <ul class="navbar-nav" onmouseover="Grey('admin')" onmouseout="UnGrey('admin')">                    <!-- odkaz na admin stránku -->
-              <li class="nav-item"><a class="nav-link" href="/admin" id="admin">Admin</a></li>
-            </ul>
+            {% if currentUser.role == "Admin" %}
+                <ul class="navbar-nav" onmouseover="Grey('admin')" onmouseout="UnGrey('admin')">                    <!-- odkaz na admin stránku -->
+                  <li class="nav-item"><a class="nav-link" href="/admin" id="admin">Admin</a></li>
+                </ul>
+            {% endif %}
 
             <ul class="navbar-nav ml-auto">
                 {% if currentUser %}                                <!-- pokud je user logged, dá mu to username a profilepic -->
@@ -78,10 +79,10 @@
     <div class="container pb-3" style="margin-top:50px"></div>                      <!-- odsazení odvrchu, aby navbar neprekryval content -->
 
 
-    <div id="messages" style="margin-top: 0.5rem !important;">
+    <div id="messages" style="padding-top: 20px">
         {% if messages %}
             {% for message in messages %}
-              <div class="alert alert-{{ message.tags }} position-absolute" style="width: 98%;">
+              <div class="alert alert-{{ message.tags }}" style="width: 98%;">
                   {{ message }}
               </div>
             {% endfor %}

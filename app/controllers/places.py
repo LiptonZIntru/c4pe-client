@@ -177,12 +177,13 @@ def edit(request, id):
             "placeTypeID": int(request.POST.get("type"))
         }
         response = requests.put('http://77.244.251.110/api/places/' + id, data=json.dumps(data), headers=headers)
-        if response.status_code == 201:
+        if response.status_code == 204:
             messages.success(request, 'Place updated')
             return redirect('places')
         else:
+            print(response.status_code)
             types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
-            messages.success(request, 'Unknown error. Please try again')
+            messages.error(request, 'Unknown error. Please try again')
             return render(request, 'places/edit.html',
                           {
                               'types': types,

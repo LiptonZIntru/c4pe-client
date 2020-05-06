@@ -64,7 +64,7 @@ def edit(request, id):
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
         response = requests.put('http://77.244.251.110/api/placetypes/' + id, data=json.dumps(data), headers=headers)
-        if response.status_code == 201:
+        if response.status_code == 204:
             messages.success(request, 'Place type updated')
             return redirect('placetypes')
         else:
