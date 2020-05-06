@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .auth import get_user, authorized
+from django.contrib import messages
 import requests
 import json
 from datetime import datetime
@@ -49,12 +50,11 @@ def create(request, id):
         response = requests.post('http://77.244.251.110/api/places/' + id + '/Reviews', data=json.dumps(data),
                                  headers=headers)
         if response.status_code == 201:
-            return redirect('reviews', id=id)  # TODO: review added
+            messages.success(request, 'Review added')
+            return redirect('reviews', id=id)
         else:
-            return render(request, 'reviews/create.html',  # TODO: form validation error
-                          {
-                              'currentUser': get_user(request)
-                          })
+            messages.error(request, 'Unknown error. Please try again')
+            return redirect('reviews', id=id)  # TODO: form validation error
 
 
 def edit(request, place_id, id):
@@ -75,10 +75,9 @@ def edit(request, place_id, id):
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
         response = requests.put('http://77.244.251.110/api/places/' + place_id + '/Reviews/' + id, data=json.dumps(data), headers=headers)
-        if response.status_code == 201:
-            return redirect('reviews', id=place_id)  # TODO: review edited
+        if response.status_code == 204:
+            messages.success(request, 'Review updated')
+            return redirect('reviews', id=place_id)
         else:
-            return render(request, 'reviews/edit.html',  # TODO: form validation error
-                          {
-                              'currentUser': get_user(request)
-                          })
+            messages.error(request, 'Unknown error. Please try again')
+            return redirect('reviews', id=place_id)  # TODO: form validation error

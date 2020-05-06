@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .auth import get_user, authorized
+from django.contrib import messages
 import requests
 import json
 
@@ -33,8 +34,10 @@ def create(request):
         }
         response = requests.post('http://77.244.251.110/api/placetypes', data=json.dumps(data), headers=headers)
         if response.status_code == 201:
-            return redirect('placetypes')  # TODO: place type added
+            messages.success(request, 'Place type added')
+            return redirect('placetypes')
         else:
+            messages.error(request, 'Unknown error. Please try again')
             return render(request, 'placetypes/create.html',  # TODO: form validation error
                           {
                               'currentUser': get_user(request)
@@ -61,9 +64,11 @@ def edit(request, id):
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
         response = requests.put('http://77.244.251.110/api/placetypes/' + id, data=json.dumps(data), headers=headers)
-        if response.status_code == 201:
-            return redirect('placetypes')  # TODO: place type saved
+        if response.status_code == 204:
+            messages.success(request, 'Place type updated')
+            return redirect('placetypes')
         else:
+            messages.error(request, 'Unknown error. Please try again')
             return render(request, 'placetypes/edit.html',  # TODO: form validation error
                           {
                               'currentUser': get_user(request)

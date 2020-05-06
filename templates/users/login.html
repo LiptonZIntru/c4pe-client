@@ -9,7 +9,7 @@
                 visibility: hidden;
             }
         }
-        @media only screen and (max-height: 620px)
+        @media only screen and (max-height: 624px)
         {
             #myDiv{
                 margin-left: auto;
@@ -18,7 +18,7 @@
                 margin-top: 0;
             }
         }
-        @media only screen and (min-height: 620px){
+        @media only screen and (min-height: 625px){
             .vertically-center{
                 margin: 0%;
                 position: absolute;
@@ -38,14 +38,14 @@ Log In
 {% block content %}
  <body class="bg-primary px-3 pt-3">
     <div class="vertically-center wrapper pt-3 pb-3 px-4" id="myDiv" style="width: 360px; background-color: #fff; border: 1px solid #fff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
-        <form  method="post">
+        <form method="post">
             {% csrf_token %}
             <div href="/" style="width: 150px;" class="mx-auto unselectable">
                 <a href="/">
                     <img src="{% static 'img/PlacesToEat.svg' %}" alt="PlacesToEat.svg" style="height: 150px;">
                 </a>
             </div>
-            <div class="form-group mt-4" style="margin: 10px auto">
+            <div class="form-group mt-4">
                 <label class="text-primary font-weight-bold" for="uname">Username:</label>
                 <input name="username" class="form-control" type="text" id="uname" placeholder="Your username" required>
             </div>

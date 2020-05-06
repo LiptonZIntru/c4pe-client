@@ -44,7 +44,7 @@
                     {% if user.avatar != NULL and user.avatar != "" and user.avatar != "None" %}
                         <img src="{{ user.avatar }}"/>
                     {% else %}
-                        <img src="{% static '/img/AvatarPlaceholder.svg' %}" style="width: available; max-width: 250px;"/>
+                        <img src="{% static '/img/AvatarPlaceholder.png' %}" style="width: 80%;"/>
                     {% endif %}
                 </div>
 

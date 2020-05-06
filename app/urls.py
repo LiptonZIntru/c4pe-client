@@ -14,10 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path ,include
 from .controllers import home, places, reviews, users, placetypes, openingtimes
 
 urlpatterns = [
+    path('admin/', include('app.adminurls')),
+
     path('example/', home.example),
     path('urls/', home.urls),
 
@@ -27,6 +29,7 @@ urlpatterns = [
     path('users/login/', users.login, name='login'),
     path('users/register/', users.register, name='register'),
     path('users/logout/', users.logout, name='logout'),
+    # path('users/avatar/', users.avatar, name='user avatar'),
     path('users/<id>/', users.profile, name='user profile'),
     path('users/<id>/edit', users.edit, name='user edit'),
     path('users/<id>/reviews/', users.reviews, name='user reviews'),
@@ -44,9 +47,9 @@ urlpatterns = [
     # get positive/negative/all reviews in json
     path('places/<id>/reviews/type/<type>/', places.get_json_reviews, name='reviews specific type'),
 
-    # path('placetypes/', placetypes.index, name='placetypes'),
-    # path('placetypes/create/', placetypes.create, name='placetype create'),
-    # path('placetypes/<id>/edit/', placetypes.edit, name='placetype edit'),
+    path('placetypes/', placetypes.index, name='placetypes'),
+    path('placetypes/create/', placetypes.create, name='placetype create'),
+    path('placetypes/<id>/edit/', placetypes.edit, name='placetype edit'),
 
     path('places/<place_id>/openingtimes/', openingtimes.index, name='openingtimes'),
     path('places/<place_id>/openingtimes/create/', openingtimes.create, name='openingtimes create'),

@@ -7,21 +7,40 @@ Register
 {% block css %}
     {% load static %}
     <style>
-    @media only screen and (min-width: 768px)
-    {
-        #loggingIn{
-            visibility: hidden;
+        @media only screen and (min-width: 768px)
+        {
+            #loggingIn{
+                visibility: hidden;
+            }
         }
-    }
+        @media only screen and (max-height: 905px)
+        {
+            #myDiv{
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 1rem !important;
+                margin-top: 0;
+            }
+        }
+        @media only screen and (min-height: 904px){
+            .vertically-center{
+                margin: 0%;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+        }
     </style>
 {% endblock %}
 
 {% block content %}
-<body class="bg-primary pt-3 px-3">
-    <div class="wrapper mx-auto mb-3 pt-2 pb-3 px-4" id="myDiv" style="min-width: 360px; max-width: 475px; background-color: #fff; border: 1px solid #fff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
+<body class="bg-primary px-3 pt-3">
+    <div class="vertically-center wrapper pt-3 pb-3 px-4" id="myDiv" style="width: 360px; background-color: #fff; border: 1px solid #fff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
         <form id="register" method="post">
             {% csrf_token %}
-            <div class="form-group" style="margin: 10px auto">
+            <div class="form-group mt-3">
                <label class="text-primary font-weight-bold" for="uname">Username:</label>
                 <input name="username" class="form-control" type="text" id="uname" placeholder="Your username" required>
             </div>
@@ -48,7 +67,7 @@ Register
                 <label class="text-primary font-weight-bold" for="description">Description:</label>
                 <textarea name="description" class="form-control" id="description" placeholder="Your description" style="min-height: 2.35rem; max-height: 11.75rem;"></textarea>
             </div>
-            <div class="form-group">
+     <!--       <div class="form-group">                              //form for user location
                 <label class="text-primary font-weight-bold" for="street">Street:</label>
                 <input name="street" class="form-control" id="street" type="text" placeholder="Your street">
             </div>
@@ -75,7 +94,7 @@ Register
             <div class="form-group">
                 <label class="text-primary font-weight-bold" for="zip">ZIP code:</label>
                 <input class="form-control integerInput" id="zip" type="text" placeholder="Your ZIP code" maxlength="5">
-            </div>
+            </div>  -->
             <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px" type="submit">Register</button>
             <div class="position-relative pr-1" id="loggingIn" style="font-size: 15px; text-align: right; margin-top: 0.75rem !important;">
                 <a class="text-primary text-decoration-none font-weight-bold my-0 py-0" href="/users/login">
@@ -97,10 +116,11 @@ Register
           .replace(/[^\d]/g, '');
         });
       });
-    $('#register').submit(function () {
+    $('#register').submit(function (e) {
         if($('#password').val() != $('#confirmation').val())
         {
-            this.preventDefault(); // TODO: raise password doesn't match error
+            e.preventDefault(); // TODO: raise password doesn't match error
+            alert("Passwords doesn't match");
         }
     })
 </script>
