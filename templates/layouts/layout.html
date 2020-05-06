@@ -39,14 +39,30 @@
               <li class="nav-item"><a class="nav-link" href="/places" id="Browse">Browse places</a></li>
             </ul>
 
+            <ul class="navbar-nav" onmouseover="Grey('admin')" onmouseout="UnGrey('admin')">                    <!-- odkaz na admin stránku -->
+              <li class="nav-item"><a class="nav-link" href="/admin" id="admin">Admin</a></li>
+            </ul>
+
             <ul class="navbar-nav ml-auto">
-                {% if currentUser %}                                                                          <!-- pokud je user logged, dá mu to username a profilepic -->
-                  <li class="nav-item row mr-2">
-                        <a class="nav-link" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" href="/users/{{ currentUser.id }}/" id="user">
-                          <b id="uname">{{ currentUser.username }}</b>
-                        (<y class="text-light">logged</y>)</a>
-                        <a class="nav-link" href="/users/logout">Logout</a>
-                  </li>
+                {% if currentUser %}                                <!-- pokud je user logged, dá mu to username a profilepic -->
+                    <div class="row">
+                        <li class="nav-item row pr-1 ml-3">
+                            <z class="nav-link">
+                                <a class="text-decoration-none" onmouseover="Grey('{{ currentUser.id }}')" onmouseout="UnGrey('{{ currentUser.id }}')" href="/users/{{ currentUser.id }}/" style="color: rgba(255,255,255,.5);">
+                                    <img class="rounded-circle" src="{% if currentUser.avatar != NULL and currentUser.avatar != "none" %}
+                                                                    {{ currentUser.avatar }}
+                                                              {% else %}
+                                                                    {% static '/img/AvatarPlaceholder.png' %}
+                                                              {% endif %}" height="40px" width="40px">
+
+                                    <b id="{{ currentUser.id }}">{{ currentUser.username }}</b>
+                                </a>
+                                <b>
+                                    (<y id="loggingOut" onclick="logout();" onmouseover="Red(this.id)" onmouseout="unRed(this.id)" style="cursor: pointer; color: rgba(255,0,0,.75)">log out</y>)
+                                </b>
+                            </z>
+                        </li>
+                    </div>
                 {% else %}                                                                 <!-- pokud logged není, dá mu to Log In / Register -->
                     <li class="nav-item text-nowrap row mx-0">
                         <a class="nav-link px-0" href="/users/login" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" id="Log In">Log In</a>
@@ -60,25 +76,25 @@
         </div>
       </nav>
     <div class="container pb-3" style="margin-top:50px"></div>                      <!-- odsazení odvrchu, aby navbar neprekryval content -->
-    <div id="messages" style="padding-top: 20px">
+
+    {% block content %}
+    {% endblock %}
+    <div id="messages" style="margin-top: 0.5rem !important;">
         {% if messages %}
             {% for message in messages %}
-              <div class="alert alert-{{ message.tags }}">
+              <div class="alert alert-{{ message.tags }} position-absolute" style="width: 98%;">
                   {{ message }}
               </div>
             {% endfor %}
          {% endif %}
     </div>
 
-    {% block content %}
-    {% endblock %}
-
     <!-- Dodrzet strukturu! -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script>
-        function ActiveButton(currentUser)
+        function ActiveButton(userId)
         {
             document.getElementsByTagName("body")[0].style.height = "50px";
             if (document.getElementsByTagName("title")[0].innerText.includes('Browse'))
@@ -97,15 +113,15 @@
             {
                 document.getElementById('Register').classList.add('active');
             }
-            else if (document.getElementsByTagName("title")[0].baseURI.endsWith('/users/' + currentUser + '/'))
+            else if (document.getElementsByTagName("title")[0].baseURI.endsWith('/users/' + userId + '/'))
             {
-                document.getElementById('user').classList.add('active');
+                document.getElementById(userId).style.color = "rgba(255,255,255,.9)";
             }
         }
 
         function Grey(id)
         {
-            if (!document.getElementsByTagName("title")[0].innerText.includes(id))
+            if (!document.getElementsByTagName("title")[0].baseURI.includes('/' + id + '/'))
             {
                 document.getElementById(id).style.color = "rgba(255,255,255,.75)";
             }
@@ -113,10 +129,25 @@
 
         function UnGrey(id)
         {
-            if(!document.getElementsByTagName("title")[0].innerText.includes(id))
+            if(!document.getElementsByTagName("title")[0].baseURI.includes('/' + id + '/'))
             {
                 document.getElementById(id).style.color = "rgba(255,255,255,.5)";
             }
+        }
+
+        function logout()
+        {
+            window.location = "/users/logout";
+        }
+
+        function Red(id)
+        {
+            document.getElementById(id).style.color = "rgba(255,0,0,.55)";
+        }
+
+        function unRed(id)
+        {
+            document.getElementById(id).style.color = "rgba(255,0,0,.75)";
         }
       </script>
 
