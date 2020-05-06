@@ -51,10 +51,7 @@ def create(request, id):
         if response.status_code == 201:
             return redirect('reviews', id=id)  # TODO: review added
         else:
-            return render(request, 'reviews/create.html',  # TODO: form validation error
-                          {
-                              'currentUser': get_user(request)
-                          })
+            return redirect('reviews', id=id)  # TODO: form validation error
 
 
 def edit(request, place_id, id):
@@ -78,7 +75,4 @@ def edit(request, place_id, id):
         if response.status_code == 201:
             return redirect('reviews', id=place_id)  # TODO: review edited
         else:
-            return render(request, 'reviews/edit.html',  # TODO: form validation error
-                          {
-                              'currentUser': get_user(request)
-                          })
+            return redirect('reviews', id=place_id)  # TODO: form validation error
