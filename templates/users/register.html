@@ -116,10 +116,11 @@ Register
           .replace(/[^\d]/g, '');
         });
       });
-    $('#register').submit(function () {
+    $('#register').submit(function (e) {
         if($('#password').val() != $('#confirmation').val())
         {
-            this.preventDefault(); // TODO: raise password doesn't match error
+            e.preventDefault(); // TODO: raise password doesn't match error
+            alert("Passwords doesn't match");
         }
     })
 </script>
