@@ -79,15 +79,15 @@
     <div class="container pb-3" style="margin-top:50px"></div>                      <!-- odsazení odvrchu, aby navbar neprekryval content -->
 
 
-    <div id="messages" style="padding-top: 20px">
-        {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-{{ message.tags }}" style="width: 98%;">
-                  {{ message }}
-              </div>
-            {% endfor %}
-         {% endif %}
-    </div>
+    {% if messages %}
+        <div id="messages" style="margin-top: 20px">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}" style="width: 98%;">
+              {{ message }}
+          </div>
+        {% endfor %}
+        </div>
+     {% endif %}
     {% block content %}
     {% endblock %}
 

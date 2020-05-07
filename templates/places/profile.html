@@ -88,11 +88,13 @@
                               <br> {{ place.country }}
                           </div>
                       </div>
-                      <div class="col-4 text-nowrap">
-                        <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" id="buttonCollapse" style="bottom:10px; right: 10px;">
-                            Write a review!
-                        </button>
-                      </div>
+                      {% if currentUser %}
+                          <div class="col-4 text-nowrap">
+                            <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" id="buttonCollapse" style="bottom:10px; right: 10px;">
+                                Write a review!
+                            </button>
+                          </div>
+                      {% endif %}
                 </div>
               </div>
            </div>
