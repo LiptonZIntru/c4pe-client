@@ -53,7 +53,7 @@ def create(request, id):
             messages.success(request, 'Review added')
             return redirect('reviews', id=id)
         else:
-            messages.error(request, 'Unknown error. Please try again')
+            messages.error(request, "You have already reviewed this place")
             return redirect('reviews', id=id)  # TODO: form validation error
 
 

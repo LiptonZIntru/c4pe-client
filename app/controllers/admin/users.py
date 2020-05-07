@@ -18,3 +18,19 @@ def index(request):
     else:
         messages.error(request, 'Permission denied')
         return redirect('index')
+
+
+def edit(request, id):
+    # TODO: user info
+    # TODO: user reviews
+    return
+
+
+def delete(request, id):
+    # TODO: delete user
+    return
+
+
+def delete_avatar(request, id):
+    # TODO: delete user's avatar
+    return
