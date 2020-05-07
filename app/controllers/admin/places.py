@@ -19,3 +19,28 @@ def index(request):
     else:
         messages.error(request, 'Permission denied')
         return redirect('index')
+
+
+def create(request):
+    # TODO: create new place
+    return
+
+
+def edit(requet, id):
+    # TODO: edit existing place
+    return
+
+
+def delete_avatar(request, id):
+    # TODO: delete image of place
+    return
+
+
+def add_avatar(request, id):
+    # TODO: add new image
+    return
+
+
+def add_owner(request, id):
+    # TODO: add new owner
+    return

@@ -18,3 +18,18 @@ def index(request):
     else:
         messages.error(request, 'Permission denied')
         return redirect('index')
+
+
+def create(request):
+    # create new place type
+    return
+
+
+def edit(request, id):
+    # edit existing place types
+    return
+
+
+def delete(request, id):
+    # delete
+    return
