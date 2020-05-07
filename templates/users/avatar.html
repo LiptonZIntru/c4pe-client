@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST" enctype="multipart/form-data" action="http://77.244.251.110/api/users/me/avatar"><!--action="http://77.244.251.110/api/users/me/avatar"-->
+    <form method="POST" enctype="multipart/form-data"><!--action="http://77.244.251.110/api/users/me/avatar"-->
         {% csrf_token %}
         <input type="file" name="avatar"><br>
         <input type="submit">
