@@ -34,6 +34,13 @@
                 margin-top: 2% !important;
             }
         }
+        @media only screen and (max-width: 1199px)
+        {
+            #searchCenterer{
+                display: none;
+            }
+        }
+
         hr {
             width: 100%;
             color: #FFFF00;
@@ -59,7 +66,21 @@
             <a href="/" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-4 d-block unselectable" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
           </div>
           <h3 class="text-center text-nowrap unselectable pb-2" style="font-family: 'Corbel'; font-size: 5ex;"><i><b>What is your dream<b id="labelWrap"><br/></b> place?</b></i></h3>
-          <form>
+        <div class="row justify-content-between">
+              {% if places.id.owners.userID == currentUser.id %}
+                  <div class="col-xl-2">
+              {% else %}
+                  <div class="col-xl-2" hidden>
+              {% endif %}
+               <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="/places/create/" style="margin-top: 0.15rem !important;">
+                   Add a new place
+               </a>
+          </div>
+              {% if places.id.owners.userID == currentUser.id %}
+                <form class="col-xl-8">
+              {% else %}
+                  <form class="col-xl-12">
+              {% endif %}
               <div class="input-group" id="searchField">
                   <input type="text" class="form-control" placeholder="Your favorite place is here">
                   <div class="input-group-append">
@@ -69,6 +90,16 @@
                   </div>
               </div>
           </form>
+              {% if places.id.owners.userID == currentUser.id %}
+                  <div class="col-xl-2" style="visibility: hidden;" id="searchCenterer">
+              {% else %}
+                  <div class="col-xl-2" id="searchCenterer" hidden>
+              {% endif %}
+               <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="#" style="margin-top: 0.15rem !important;">
+                   Add a new place
+               </a>
+          </div>
+        </div>
         <div class="row mt-3">
             <div class="col-lg-2 text-nowrap">
                 <button type="button" class="btn btn-secondary mr-2" href="#filters" aria-expanded="false" aria-controls="writeReview" data-toggle="collapse" id="filtersToggler">
