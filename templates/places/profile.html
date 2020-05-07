@@ -41,6 +41,7 @@
 
 {% block content %}
     <input id="page_id" value="{{ place.id }}" type="hidden">
+    <input id="user_id" value="{{ currentUser.id }}" hidden>
     <div class="container mt-3 mb-3">
         <div class="card">
           <div class="card-body">
@@ -88,10 +89,10 @@
                               <br> {{ place.country }}
                           </div>
                       </div>
-                      <div class="col-4 text-nowrap">
-                        <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" id="buttonCollapse" style="bottom:10px; right: 10px;">
-                            Write a review!
-                        </button>
+                      <div class="col-4 text-nowrap" id="hideThis">
+                          <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" id="buttonCollapse" style="bottom:10px; right: 10px;">
+                              Write a review!
+                          </button>
                       </div>
                 </div>
               </div>
@@ -158,7 +159,7 @@
                     <small class="float-right pt-2">
                         <label class="mr-1 font-weight-bold mb-0" for="rating" style="font-size: smaller">Your rating:</label>
                         <input type="number" value="5" min="0" max="5" step="1" style="width: 50px;" hidden/>
-                        <div class="mb-2 mt-0 pt-0" onclick="save();" style="cursor: default;">
+                        <div class="pt-0 mt-0 mb-2 " onclick="save();" style="cursor: default;">
                             <i id="oneStar" class="fa fa-star" onmouseover="star(this);"></i>
                             <i id="twoStar" class="fa fa-star-o" onmouseover="star(this);"></i>
                             <i id="threeStar" class="fa fa-star-o" onmouseover="star(this);"></i>
@@ -178,68 +179,160 @@
                 </div>
             </div>
             <div id="card-content">
-              {% for review in reviews %}
-                    <div class="card m-2 mt-1 mb-3">
-                        <div class="card-body pb-2 pt-2">
-                            <small class="float-right pt-2">
-                                {% if review.rating|floatformat:"0" == "0" %}
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% endif %}
-                                {% if review.rating|floatformat:"0" == "1" %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% endif %}
-                                {% if review.rating|floatformat:"0" == "2" %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% endif %}
-                                {% if review.rating|floatformat:"0" == "3" %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% endif %}
-                                {% if review.rating|floatformat:"0" == "4" %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                {% endif %}
-                                {% if review.rating|floatformat:"0" == "5" %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                {% endif %}
-                            </small>
-                            <p class="text-nowrap mb-2">
-                                User
-                                {% if review.user.isVerified == 1 %}
-                                    <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
-                                {% endif %}
-                                <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
-                            </p>
-                            <div class="card p-2 pl-3 text-justify" id="reviewContent">
-                                {{ review.text }}
+            {% for review in reviews %}
+                    {% if review.user.id == currentUser.id %}
+                        <div class="card m-2 mt-1 mb-3">
+                            <div class="card-body pb-2 pt-2">
+                                <small class="float-right pt-2">
+                                    {% if review.rating|floatformat:"0" == "0" %}
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                    {% if review.rating|floatformat:"0" == "1" %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                    {% if review.rating|floatformat:"0" == "2" %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                    {% if review.rating|floatformat:"0" == "3" %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                    {% if review.rating|floatformat:"0" == "4" %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                    {% if review.rating|floatformat:"0" == "5" %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    {% endif %}
+                                </small>
+                                <div class="row">
+                                    <p class="text-nowrap mb-2 pt-1 mr-2">
+                                        User
+                                        {% if review.user.isVerified == 1 %}
+                                            <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
+                                        {% endif %}
+                                        <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
+                                    </p>
+                                    <a role="button" class="btn btn-outline-secondary py-1 px-2 mb-2" href="/places/{{ place.id }}/reviews/{{ review.id }}/edit/">
+                                        Edit
+                                    </a>
+                                </div>
+                                <div class="card p-2 pl-3 text-justify" id="reviewContent">
+                                    {{ review.text }}
+                                </div>
+                                <div class="row justify-content-between mb-0">
+                                    <div class="col-auto mt-1 ml-2 row text-nowrap">
+                                        <x style="cursor: default;">{{ review.positiveReactions }}</x>
+                                        <i class="fa fa-thumbs-up px-1 pt-1" style="color: grey;"></i>
+                                        <y style="cursor: default;">{{ review.negativeReactions }}</y>
+                                        <i class="fa fa-thumbs-down pl-1 pt-1" style="color: grey;"></i>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
+                                            Review added {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
-                                Review added {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
-                            </p>
                         </div>
-                    </div>
+                {% endif %}
+              {% endfor %}
+              {% for review in reviews %}
+                    {% if review.user.id != currentUser.id %}
+                        <div class="card m-2 mt-1 mb-3">
+                            <div class="card-body pb-2 pt-2">
+                                <small class="float-right pt-2">
+                                    {% if review.rating|floatformat:"0" == "0" %}
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                    {% if review.rating|floatformat:"0" == "1" %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                    {% if review.rating|floatformat:"0" == "2" %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                    {% if review.rating|floatformat:"0" == "3" %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                    {% if review.rating|floatformat:"0" == "4" %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    {% endif %}
+                                    {% if review.rating|floatformat:"0" == "5" %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    {% endif %}
+                                </small>
+                                <p class="text-nowrap mb-2">
+                                    User
+                                    {% if review.user.isVerified == 1 %}
+                                        <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
+                                    {% endif %}
+                                    <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
+                                </p>
+                                <div class="card p-2 pl-3 text-justify" id="reviewContent">
+                                    {{ review.text }}
+                                </div>
+                                <div class="row justify-content-between mb-0">
+                                    <div class="col-auto mt-1 ml-2 row text-nowrap">
+                                        <x style="cursor: default;">{{ review.positiveReactions }}</x>
+                                        <i class="fa fa-thumbs-up px-1 pt-1" id="negative_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="window.location='#';" style="color: grey; cursor: pointer;"></i>
+                                        <y style="cursor: default;">{{ review.negativeReactions }}</y>
+                                        <i class="fa fa-thumbs-down pl-1 pt-1" id="positive_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="window.location='#';" style="color: grey; cursor: pointer;"></i>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
+                                            Review added {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                  {% endif %}
               {% endfor %}
               <div class="card mx-2 mt-3 mb-0" style="border-width: 0px;">
                   <a href="/places/{{ place.id }}/reviews" style="width: max-content;">Show all reviews here</a>
@@ -256,11 +349,35 @@
     <script type="text/javascript" src="{% static 'js/reviews/index.js' %}"></script>
 
     <script>
+        $(document).ready(function(){
+            var user_id = document.getElementById('user_id').innerText;
+            var place_id = document.getElementById('page_id').value;
+            var isCurrent = false;
+            $.get( "/places/" + place_id + '/reviews/type/1', function ( data ) {
+                var reviews = JSON.parse(data);
+                reviews.forEach(review => {
+                    if (review.user.id == user_id)
+                    {
+                        isCurrent = true;
+                    }
+                })
+
+                if(isCurrent == true)
+                {
+                    document.getElementById('hideThis').hidden = true;
+                }
+            })
+        })
         $("#writeReview").on('show.bs.collapse', function(){
             document.getElementById('buttonCollapse').innerText = "Close your review";
           });
         $("#writeReview").on('hide.bs.collapse', function(){
             document.getElementById('buttonCollapse').innerText = "Write a review!";
           });
-</script>
+
+        function blueThis(id)
+        {
+            document.getElementById(id).classList.toggle("text-primary");
+        }
+    </script>
 {% endblock %}
