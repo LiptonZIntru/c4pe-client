@@ -56,7 +56,7 @@ def edit(request, id):
 
 
 # @require_http_methods('POST')
-'''
+
 def avatar(request):
     url = 'image.png'
     if request.method == 'GET':
@@ -74,7 +74,7 @@ def avatar(request):
     }
     print(data)
     response = requests.post('http://77.244.251.110/api/users/me/avatar', data=data, headers=headers)
-    return HttpResponse(response.status_code)'''
+    return HttpResponse(response.status_code)
 
 
 def login(request):

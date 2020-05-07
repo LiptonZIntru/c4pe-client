@@ -58,8 +58,8 @@
 
                                     <b id="{{ currentUser.id }}">{{ currentUser.username }}</b>
                                 </a>
-                                <b>
-                                    (<y id="loggingOut" onclick="logout();" onmouseover="Red(this.id)" onmouseout="unRed(this.id)" style="cursor: pointer; color: rgba(255,0,0,.75)">log out</y>)
+                                <b style="color: rgba(255,255,255,.5) !important;">
+                                    (<y id="loggingOut" onclick="logout();" onmouseover="Red(this.id)" onmouseout="unRed(this.id)" style="cursor: pointer; color: rgba(0,0,0,.75)">log out</y>)
                                 </b>
                             </z>
                         </li>
@@ -144,12 +144,12 @@
 
         function Red(id)
         {
-            document.getElementById(id).style.color = "rgba(255,0,0,.55)";
+            document.getElementById(id).style.color = "rgba(0,0,0,.55)";
         }
 
         function unRed(id)
         {
-            document.getElementById(id).style.color = "rgba(255,0,0,.75)";
+            document.getElementById(id).style.color = "rgba(0,0,0,.75)";
         }
       </script>
 
