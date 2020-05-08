@@ -3,56 +3,8 @@
 {% block css %}
     {% load static %}
     <style>
-        .collapsing {transition: none !important;}
-        @media only screen and (max-width: 991px)
-        {
-            #responsiveBreak{
-                display: none;
-            }
-            .mt-5{
-                margin-top: 0 !important;
-            }
-        }
-        @media only screen and (min-width: 768px)
-        {
-            #labelWrap{
-                display: none;
-            }
-            #searchField{
-                width: 690px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-        @media only screen and (min-width: 992px)
-        {
-            #line{
-                display: none;
-            }
-            #responsiveMarginLeft0 {
-                margin-left: -1rem !important;
-                margin-top: 2% !important;
-            }
-        }
-        @media only screen and (max-width: 1199px)
-        {
-            #searchCenterer{
-                display: none;
-            }
-        }
-
-        hr {
-            width: 100%;
-            color: #FFFF00;
-            height: 2px;
-            margin-top: 0px;
-        }
-        #line {
-            width: 90%;
-            height: 10px;
-            margin-left: 5%;
-        }
-
+        /* zakazuje animaci pri collapse efektech */
+        .collapsing { transition: none !important; }
     </style>
 {% endblock %}
 
@@ -61,254 +13,262 @@
 {% endblock %}
 
 {% block content %}
-      <div class="container my-3">                                                  <!-- dává prostor doleva a doprava, aby stránka měla okraje -->
-          <div class="m-auto p-0" style="width: 300px;">                                                                     <!-- záhlaví stránky - velké logo a název podniku -->
-            <a href="/" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-4 d-block unselectable" alt="PlacesToEat.svg" style="width: 300px;"></a> <!-- alternate src="PlacesToEatInvertedBorder.svg" -->
-          </div>
-          <h3 class="text-center text-nowrap unselectable pb-2" style="font-family: 'Corbel'; font-size: 5ex;"><i><b>What is your dream<b id="labelWrap"><br/></b> place?</b></i></h3>
-        <div class="row justify-content-between">
-            {% if currentUser.role == "Admin" %}
-                <div class="col-xl-2">
-                    <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="/places/create/" style="margin-top: 0.15rem !important;">
-                       Add a new place
-                   </a>
-                </div>
-            {% endif %}
-              {% if currentUser.role == "Admin" %}
-                <form class="col-xl-8">
-              {% else %}
-                  <form class="col-xl-12">
-              {% endif %}
-              <div class="input-group" id="searchField">
-                  <input type="text" class="form-control" placeholder="Your favorite place is here">
-                  <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                          <i class="fa fa-search"></i>
-                      </button>
-                  </div>
-              </div>
-          </form>
-              {% if currentUser.role == "Admin" %}
-                  <div class="col-xl-2" style="visibility: hidden;" id="searchCenterer">
-              {% else %}
-                  <div class="col-xl-2" id="searchCenterer" hidden>
-              {% endif %}
-               <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="#" style="margin-top: 0.15rem !important;">
-                   Add a new place
-               </a>
-          </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-lg-2 text-nowrap">
-                <button type="button" class="btn btn-secondary mr-2" href="#filters" aria-expanded="false" aria-controls="writeReview" data-toggle="collapse" id="filtersToggler">
-                    Show filters
-                </button>
-                <br id="responsiveBreak" hidden/>
-                <button type="button" class="btn collapse border-primary text-primary mt-5 unselectable" id="filters">
-                    Apply filters
-                </button>
+    <div class="container my-3">
+        <!-- LOGO -->
+            <div class="m-auto p-0" style="width: 300px;">
+                <a href="/" style="width: 300px;"><img src="{% static "img/PlacesToEat.svg" %}" class="mx-auto mb-4 d-block unselectable" alt="PlacesToEat.svg" style="width: 300px;"></a>
             </div>
-            <div class="col-lg-10 mt-2 collapse row" id="filters">
-                 <div class="col-lg-3 mb-2">
-                    <a data-toggle="collapse" data-target="#typesFilter" aria-expanded="false" aria-controls="typesFilter" class="unselectable text-nowrap">
-                        <i class="fas fa-caret-right" id="iconTypesFilter" style="cursor: pointer;"></i>
-                        <label class="font-weight-bold pl-1" for="placeTypeFilter" style="cursor: pointer;">Types of place:</label>
-                    </a>
-                     <div id="typesFilter" class="collapse">
-                         <div class="custom-control custom-control-inline custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" id="0.any" value="0.any" checked>
-                           <label class="custom-control-label" for="0.any">any</label>
-                         </div>
-                         <br/>
-                         {% for type in types %}
-                            <div class="custom-control custom-control-inline custom-checkbox">
-                              <input type="checkbox" class="custom-control-input" id="{{ type.id }}.{{ type.name }}" value="{{ type.id }}.{{ type.name }}">
-                              <label class="custom-control-label" for="{{ type.id }}.{{ type.name }}">{{ type.name }}</label>
-                            </div>
-                         {% endfor %}
-                     </div>
-                 </div>
-                 <div id="line"><hr /></div>
-                 <div class="col-lg-3 mb-2">
-                     <div class="custom-control custom-checkbox">
-                       <input type="checkbox" class="custom-control-input" value="testedFilter" id="testedFilter">
-                       <label class="custom-control-label" for="testedFilter">verified places only</label>
-                     </div>
-                     <div class="custom-control custom-checkbox pt-2">
-                       <input type="checkbox" class="custom-control-input" id="openedOnly" onclick="toggleHide();" value="openedOnly">
-                       <label class="custom-control-label" for="openedOnly">opened places only</label>
-                     </div>
-                     <div class="custom-control custom-checkbox pt-2">
-                       <input type="checkbox" class="custom-control-input" id="noDataIncluding" value="noDataIncluding" disabled>
-                       <label class="custom-control-label" for="noDataIncluding">"no data" including</label>
-                     </div>
-                 </div>
-                 <div id="line"><hr /></div>
-                 <div class="col-lg-3 mb-2">
-                     <label class="font-weight-bold text-nowrap unselectable" for="cityFilter">City:</label>
-                     <input type="text" class="form-control" id="cityFilter" placeholder="Enter your city"/>
-                     <label class="font-weight-bold text-nowrap unselectable pt-1" for="countryFilter">Country:</label>
-                     <input type="text" class="form-control" id="countryFilter" placeholder="Enter your country ('CZ', 'AT', ..)"/>
-                 </div>
-                 <div id="line"><hr /></div>
-                 <div class="col-lg-2">
-                     <label class="text-nowrap font-weight-bold unselectable">Rating:</label>
-                     <div class="row ml-3">
-                         <div class="row">
-                             <label class="pt-2 pr-2" for="ratingLowerRange">min:</label>
-                             <input class="form-control" id="ratingLowerRange" type="number" value="0" min="0" max="5" step="1" style="width: 3.5em;"/>
-                         </div>
-                         <div class="row ml-4" id="responsiveMarginLeft0">
-                             <label class="pt-2 pr-2" for="ratingUpperRange">max:</label>
-                             <input class="form-control" id="ratingUpperRange" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
-                         </div>
-                     </div>
-                 </div>
-            </div>
-        </div>
-        <div class="list-group mt-1">                                                    <!-- seznam podniků -->
-            {% for place in places %}
-                  <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start rounded mt-3 unselectable" style="border-top-width: thin">
-                     <div class="row">
-                        <div class="col-md-2">                         <!-- fotka restaurace -->
-                            <img src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" class="img-thumbnail img-responsive" alt="Place photo" style="width: 150px; vertical-align: center">
+
+        <!-- NADPIS -->
+            <h3 class="text-center text-nowrap unselectable pb-2" style="font-family: 'Corbel'; font-size: 5ex;">
+                <i><b>What is your dream<b class="d-md-none"><br/></b> place?</b></i>
+            </h3>
+
+        <!-- VYHLEDÁVACÍ POLE, PŘIDÁNÍ NOVÉHO MÍSTA -->
+            <div class="row justify-content-between">
+                {% if currentUser.role == "Admin" %}
+                        <div class="col-xl-2">
+                            <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="/places/create/" style="margin-top: 0.15rem !important;">
+                                Add a new place
+                            </a>
                         </div>
-                        <div class="col-md-10">
-                             <div class="d-flex w-100 pt-2">
-                                 <h3 class="mb-2" style="cursor: default">{{ place.name }}</h3>            <!-- název místa -->
-                             </div>
-                            <p class="mb-0 text-nowrap" style="cursor: default">                                            <!-- typ místa -->
-                                <b style="font-size: smaller">Type:</b> <x style="font-family: Consolas">{{ place.placeType.name }}</x>
-                            </p>
-                            <p class="mb-0 text-nowrap" style="cursor: default">                                            <!-- poloha místa -->
-                                <b style="font-size: smaller">Location:</b> <x style="font-family: Consolas">{{ place.city }}</x> • <x id="street">{{ place.street }}</x> <y style="font-size: smaller">({{ place.country }})</y>
-                            </p>
-                            <p class="mb-0 text-nowrap" style="cursor: default" >                                            <!-- status - je potřeba dořešit dynamické zobrazení -->
-                                {% if place.open.state == 1 %}
-                                    <!--
-                                    state 1: otevreno
-                                    state 2: bude se otevirat
-                                    state 3: bude se zavirat
-                                    state 4: zavreno
-                                    -->
-                                    <b style="font-size: smaller">State:</b> <x class="text-success text-bold" style="font-size: medium"><b>opened</b></x>
-                                {% elif place.open.state == 2 %}
-                                    <b style="font-size: smaller">State:</b> <x class="text-warning text-bold" style="font-size: medium"><b>opened until {{ place.open.time }}</b></x>
-                                {% elif place.open.state == 3 %}
-                                    <b style="font-size: smaller">State:</b> <x class="text-warning text-bold" style="font-size: medium"><b>opening at {{ place.open.time }}</b></x>
-                                {% elif place.open.state == 4 %}
-                                    <b style="font-size: smaller">State:</b> <x class="text-danger text-bold" style="font-size: medium"><b>closed</b></x>
-                                {% else %}
-                                    <b style="font-size: smaller">State:</b> <x class="text-bold" style="font-size: medium"><b>no data</b></x>
-                                {% endif %}
-                            </p>
+                        <form class="col-xl-8">
+                            <div class="input-group mx-md-auto" style="max-width: 690px;">
+                                <input type="text" class="form-control" placeholder="Your favorite place is here">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-xl-2 invisible d-none d-xl-block">
+                            <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="#" style="margin-top: 0.15rem !important;">
+                                Add a new place
+                            </a>
+                        </div>
+                {% else %}
+                        <form class="col-xl-12">
+                            <div class="input-group mx-md-auto" style="max-width: 690px;">
+                                <input type="text" class="form-control" placeholder="Your favorite place is here">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                {% endif %}
+            </div>
+
+        <div class="row mt-3">
+            <!-- TLAČÍTKA PRO KONTROLU NAD FILTRY -->
+                <div class="col-lg-2 text-nowrap">
+                    <button type="button" class="btn btn-secondary mr-2" data-target="#filters-Section" aria-expanded="false" aria-controls="filters-Section" data-toggle="collapse" id="filters-ShowHideButton">
+                        Show filters
+                    </button>
+                    <br class="d-none d-lg-inline" id="filters-ButtonSeparator"/>
+                    <button type="button" class="btn collapse border-primary text-primary mt-0 mt-lg-5 unselectable" id="filters-Section">
+                        Apply filters
+                    </button>
+                </div>
+
+            <!-- JEDNOTLIVÉ FILTRY -->
+                <div class="col-lg-10 mt-2 collapse row" id="filters-Section">
+
+                    <!-- placetypes -->
+                        <div class="col-lg-3 mb-2">
+                            <a data-toggle="collapse" data-target="#filters-placeTypes" aria-expanded="false" aria-controls="#filters-placeTypes" class="unselectable text-nowrap">
+                                <i class="fas fa-caret-right" id="filters-placeTypesArrow" style="cursor: pointer;"></i>
+                                <label class="font-weight-bold pl-1 pointer">Types of place:</label>
+                            </a>
+                            <div class="collapse" id="filters-placeTypes">
+                                <div class="custom-control custom-control-inline custom-checkbox">
+                                   <input type="checkbox" class="custom-control-input" id="0.any" value="0.any" checked>
+                                   <label class="custom-control-label" for="0.any">any</label>
+                                </div>
+                                <br/>
+                                {% for type in types %}
+                                   <div class="custom-control custom-control-inline custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input" id="{{ type.id }}.{{ type.name }}" value="{{ type.id }}.{{ type.name }}">
+                                       <label class="custom-control-label" for="{{ type.id }}.{{ type.name }}">{{ type.name }}</label>
+                                   </div>
+                                {% endfor %}
+                            </div>
                         </div>
 
-                         <a class="position-absolute" style="color: black; cursor: default; top: 10px; right: 14px;">                                       <!-- hodnocení -->
-                              <small class="float-right">
-                                  {% if place.rating|floatformat:"0" == "0" %}
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                  {% endif %}
-                                  {% if place.rating|floatformat:"0" == "1" %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                  {% endif %}
-                                  {% if place.rating|floatformat:"0" == "2" %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                  {% endif %}
-                                  {% if place.rating|floatformat:"0" == "3" %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                  {% endif %}
-                                  {% if place.rating|floatformat:"0" == "4" %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                  {% endif %}
-                                  {% if place.rating|floatformat:"0" == "5" %}
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                  {% endif %}
-                              </small>
-                              </br>
-                             <small class="mb-0 mt-0 float-right text-nowrap" id="{{ place.id }}_uLine">
-                                 <b>{{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
-                             </small>
-                         </a>
+                    <div class="d-lg-none w-100 mx-3" style="height: 6px;">
+                        <hr class="mt-0"/>
+                    </div>
+
+                    <!-- verified places / status otevření -->
+                        <div class="col-lg-3 mb-2">
+                            <div class="custom-control custom-checkbox">
+                               <input type="checkbox" class="custom-control-input" id="filters-Verified">
+                               <label class="custom-control-label" for="filters-Verified">verified places only</label>
+                            </div>
+                            <div class="custom-control custom-checkbox pt-2">
+                               <input type="checkbox" class="custom-control-input" id="filters-OpenedState" onclick="Disable('filters-OpenedStateNone');">
+                               <label class="custom-control-label" for="filters-OpenedState">opened places only</label>
+                            </div>
+                            <div class="custom-control custom-checkbox pt-2">
+                               <input type="checkbox" class="custom-control-input" id="filters-OpenedStateNone" disabled>
+                               <label class="custom-control-label" for="filters-OpenedStateNone">"no data" including</label>
+                            </div>
                         </div>
-                  </x>
-            {% endfor %}
+
+                    <div class="d-lg-none w-100 mx-3" style="height: 6px;">
+                        <hr class="mt-0"/>
+                    </div>
+
+                    <!-- lokace -->
+                        <div class="col-lg-3 mb-2">
+                            <label class="font-weight-bold text-nowrap unselectable" for="filters-City">City:</label>
+                            <input type="text" class="form-control" id="filters-City" placeholder="Enter your city"/>
+                            <label class="font-weight-bold text-nowrap unselectable pt-1" for="filters-Country">Country:</label>
+                            <input type="text" class="form-control" id="filters-Country" placeholder="Enter your country ('CZ', 'AT', ..)"/>
+                        </div>
+
+                    <div class="d-lg-none w-100 mx-3" style="height: 6px;">
+                        <hr class="mt-0"/>
+                    </div>
+
+                    <!-- rating -->
+                        <div class="col-lg-2">
+                            <label class="text-nowrap font-weight-bold unselectable">Rating:</label>
+                            <div class="row ml-3">
+                                <div class="row">
+                                    <label class="pt-2 pr-2" for="filters-LowerRating">min:</label>
+                                    <input class="form-control" id="filters-LowerRating" type="number" value="0" min="0" max="5" step="1" style="width: 3.5em;"/>
+                                </div>
+                                <div class="row ml-4 ml-lg-n3 mt-lg-1">
+                                    <label class="pt-2 pr-2" for="filters-HighRating">max:</label>
+                                    <input class="form-control" id="filters-HighRating" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
+                                </div>
+                            </div>
+                        </div>
+                </div>
         </div>
-        <ul class="pagination justify-content-center mt-3 mb-4">
-            {% if pages.previous %}
-                <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.1 }}">Previous</a></li><!-- pagination -->
-            {% endif %}
-            {% for i in pages.content %}
-                {% if i == pages.current %}
-                    <li class="page-item active"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
-                {% else %}
-                    <li class="page-item"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
+
+        <!-- SEZNAM PODNIKŮ -->
+            <div class="list-group mt-1">
+                {% for place in places %}
+                    <x onclick="location.href='{{ place.id }}'" class="list-group-item list-group-item-action flex-column align-items-start rounded mt-3 unselectable" style="border-top-width: thin">
+                        <div class="row">
+
+                            <!-- obrázek podniku -->
+                                <div class="col-md-2">
+                                    <img src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" class="img-thumbnail img-responsive" alt="Place photo" style="width: 150px;">
+                                </div>
+                            <!-- info o podniku -->
+                                <div class="col-md-10">
+
+                                    <!-- název -->
+                                        <div class="d-flex w-100 pt-2">
+                                            <h3 class="mb-2 defaultCursor">{{ place.name }}</h3>
+                                        </div>
+
+                                    <!-- typ -->
+                                        <p class="mb-0 text-nowrap defaultCursor">
+                                            <b style="font-size: smaller">Type:</b> <x style="font-family: Consolas">{{ place.placeType.name }}</x>
+                                        </p>
+
+                                    <!-- lokace -->
+                                        <p class="mb-0 text-nowrap defaultCursor">
+                                            <b style="font-size: smaller">Location:</b> <x style="font-family: Consolas">{{ place.city }}</x> • <x>{{ place.street }}</x> <y style="font-size: smaller">({{ place.country }})</y>
+                                        </p>
+
+                                    <!-- status otevření -->
+                                        <p class="mb-0 text-nowrap defaultCursor">
+                                                <!-- state 1: otevreno
+                                                     state 2: bude se otevirat
+                                                     state 3: bude se zavirat
+                                                     state 4: zavreno  -->
+                                            {% if place.open.state == 1 %}
+                                                <b style="font-size: smaller">State:</b> <x class="text-success text-bold" style="font-size: medium"><b>opened</b></x>
+                                            {% elif place.open.state == 2 %}
+                                                <b style="font-size: smaller">State:</b> <x class="text-warning text-bold" style="font-size: medium"><b>opened until {{ place.open.time }}</b></x>
+                                            {% elif place.open.state == 3 %}
+                                                <b style="font-size: smaller">State:</b> <x class="text-warning text-bold" style="font-size: medium"><b>opening at {{ place.open.time }}</b></x>
+                                            {% elif place.open.state == 4 %}
+                                                <b style="font-size: smaller">State:</b> <x class="text-danger text-bold" style="font-size: medium"><b>closed</b></x>
+                                            {% else %}
+                                                <b style="font-size: smaller">State:</b> <x class="text-bold" style="font-size: medium"><b>no data</b></x>
+                                            {% endif %}
+                                        </p>
+                                </div>
+
+                            <!-- rating podniku -->
+                                <a class="position-absolute defaultCursor text-dark" style="top: 10px; right: 14px;">
+                                    <small class="float-right">
+                                        {% if place.rating|floatformat:"0" == "0" %}
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        {% endif %}
+                                        {% if place.rating|floatformat:"0" == "1" %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        {% endif %}
+                                        {% if place.rating|floatformat:"0" == "2" %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        {% endif %}
+                                        {% if place.rating|floatformat:"0" == "3" %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        {% endif %}
+                                        {% if place.rating|floatformat:"0" == "4" %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        {% endif %}
+                                        {% if place.rating|floatformat:"0" == "5" %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        {% endif %}
+                                    </small>
+                                    </br>
+                                    <small class="mb-0 mt-0 float-right text-nowrap">
+                                        <b>{{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
+                                    </small>
+                                </a>
+                        </div>
+                    </x>
+                {% endfor %}
+            </div>
+
+        <!-- PAGINATION -->
+            <ul class="pagination justify-content-center mt-3 mb-4">
+                {% if pages.previous %}
+                    <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.1 }}">Previous</a></li>
                 {% endif %}
-            {% endfor %}
-            {% if pages.next %}
-                <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.2 }}">Next</a></li>
-            {% endif %}
-        </ul>
-      </div>
+                {% for i in pages.content %}
+                    {% if i == pages.current %}
+                        <li class="page-item active"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="/places/?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if pages.next %}
+                    <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.2 }}">Next</a></li>
+                {% endif %}
+            </ul>
+    </div>
 {% endblock %}
 
 {% block js %}
-<script>
-    $(document).ready( function(){
-        if(document.getElementById('openedOnly').checked) document.getElementById('noDataIncluding').disabled = false;
-    });
-
-    function toggleHide(){
-        if(document.getElementById('noDataIncluding').disabled) document.getElementById('noDataIncluding').disabled = false;
-        else
-        {
-            document.getElementById('noDataIncluding').disabled = true;
-            document.getElementById('noDataIncluding').checked = false;
-        }
-    }
-
-    $("#filters").on('shown.bs.collapse', function(){
-        document.getElementById('filtersToggler').innerText = "Hide filters";
-        document.getElementById('responsiveBreak').hidden = false;
-      });
-
-    $("#filters").on('hidden.bs.collapse', function(){
-        document.getElementById('filtersToggler').innerText = "Show filters";
-        document.getElementById('responsiveBreak').hidden = true;
-      });
-
-    $("#typesFilter").on('show.bs.collapse', function(){
-        document.getElementById('iconTypesFilter').classList.remove('fa-caret-right');
-        document.getElementById('iconTypesFilter').classList.add('fa-caret-up');
-      });
-
-    $("#typesFilter").on('hide.bs.collapse', function(){
-        document.getElementById('iconTypesFilter').classList.remove('fa-caret-up');
-        document.getElementById('iconTypesFilter').classList.add('fa-caret-right');
-      });
-</script>
+    <script rel="script" src="{% static 'js/places/index.js' %}"></script>
 {% endblock %}
