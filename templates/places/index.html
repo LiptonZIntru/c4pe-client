@@ -67,14 +67,14 @@
           </div>
           <h3 class="text-center text-nowrap unselectable pb-2" style="font-family: 'Corbel'; font-size: 5ex;"><i><b>What is your dream<b id="labelWrap"><br/></b> place?</b></i></h3>
         <div class="row justify-content-between">
-            {% if currentUser %}
+            {% if currentUser.role == "Admin" %}
                 <div class="col-xl-2">
                     <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="/places/create/" style="margin-top: 0.15rem !important;">
                        Add a new place
                    </a>
                 </div>
             {% endif %}
-              {% if places.id.owners.userID == currentUser.id %}
+              {% if currentUser.role == "Admin" %}
                 <form class="col-xl-8">
               {% else %}
                   <form class="col-xl-12">
@@ -88,7 +88,7 @@
                   </div>
               </div>
           </form>
-              {% if places.id.owners.userID == currentUser.id %}
+              {% if currentUser.role == "Admin" %}
                   <div class="col-xl-2" style="visibility: hidden;" id="searchCenterer">
               {% else %}
                   <div class="col-xl-2" id="searchCenterer" hidden>
