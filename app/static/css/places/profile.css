@@ -1,0 +1,16 @@
+/* RESPONZIVITA */
+
+    @media only screen and (max-width: 991px)
+    {
+        #review-Content {
+            font-size: smaller;
+        }
+    }
+
+    @media only screen and (max-width: 767px)
+    {
+        #placePhoto{
+            width:300px;
+            margin-bottom: 10px;
+        }
+    }

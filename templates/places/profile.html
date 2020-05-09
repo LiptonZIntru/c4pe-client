@@ -1,394 +1,360 @@
+<!-- !!! ZMENY PROVADET ZAROVEN I V REVIEWS/INDEX.HTML !!! -->
+
 {% extends 'layouts/layout.html' %}
 
 {% block css %}
     {% load static %}
-    <style>
-    @media only screen and (max-width: 991px)
-    {
-        #reviewContent {
-            font-size: smaller;
-        }
-    }
-    @media only screen and (min-width: 1200px)
-    {
-        #increaseBottomMargin{
-            margin-bottom: 1.5rem !important;
-        }
-    }
-
-    @media only screen and (max-width: 767px)
-    {
-        #maxWidthOnSmall{
-            width:300px;
-            margin-bottom: 10px;
-        }
-        #lowerTheFontSize{
-            padding-top: 0 !important;
-        }
-        #lowerThisItem{
-            padding-top: 1rem !important;
-        }
-        #increaseBottomPadding{
-            margin-bottom: 1.5rem !important;
-        }
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/places/profile.css' %}">
 {% endblock %}
 
 {% block title %}
-{{ place.name }}
+    {{ place.name }}
 {% endblock %}
 
 {% block content %}
-    <input id="page_id" value="{{ place.id }}" type="hidden">
-    <input id="user_id" value="{{ currentUser.id }}" hidden>
+    <!-- PROMĚNNÉ PRO JAVASCRIPT -->
+        <input id="page_id" value="{{ place.id }}" hidden>
+        <input id="user_id" value="{{ currentUser.id }}" hidden>
+
+
     <div class="container mt-3 mb-3">
         <div class="card">
-          <div class="card-body">
-              <div class="row">
-                  <div class="col-md-4">
-                      <img class="rounded img-fluid mx-auto d-block" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" style="width: available; vertical-align: center;" id="maxWidthOnSmall">
-                  </div>
-                  <div class="col-md-8" id="increaseHeightOnLarge">
-                    <div class="row ml-1">
-                      <h3 class="mr-2">
-                          {% if place.isVerified == 1 %}
-                              <i class="fas fa-check-circle" style="color:green" data-toggle="tooltip" data-placement="bottom" title="Verified place"></i>
-                              {% else %}
-                              <i class="fas fa-exclamation-circle" style="color:orange" data-toggle="tooltip" data-placement="bottom" title="Not verified place"></i>
-                          {% endif %}
-                          {{ place.name }}
-                      </h3>
-                    {% if place.owners.userID == currentUser.id %}
-                          <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1" href="/places/{{ place.id }}/edit/" style="margin-top: 0.15rem !important;">
-                              Edit
-                          </a>
-                    {% endif %}
-                    </div>
-                      <b style="font-size: smaller">Type: </b>
-                      {{ place.placeType.name }} (<a href="#" class="card-link" style="font-size: smaller">search others of the same type</a>)
-                      </br>
-                      <div class="mt-2">
-                          <b class="text-nowrap" style="font-size: smaller;">Opening times:</b>
-                          <div class="row">
-                              <small class="col-1 text-nowrap font-weight-bold" style="text-align: center;">
-                                  MO</br>TU</br>WE</br>TH</br>FR</br>SA</br>SU
-                              </small>
-                              <small class="col-8 text-nowrap">
-                              {% for i in '0123456'|make_list %}
-                                  <div id="time{{ i }}">
-                                      {% for time in place.openingTimes %}
-                                          {% if time.day == i|add:"0" %}
-                                              {{ time.open|slice:"0:5" }} - {{ time.close|slice:"0:5" }}
-                                          {% endif %}
-                                      {% endfor %}
-                                  </div>
-                              {% endfor %}
-                              </small>
-                          </div>
-                      </div>
-                  <div class="row">
-                      <div class="text-nowrap pt-2 col-8" id="increaseBottomMargin">
-                          <b style="font-size: smaller;">Location:</b>
-                          <div class="pl-2" style="font-size: small">
-                              {{ place.street }}
-                              <br> {{ place.city }} {{ place.zipCode }}
-                              <br> {{ place.country }}
-                          </div>
-                      </div>
+            <div class="card-body">
 
-                      {% if currentUser %}
-                          <div class="col-4 text-nowrap" id="hideThis">
-                            <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" id="buttonCollapse" style="bottom:10px; right: 10px;">
-                                Write a review!
-                            </button>
-                          </div>
-                      {% endif %}
+                <!-- BLOK - INFO O PODNIKU -->
+                    <div class="row">
 
-                </div>
-              </div>
-           </div>
+                        <!-- foto -->
+                            <div class="col-md-4">
+                                <img class="rounded img-fluid mx-auto d-block" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" style="width: available;" id="placePhoto">
+                            </div>
 
-            <hr style="margin-bottom: 0.75rem !important;"/>
-      <div class="card-body pt-0 row justify-content-between pb-0" id="increaseBottomPadding">                                       <!-- hodnocení -->
-          <div class="col-auto position-relative pt-2" style="left: -14px;" id="lowerTheFontSize">
-              <x style="font-size: 2em">Reviews:</x>
-          </div>
-          <div class="col-auto" id="lowerThisItem">
-              <small class="float-right position-relative text-nowrap" style="font-size: large; color: black; cursor: default; right: -14px;">
-                  {% if place.rating|floatformat:"0" == "0" %}
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                  {% endif %}
-                  {% if place.rating|floatformat:"0" == "1" %}
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                  {% endif %}
-                  {% if place.rating|floatformat:"0" == "2" %}
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                  {% endif %}
-                  {% if place.rating|floatformat:"0" == "3" %}
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                    <i class="fa fa-star-o"></i>
-                  {% endif %}
-                  {% if place.rating|floatformat:"0" == "4" %}
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-o"></i>
-                  {% endif %}
-                  {% if place.rating|floatformat:"0" == "5" %}
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                  {% endif %}
-              </small>
-              </br>
-              <small class="position-absolute text-nowrap pt-1" style="font-size: smaller; right: 0px">
-                  <b>Overall rating: {{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
-              </small>
-          </div>
-        </div>
-          <div class="card m-2 mt-1 mb-3 collapse border-primary" id="writeReview">
-                <div class="card-body pb-2 pt-2 form-group" style="font-size: 150%;">
-                    <small class="float-right pt-2">
-                        <label class="mr-1 font-weight-bold mb-0" for="rating" style="font-size: smaller">Your rating:</label>
-                        <input type="number" value="5" min="0" max="5" step="1" style="width: 50px;" hidden/>
-                        <div class="pt-0 mt-0 mb-2 " onclick="save();" style="cursor: default;">
-                            <i id="oneStar" class="fa fa-star" onmouseover="star(this);"></i>
-                            <i id="twoStar" class="fa fa-star-o" onmouseover="star(this);"></i>
-                            <i id="threeStar" class="fa fa-star-o" onmouseover="star(this);"></i>
-                            <i id="fourStar" class="fa fa-star-o" onmouseover="star(this);"></i>
-                            <i id="fiveStar" class="fa fa-star-o" onmouseover="star(this);"></i>
-                        </div>
-                    </small>
-                    <label for="newReview" style="font-size: smaller">Share your experience with other users:</label>
-                    <form method="post" action="/places/{{ place.id }}/reviews/create/">
-                        {% csrf_token %}
-                        <input id="rating" name="rating" type="hidden">
-                        <input type="hidden" name="user" value="2"><!--tohle pak smazat btw-->
-                        <input type="hidden" name="text" id="text">
-                        <textarea onchange="updateText();" class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReview" rows="3" style="min-height: 2.7em; max-height: 27em;"></textarea>
-                        <button type="submit" class="btn float-right mt-2 border-primary text-primary" data-toggle="collapse" data-target="#writeReview" aria-expanded="false" aria-controls="writeReview" onclick="document.getElementById('newReview').value = ''">Post review</button>
-                    </form>
-                </div>
-            </div>
-            <div id="card-content">
-            {% for review in reviews %}
-                    {% if review.user.id == currentUser.id %}
-                        <div class="card m-2 mt-1 mb-3">
-                            <div class="card-body pb-2 pt-2">
-                                <small class="float-right pt-2">
-                                    {% if review.rating|floatformat:"0" == "0" %}
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    {% endif %}
-                                    {% if review.rating|floatformat:"0" == "1" %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    {% endif %}
-                                    {% if review.rating|floatformat:"0" == "2" %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    {% endif %}
-                                    {% if review.rating|floatformat:"0" == "3" %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    {% endif %}
-                                    {% if review.rating|floatformat:"0" == "4" %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    {% endif %}
-                                    {% if review.rating|floatformat:"0" == "5" %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    {% endif %}
-                                </small>
-                                <div class="row">
-                                    <p class="text-nowrap mb-2 pt-1 mr-2">
-                                        User
-                                        {% if review.user.isVerified == 1 %}
-                                            <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
+                        <div class="col-md-8">
+
+                            <!-- název (edit button pro admina) -->
+                                <div class="row ml-1">
+                                    <h3 class="mr-2">
+                                        {% if place.isVerified == 1 %}
+                                            <i class="fas fa-check-circle" style="color:green" data-toggle="tooltip" data-placement="bottom" title="Verified place"></i>
+                                        {% else %}
+                                            <i class="fas fa-exclamation-circle" style="color:orange" data-toggle="tooltip" data-placement="bottom" title="Not verified place"></i>
                                         {% endif %}
-                                        <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
-                                    </p>
-                                    <a role="button" class="btn btn-outline-secondary py-1 px-2 mb-2" href="/places/{{ place.id }}/reviews/{{ review.id }}/edit/">
-                                        Edit
-                                    </a>
+                                        {{ place.name }}
+                                    </h3>
+                                    {% if currentUser and place.owners.userID == currentUser.id or currentUser.role == "Admin" %}
+                                        <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1" href="/places/{{ place.id }}/edit/" style="margin-top: 0.15rem !important;">
+                                            Edit
+                                        </a>
+                                    {% endif %}
                                 </div>
-                                <div class="card p-2 pl-3 text-justify" id="reviewContent">
-                                    {{ review.text }}
-                                </div>
-                                <div class="row justify-content-between mb-0">
-                                    <div class="col-auto mt-1 ml-2 row text-nowrap">
-                                        <x style="cursor: default;">{{ review.positiveReactions }}</x>
-                                        <i class="fa fa-thumbs-up px-1 pt-1" style="color: grey;"></i>
-                                        <y style="cursor: default;">{{ review.negativeReactions }}</y>
-                                        <i class="fa fa-thumbs-down pl-1 pt-1" style="color: grey;"></i>
+
+                            <!-- typ místa podniku -->
+                                <b style="font-size: smaller">Type: </b>
+                                {{ place.placeType.name }} (<a href="#" class="card-link" style="font-size: smaller">search others of the same type</a>)
+
+                            </br>
+
+                            <!-- otevírací doba -->
+                                <div class="mt-2">
+                                    <b class="text-nowrap" style="font-size: smaller;">Opening times:</b>
+                                    <div class="row">
+                                        <small class="col-1 text-nowrap font-weight-bold text-center">
+                                            MO</br>TU</br>WE</br>TH</br>FR</br>SA</br>SU
+                                        </small>
+                                        <small class="col-8 text-nowrap">
+                                            {% for i in '0123456'|make_list %}
+                                                <div id="time{{ i }}">
+                                                    {% for time in place.openingTimes %}
+                                                        {% if time.day == i|add:"0" %}
+                                                            {{ time.open|slice:"0:5" }} - {{ time.close|slice:"0:5" }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endfor %}
+                                        </small>
                                     </div>
-                                    <div class="col-auto">
-                                        <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
-                                            Review added {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
-                                        </p>
-                                    </div>
                                 </div>
+
+                            <div class="row">
+                                <!-- lokace -->
+                                    <div class="text-nowrap pt-2 col-8 mb-xl-4">
+                                        <b style="font-size: smaller;">Location:</b>
+                                        <div class="pl-2" style="font-size: small">
+                                            {{ place.street }}
+                                            <br> {{ place.city }} {{ place.zipCode }}
+                                            <br> {{ place.country }}
+                                        </div>
+                                    </div>
+
+                                <!-- tlačítko pro naspání recenze -->
+                                    {% if currentUser %}
+                                        <div class="col-4 text-nowrap" id="newReviewButton" hidden>
+                                            <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#newReviewForm" aria-expanded="false" aria-controls="newReviewForm" id="buttonCollapse" style="bottom:10px; right: 10px;">
+                                                Write a review!
+                                            </button>
+                                        </div>
+                                    {% endif %}
+
                             </div>
                         </div>
-                {% endif %}
-              {% endfor %}
-              {% for review in reviews %}
-                    {% if review.user.id != currentUser.id %}
-                        <div class="card m-2 mt-1 mb-3">
-                            <div class="card-body pb-2 pt-2">
-                                <small class="float-right pt-2">
-                                    {% if review.rating|floatformat:"0" == "0" %}
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    {% endif %}
-                                    {% if review.rating|floatformat:"0" == "1" %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    {% endif %}
-                                    {% if review.rating|floatformat:"0" == "2" %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    {% endif %}
-                                    {% if review.rating|floatformat:"0" == "3" %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    {% endif %}
-                                    {% if review.rating|floatformat:"0" == "4" %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    {% endif %}
-                                    {% if review.rating|floatformat:"0" == "5" %}
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    {% endif %}
-                                </small>
-                                <p class="text-nowrap mb-2">
-                                    User
-                                    {% if review.user.isVerified == 1 %}
-                                        <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
-                                    {% endif %}
-                                    <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
-                                </p>
-                                <div class="card p-2 pl-3 text-justify" id="reviewContent">
-                                    {{ review.text }}
-                                </div>
-                                <div class="row justify-content-between mb-0">
-                                    <div class="col-auto mt-1 ml-2 row text-nowrap">
-                                        <x style="cursor: default;">{{ review.positiveReactions }}</x>
-                                        <i class="fa fa-thumbs-up px-1 pt-1" id="negative_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="window.location='#';" style="color: grey; cursor: pointer;"></i>
-                                        <y style="cursor: default;">{{ review.negativeReactions }}</y>
-                                        <i class="fa fa-thumbs-down pl-1 pt-1" id="positive_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="window.location='#';" style="color: grey; cursor: pointer;"></i>
-                                    </div>
-                                    <div class="col-auto">
-                                        <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
-                                            Review added {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+
+                <hr style="margin-bottom: 0.75rem !important;"/>
+
+                <!-- HLAVIČKA RECENZÍ -->
+                    <div class="card-body py-0 row justify-content-between mb-4 mb-md-0">                                       <!-- hodnocení -->
+                        <div class="col-auto position-relative pt-2 pt-md-0" style="left: -14px;">
+                            <x style="font-size: 2em">Reviews:</x>
                         </div>
-                  {% endif %}
-              {% endfor %}
-              <div class="card mx-2 mt-3 mb-0" style="border-width: 0px;">
-                  <a href="/places/{{ place.id }}/reviews" style="width: max-content;">Show all reviews here</a>
-              </div>
+                        <div class="col-auto pt-3 pt-md-0">
+                            <small class="float-right position-relative text-nowrap text-dark defaultCursor" style="font-size: large; right: -14px;">
+                                {% if place.rating|floatformat:"0" == "0" %}
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                {% if place.rating|floatformat:"0" == "1" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                {% if place.rating|floatformat:"0" == "2" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                {% if place.rating|floatformat:"0" == "3" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                {% if place.rating|floatformat:"0" == "4" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                {% if place.rating|floatformat:"0" == "5" %}
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                {% endif %}
+                            </small>
+                            <br/>
+                            <small class="position-absolute text-nowrap pt-1" style="font-size: smaller; right: 0px">
+                                <b>Overall rating: {{ place.rating|floatformat:"1" }} / 5</b> ({{ place.reviewCount }} reviews)
+                            </small>
+                        </div>
+                    </div>
+
+                <!-- PŘIDÁNÍ RECENZE -->
+                    <div class="card m-2 mt-1 mb-3 collapse border-primary" id="newReviewForm">
+                        <div class="card-body pb-2 pt-2 form-group" style="font-size: 150%;">
+                            <small class="float-right pt-2">
+                                <label class="mr-1 font-weight-bold mb-0" for="rating" style="font-size: smaller">Your rating:</label>
+                                <input type="number" value="5" min="0" max="5" step="1" style="width: 50px;" hidden/>
+                                <div class="pt-0 mt-0 mb-2 defaultCursor" onclick="saveRating();">
+                                    <i id="oneStar" class="fa fa-star" onmouseover="colorStars(this);"></i>
+                                    <i id="twoStar" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
+                                    <i id="threeStar" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
+                                    <i id="fourStar" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
+                                    <i id="fiveStar" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
+                                </div>
+                            </small>
+                            <label for="newReviewTextArea" style="font-size: smaller">Share your experience with other users:</label>
+                            <form method="post" action="/places/{{ place.id }}/reviews/create/">
+                                {% csrf_token %}
+                                <input id="rating" name="rating" type="hidden">
+                                <input type="hidden" name="user" value="2"><!--tohle pak smazat btw-->
+                                <input type="hidden" name="text" id="newReviewText">
+                                <textarea onchange="updateText();" class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReviewTextArea" rows="3" style="min-height: 2.7em; max-height: 27em;"></textarea>
+                                <button type="submit" class="btn float-right mt-2 border-primary text-primary" data-toggle="collapse" data-target="#newReviewForm" aria-expanded="false" aria-controls="newReviewForm" onclick="document.getElementById('newReviewTextArea').value = ''">Post review</button>
+                            </form>
+                        </div>
+                    </div>
+
+                <!-- JEDNOTLIVÉ RECENZE UŽIVATELŮ -->
+                    <div id="userReviews">
+                        <!-- recenze přihlášeného uživatele -->
+                            {% for review in reviews %}
+                                {% if review.user.id == currentUser.id %}
+                                    <div class="card m-2 mt-1 mb-3">
+                                        <div class="card-body pb-2 pt-2">
+                                            <small class="float-right pt-2">
+                                                {% if review.rating|floatformat:"0" == "0" %}
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                                {% if review.rating|floatformat:"0" == "1" %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                                {% if review.rating|floatformat:"0" == "2" %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                                {% if review.rating|floatformat:"0" == "3" %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                                {% if review.rating|floatformat:"0" == "4" %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                                {% if review.rating|floatformat:"0" == "5" %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                {% endif %}
+                                            </small>
+                                            <div class="row">
+                                                <p class="text-nowrap mb-2 pt-1 mr-2">
+                                                    User
+                                                    {% if review.user.isVerified == 1 %}
+                                                        <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
+                                                    {% endif %}
+                                                    <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
+                                                </p>
+                                                <a role="button" class="btn btn-outline-secondary py-1 px-2 mb-2" href="/places/{{ place.id }}/reviews/{{ review.id }}/edit/">
+                                                    Edit
+                                                </a>
+                                            </div>
+                                            <div class="card p-2 pl-3 text-justify" id="review-Content">
+                                                {{ review.text }}
+                                            </div>
+                                            <div class="row justify-content-between mb-0">
+                                                <div class="col-auto mt-1 ml-2 row text-nowrap">
+                                                    <x class="defaultCursor">{{ review.positiveReactions }}</x>
+                                                    <i class="fa fa-thumbs-up px-1 pt-1 text-secondary"></i>
+                                                    <y class="defaultCursor">{{ review.negativeReactions }}</y>
+                                                    <i class="fa fa-thumbs-down pl-1 pt-1 text-secondary"></i>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
+                                                        Review added {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                        <!-- recenze ostatních uživatelů -->
+                            {% for review in reviews %}
+                                {% if review.user.id != currentUser.id %}
+                                    <div class="card m-2 mt-1 mb-3">
+                                        <div class="card-body pb-2 pt-2">
+                                            <small class="float-right pt-2">
+                                                {% if review.rating|floatformat:"0" == "0" %}
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                                {% if review.rating|floatformat:"0" == "1" %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                                {% if review.rating|floatformat:"0" == "2" %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                                {% if review.rating|floatformat:"0" == "3" %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                                {% if review.rating|floatformat:"0" == "4" %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                {% endif %}
+                                                {% if review.rating|floatformat:"0" == "5" %}
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                {% endif %}
+                                            </small>
+                                            <p class="text-nowrap mb-2">
+                                                User
+                                                {% if review.user.isVerified == 1 %}
+                                                    <i class="fas fa-check-circle" style="color:green; padding-top: 1.4%" data-toggle="tooltip" data-placement="bottom" title="User is verified"></i>
+                                                {% endif %}
+                                                <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
+                                            </p>
+                                            <div class="card p-2 pl-3 text-justify" id="review-Content">
+                                                {{ review.text }}
+                                            </div>
+                                            <div class="row justify-content-between mb-0">
+                                                <div class="col-auto mt-1 ml-2 row text-nowrap">
+                                                    <x class="defaultCursor">{{ review.positiveReactions }}</x>
+                                                    <i class="fa fa-thumbs-up px-1 pt-1 text-secondary pointer" id="negativeReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="likeReview({{ currentUser.id }}, {{ place.id }}, {{ review.id }});"></i>
+                                                    <y class="defaultCursor">{{ review.negativeReactions }}</y>
+                                                    <i class="fa fa-thumbs-down pl-1 pt-1 text-secondary pointer" id="positiveReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="dislikeReview({{ currentUser.id }}, {{ place.id }}, {{ review.id }});"></i>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
+                                                        Review added {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                        <!-- tlačítko pro zobrazení všech recenzí -->
+                            <div class="card mx-2 mt-3 mb-0" style="border-width: 0px;">
+                                <a href="/places/{{ place.id }}/reviews" style="width: max-content;">Show all reviews here</a>
+                            </div>
+                    </div>
             </div>
-          </div>
-        </div>
         </div>
     </div>
 {% endblock %}
 
 {% block js %}
     <script type="text/javascript" src="{% static 'js/places/profile.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/reviews/index.js' %}"></script>
-
-    <script>
-        $(document).ready(function(){
-            var user_id = document.getElementById('user_id').value;
-            var place_id = document.getElementById('page_id').value;
-            var isCurrent = false;
-            $.get( "/places/" + place_id + '/reviews/type/1', function ( data ) {
-                var reviews = JSON.parse(data);
-                reviews.forEach(review => {
-                    if (review.user.id == user_id)
-                    {
-                        isCurrent = true;
-                    }
-                })
-
-                if(isCurrent == true)
-                {
-                    document.getElementById('hideThis').hidden = true;
-                }
-            })
-        })
-        $("#writeReview").on('show.bs.collapse', function(){
-            document.getElementById('buttonCollapse').innerText = "Close your review";
-          });
-        $("#writeReview").on('hide.bs.collapse', function(){
-            document.getElementById('buttonCollapse').innerText = "Write a review!";
-          });
-
-        function blueThis(id)
-        {
-            document.getElementById(id).classList.toggle("text-primary");
-        }
-    </script>
 {% endblock %}
