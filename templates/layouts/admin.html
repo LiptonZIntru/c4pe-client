@@ -1,174 +1,153 @@
-<!-- !!! ZMENY PROVADET ZAROVEN I V LAYOUTS/LAYOUT.HTML !!! -->
+<!-- !!! ZMENY PROVADET ZAROVEN I V LAYOUTS/ADMIN.HTML !!! -->
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    {% load static %}
-    <!-- Dodrzet strukturu! -->
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/PlacesToEat.svg' %}" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
-      {% block css %}
-      {% endblock %}
-    <!-- END Dodrzet strukturu! -->
+        {% load static %}
 
-    <!-- Dodrzet strukturu! -->
-    <title>{% block title %} {% endblock %}</title>
-    <!-- END Dodrzet strukturu! -->
+        <!-- Dodrzet strukturu! -->
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/PlacesToEat.svg' %}" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{% static 'css/layout.css' %}">
 
-  </head>
-  <body ng-app="HomeLayout" onload="ActiveButton({{ currentUser.id }})">
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">                                          <!-- navbar -->
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">                                                                <!-- logo + project name -->
-                <img class="unselectable" src="{% static "img/PlacesToEatInverted.svg" %}" alt="PlacesToEatInverted.svg" width="40"> <!-- alternate src="PlacesToEat.svg" -->
-            </a>
-            <a class="navbar-brand" href="/">
-                <strong class="text-nowrap unselectable">Yummy Places</strong>
-            </a>
+        {% block css %}
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" id="datatoggler">    <!-- dropdown menu pro malé obrazovky -->
-            <span class="navbar-toggler-icon"></span>
-          </button>
+        {% endblock %}
+        <!-- END Dodrzet strukturu! -->
 
-          <div class="collapse navbar-collapse unselectable" id="collapsibleNavbar">
-            <ul class="navbar-nav" onmouseover="Grey('Browse')" onmouseout="UnGrey('Browse')">                    <!-- odkaz na list podniků -->
-              <li class="nav-item"><a class="nav-link" href="/places" id="Browse">Browse places</a></li>
-            </ul>
+        <!-- Dodrzet strukturu! -->
+        <title>{% block title %} {% endblock %}</title>
+        <!-- END Dodrzet strukturu! -->
+    </head>
 
-            <ul class="navbar-nav" onmouseover="Grey('admin')" onmouseout="UnGrey('admin')">                    <!-- odkaz na admin stránku -->
-              <li class="nav-item"><a class="nav-link" href="/admin" id="admin">Admin</a></li>
-            </ul>
+    <body data-ng-app="HomeLayout">
 
-            <ul class="navbar-nav ml-auto">
-                {% if currentUser %}                                <!-- pokud je user logged, dá mu to username a profilepic -->
-                    <div class="row">
-                        <li class="nav-item row pr-1 ml-3">
-                            <z class="nav-link">
-                                <a class="text-decoration-none" onmouseover="Grey('{{ currentUser.id }}')" onmouseout="UnGrey('{{ currentUser.id }}')" href="/users/{{ currentUser.id }}/" style="color: rgba(255,255,255,.5);">
-                                    <img class="rounded-circle" src="{% if currentUser.avatar != NULL and currentUser.avatar != "none" %}
-                                                                    {{ currentUser.avatar }}
-                                                              {% else %}
-                                                                    {% static '/img/AvatarPlaceholder.png' %}
-                                                              {% endif %}" height="40px" width="40px">
+        <!-- PROMĚNNÉ PRO JAVASCRIPT -->
+            <input id="userId" value="{{ currentUser.id }}" hidden>
 
-                                    <b id="{{ currentUser.id }}">{{ currentUser.username }}</b>
-                                </a>
-                                <b>
-                                    (<y id="loggingOut" onclick="logout();" onmouseover="Red(this.id)" onmouseout="unRed(this.id)" style="cursor: pointer; color: rgba(255,0,0,.75)">log out</y>)
-                                </b>
-                            </z>
-                        </li>
+        <!-- NAVBAR -->
+            <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+                <div class="container-fluid">
+
+                    <!-- logo + název projektu -->
+                        <a class="navbar-brand" href="/">
+                            <img class="unselectable" src="{% static "img/PlacesToEatInverted.svg" %}" alt="PlacesToEatInverted.svg" width="40">
+                        </a>
+                        <a class="navbar-brand" href="/">
+                            <strong class="text-nowrap unselectable">Yummy Places</strong>
+                        </a>
+
+                    <!-- dropdown tlačítko pro malé obrazovky -->
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" id="datatoggler">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                    <div class="collapse navbar-collapse unselectable" id="collapsibleNavbar">
+
+                        <!-- linky vlevo (podniky, admin pages) -->
+                            <ul class="navbar-nav" onmouseover="ColorLinkOnHover('places', 'white', 75);" onmouseout="ColorLinkOnHover('places', 'white', 5);">
+                                <li class="nav-item"><a class="nav-link" href="/places" id="placesLink">Browse places</a></li>
+                            </ul>
+                            {% if currentUser.role == "Admin" %}
+                                <ul class="navbar-nav" onmouseover="ColorLinkOnHover('admin', 'white', 75);" onmouseout="ColorLinkOnHover('admin', 'white', 5);">
+                                    <li class="nav-item"><a class="nav-link" href="/admin" id="adminLink">Admin</a></li>
+                                </ul>
+                            {% endif %}
+
+                        <ul class="navbar-nav ml-auto">
+
+                            <!-- uživatelský status vpravo -->
+                                {% if currentUser %}
+                                    <div class="row">
+                                        <li class="nav-item row pr-1 ml-3">
+                                            <z class="nav-link">
+
+                                                <!-- username a profilový obrázek -->
+                                                    <a class="text-decoration-none" id="users/{{ currentUser.id }}Link" onmouseover="ColorLinkOnHover('users/{{ currentUser.id }}', 'white', 75);" onmouseout="ColorLinkOnHover('users/{{ currentUser.id }}', 'white', 5);" href="/users/{{ currentUser.id }}/" style="color: rgba(255,255,255,.5);">
+                                                        {% if currentUser.avatar != NULL and currentUser.avatar != "none" %}
+                                                            <img class="rounded-circle" src="{{ currentUser.avatar }}" height="40px" width="40px">
+                                                        {% else %}
+                                                            <img class="rounded-circle" src="{% static '/img/AvatarPlaceholder.png' %}" height="40px" width="40px">
+                                                        {% endif %}
+                                                        <b>{{ currentUser.username }}</b>
+                                                    </a>
+
+                                                <!-- log out -->
+                                                    <b style="color: rgba(255,255,255,.5) !important;">
+                                                        (<y class="pointer" id="logoutLink" onclick="window.location = '/users/logout/'" onmouseover="ColorLinkOnHover('logout', 'black', 55);" onmouseout="ColorLinkOnHover('logout', 'black', 75);" style="color: rgba(0,0,0,.75)">log out</y>)
+                                                    </b>
+                                            </z>
+                                        </li>
+                                    </div>
+                                {% else %}
+
+                                    <!-- log in / register -->
+                                        <li class="nav-item text-nowrap row mx-0">
+                                            <a class="nav-link px-0" href="/users/login" onmouseover="ColorLinkOnHover('login', 'white', 75);" onmouseout="ColorLinkOnHover('login', 'white', 5);" id="loginLink">Log In</a>
+                                            <a class="nav-link px-1" style="color: rgba(255, 255, 255,.5) !important;">/</a>
+                                            <a class="nav-link px-0" href="/users/register" onmouseover="ColorLinkOnHover('register', 'white', 75);" onmouseout="ColorLinkOnHover('register', 'white', 5);" id="registerLink">Register</a>
+                                        </li>
+                                {% endif %}
+                        </ul>
                     </div>
-                {% else %}                                                                 <!-- pokud logged není, dá mu to Log In / Register -->
-                    <li class="nav-item text-nowrap row mx-0">
-                        <a class="nav-link px-0" href="/users/login" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" id="Log In">Log In</a>
-                        <a class="nav-link px-1">/</a>
-                        <a class="nav-link px-0" href="/users/register" onmouseover="Grey(this.id)" onmouseout="UnGrey(this.id)" id="Register">Register</a>
-                    </li>
-                {% endif %}
+                </div>
+            </nav>
 
-            </ul>
-          </div>
-        </div>
-      </nav>
-    <div class="container pb-3" style="margin-top:50px"></div>                      <!-- odsazení odvrchu, aby navbar neprekryval content -->
+        <!-- ODSAZENÍ CONTENTU ZVRCHU -->
+            <div class="container pb-3" style="margin-top:50px"></div>
 
-    <div id="messages" style="margin-top: 0.5rem !important;">
-        {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-{{ message.tags }} position-absolute" style="width: 98%;">
-                  {{ message }}
-              </div>
-            {% endfor %}
-         {% endif %}
-    </div>
-    <div class="row">
-        <div class="col-sm-3" style="display: inline-block">
-            <!--TVUJ NAVBAR-->
-            <h2>HERE COMES NAVBAR</h2> <br>
-             Lorem ipsum dolor sit amet, ut integer ut metus, nisl a, tellus elementum varius, pharetra pellentesque suspendisse sodales mauris fermentum metus. Neque sem suscipit sed, dui eleifend amet sit, vestibulum nec magna, felis consectetur nonummy ut labore, velit nec urna dui. Montes orci, pellentesque urna, tincidunt pellentesque ipsum sapien, ultrices sit sit, lacus accumsan vestibulum duis sapien sunt cupiditate. Mattis fusce adipiscing, et sed congue proin risus nec, orci mattis vestibulum, aenean turpis neque ultricies, posuere turpis pede ut. Fermentum praesent mauris amet amet. Quam eligendi facilisi erat risus fusce habitasse, elementum est et mauris repellat lacus, porttitor velit arcu lectus facilisi vivamus, erat cras eros leo eget suspendisse, rhoncus erat lobortis feugiat maecenas non vel.
+        <!-- MESSAGES -->
+            {% if messages %}
+                <div class="mt-2" id="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} position-absolute" style="width: 98%;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
-            Wisi faucibus ut rutrum sit sed scelerisque, eleifend enim, neque ipsum mi pellentesque dolor, pariatur suspendisse diam fusce sed, tempus vitae faucibus eleifend. Ipsum lobortis sociis, laoreet tortor, tellus libero ut sit suscipit integer. Nam sapien molestie sit tortor quis, sodales vitae, sollicitudin vel congue metus, nulla suscipit sed orci, adipisci diam donec libero. Mauris integer, mi semper et fusce quis taciti vehicula, ridiculus aptent itaque mi quam et, vivamus viverra diam eius quam, urna magna magna pede donec metus amet. Nulla elit maecenas, in volutpat metus amet. Amet ligula vivamus laborum etiam sit, dui penatibus a felis vitae, minima quam quis et, elit duis amet semper volutpat. Enim in felis, tellus facilisis venenatis sem ut quis, felis at dictum malesuada aliquam fringilla. Pulvinar erat amet mus, consectetuer egestas convallis pellentesque pede.
-        </div>
-        <div class="col-sm-9" style="display: inline-block">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </div>
+        <!-- ADMIN CONTROL PAGE -->
+            <div class="row">
 
-    <!-- Dodrzet strukturu! -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script>
-        function ActiveButton(userId)
-        {
-            document.getElementsByTagName("body")[0].style.height = "50px";
-            if (document.getElementsByTagName("title")[0].innerText.includes('Browse'))
-            {
-                document.getElementById('Browse').classList.add('active');
-            }
-            else if (document.getElementsByTagName("title")[0].innerText.includes('Your Profile'))
-            {
-                document.getElementById('Your Profile').classList.add('active');
-            }
-            else if (document.getElementsByTagName("title")[0].innerText.includes('Log In'))
-            {
-                document.getElementById('Log In').classList.add('active');
-            }
-            else if (document.getElementsByTagName("title")[0].innerText.includes('Register'))
-            {
-                document.getElementById('Register').classList.add('active');
-            }
-            else if (document.getElementsByTagName("title")[0].baseURI.endsWith('/users/' + userId + '/'))
-            {
-                document.getElementById(userId).style.color = "rgba(255,255,255,.9)";
-            }
-        }
+                <!-- admin navbar -->
+                    <div class="col-sm-3">
+                        <h2>HERE COMES NAVBAR</h2> <br>
+                        Lorem ipsum dolor sit amet, ut integer ut metus, nisl a, tellus elementum varius, pharetra pellentesque suspendisse sodales mauris fermentum metus. Neque sem suscipit sed, dui eleifend amet sit, vestibulum nec magna, felis consectetur nonummy ut labore, velit nec urna dui. Montes orci, pellentesque urna, tincidunt pellentesque ipsum sapien, ultrices sit sit, lacus accumsan vestibulum duis sapien sunt cupiditate. Mattis fusce adipiscing, et sed congue proin risus nec, orci mattis vestibulum, aenean turpis neque ultricies, posuere turpis pede ut. Fermentum praesent mauris amet amet. Quam eligendi facilisi erat risus fusce habitasse, elementum est et mauris repellat lacus, porttitor velit arcu lectus facilisi vivamus, erat cras eros leo eget suspendisse, rhoncus erat lobortis feugiat maecenas non vel.
 
-        function Grey(id)
-        {
-            if (!document.getElementsByTagName("title")[0].baseURI.includes('/' + id + '/'))
-            {
-                document.getElementById(id).style.color = "rgba(255,255,255,.75)";
-            }
-        }
+                        Wisi faucibus ut rutrum sit sed scelerisque, eleifend enim, neque ipsum mi pellentesque dolor, pariatur suspendisse diam fusce sed, tempus vitae faucibus eleifend. Ipsum lobortis sociis, laoreet tortor, tellus libero ut sit suscipit integer. Nam sapien molestie sit tortor quis, sodales vitae, sollicitudin vel congue metus, nulla suscipit sed orci, adipisci diam donec libero. Mauris integer, mi semper et fusce quis taciti vehicula, ridiculus aptent itaque mi quam et, vivamus viverra diam eius quam, urna magna magna pede donec metus amet. Nulla elit maecenas, in volutpat metus amet. Amet ligula vivamus laborum etiam sit, dui penatibus a felis vitae, minima quam quis et, elit duis amet semper volutpat. Enim in felis, tellus facilisis venenatis sem ut quis, felis at dictum malesuada aliquam fringilla. Pulvinar erat amet mus, consectetuer egestas convallis pellentesque pede.
+                    </div>
 
-        function UnGrey(id)
-        {
-            if(!document.getElementsByTagName("title")[0].baseURI.includes('/' + id + '/'))
-            {
-                document.getElementById(id).style.color = "rgba(255,255,255,.5)";
-            }
-        }
+                <!-- admin pages content -->
+                <div class="col-sm-9">
+                    {% block content %}
 
-        function logout()
-        {
-            window.location = "/users/logout";
-        }
+                    {% endblock %}
+                </div>
+            </div>
 
-        function Red(id)
-        {
-            document.getElementById(id).style.color = "rgba(255,0,0,.55)";
-        }
 
-        function unRed(id)
-        {
-            document.getElementById(id).style.color = "rgba(255,0,0,.75)";
-        }
-      </script>
 
-    {% block js %}
-    {% endblock %}
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <!-- END Dodrzet strukturu! -->
-  </body>
+
+        <!-- Dodrzet strukturu! -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script rel="script" type="text/javascript" src="{% static '/js/layouts/layout.js' %}"></script>
+        <script rel="script" type="text/javascript" src="{% static '/js/layouts/admin.js' %}"></script>
+
+        {% block js %}
+
+        {% endblock %}
+
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- END Dodrzet strukturu! -->
+    </body>
 </html>
