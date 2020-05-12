@@ -14,7 +14,7 @@ var rating = 0;
         }
     });
 
-/* ZOBRAZÍ/SCHOVÁ "NEW REVIEW" BUTTON, POKUD UŽIVATEL NENÍ OPRÁVNĚNÝ */
+/* ZOBRAZÍ "NEW REVIEW" BUTTON, POKUD UŽIVATEL JE OPRÁVNĚNÝ */
     $(document).ready(function(){
         var user_id = document.getElementById('user_id').value;
         var place_id = document.getElementById('page_id').value;

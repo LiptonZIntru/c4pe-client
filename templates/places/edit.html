@@ -3,6 +3,7 @@
 <body class="px-3 pt-3" style="background-color: #FFFFFF">
     <div class="mx-auto vertically-center wrapper pt-3 pb-3 px-4" id="myDiv" style="width: 360px; background-color: #007dff; border: 1px solid #007dff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
         <form method="post">
+            {% csrf_token %}
             <div class="form-group mt-4">
                 <label class="places font-weight-bold" style="color: #FFFFFF" for="pname">Name:</label>
                 <input name="placename" class="form-control" type="text" id="pname" placeholder="Name of place" value="{{ place.name }}">
