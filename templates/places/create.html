@@ -6,7 +6,7 @@
             {% csrf_token %}
             <div class="form-group mt-4">
                 <label class="places font-weight-bold" style="color: #FFFFFF" for="pname">Name:</label>
-                <input name="placename" class="form-control" type="text" id="pname" placeholder="Name of place" required>
+                <input name="name" class="form-control" type="text" id="pname" placeholder="Name of place" required>
             </div>
             <div class="form-group mt-4">
                 <label class="font-weight-bold" style="color: #FFFFFF" for="pstreet">Street:</label>
@@ -18,14 +18,14 @@
             </div>
             <div class="form-group mt-4">
                 <label class="font-weight-bold" style="color: #FFFFFF" for="pzipcode">Zip code:</label>
-                <input name="zipcode" class="form-control" type="text" id="pzipcode" placeholder="Which zip code" required>
+                <input name="zipCode" class="form-control" type="text" id="pzipcode" placeholder="Which zip code" required>
             </div>
             <div class="form-group mt-4">
                 <label class="font-weight-bold" style="color: #FFFFFF" for="pcountry">Country:</label>
                 <input name="country" class="form-control" type="text" id="pcountry" placeholder="Which country" required>
             </div>
             <div>
-                <label class="font-weight-bold" style="color: #FFFFFF" for="type">Type of palce:</label>
+                <label class="font-weight-bold" style="color: #FFFFFF" for="type">Type of place:</label>
                 <select name="type" class="form-control" id="type">
                     {% for type in types %}
                         <option value="{{ type.id }}">{{ type.name }}</option>

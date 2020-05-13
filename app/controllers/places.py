@@ -85,13 +85,12 @@ def index(request):
 
     if last == 1:
         pages['content'] = [1, ]
-        del (pages['next'])
+        if pages.get('next'):
+            del (pages['next'])
     elif last == 2:
         pages['content'] = [1, 2]
-        del (pages['next'])
     elif last == 3:
         pages['content'] = [1, 2, 3]
-        del (pages['next'])
     #  pagination
 
     return render(request, 'places/index.html',
@@ -184,11 +183,7 @@ def edit(request, id):
             print(response.status_code)
             types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
             messages.error(request, 'Unknown error. Please try again')
-            return render(request, 'places/edit.html',
-                          {
-                              'types': types,
-                              'currentUser': get_user(request)  # TODO: form validation error
-                          })
+            return redirect('place edit')
 
 
 def get_json_reviews(request, id, type):

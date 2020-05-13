@@ -26,7 +26,7 @@
 
         <!-- VYHLEDÁVACÍ POLE, PŘIDÁNÍ NOVÉHO MÍSTA -->
             <div class="row justify-content-between">
-                {% if currentUser.role == "Admin" %}
+                {% if currentUser %}
                         <div class="col-xl-2">
                             <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="/places/create/" style="margin-top: 0.15rem !important;">
                                 Add a new place
@@ -253,7 +253,7 @@
         <!-- PAGINATION -->
             <ul class="pagination justify-content-center mt-3 mb-4">
                 {% if pages.previous %}
-                    <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.1 }}">Previous</a></li>
+                    <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.0 }}">Previous</a></li>
                 {% endif %}
                 {% for i in pages.content %}
                     {% if i == pages.current %}
@@ -263,7 +263,7 @@
                     {% endif %}
                 {% endfor %}
                 {% if pages.next %}
-                    <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.2 }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.1 }}">Next</a></li>
                 {% endif %}
             </ul>
     </div>
