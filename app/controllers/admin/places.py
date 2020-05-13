@@ -26,7 +26,7 @@ def create(request):
     return
 
 
-def edit(requet, id):
+def edit(request, id):
     # TODO: edit existing place
     return
 
