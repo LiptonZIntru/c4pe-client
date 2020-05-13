@@ -118,8 +118,9 @@ def register(request):
             'firstName': request.POST.get('firstName'),
             'lastName': request.POST.get('lastName'),
             'description': request.POST.get('description'),
-            'street': request.POST.get('street'),
-            'city': request.POST.get('city'),
+            "street": request.POST.get('street'),
+            "city": request.POST.get('city'),
+            "zipCode": request.POST.get('zipCode'),
             'country': request.POST.get('country')
         }
         headers = {

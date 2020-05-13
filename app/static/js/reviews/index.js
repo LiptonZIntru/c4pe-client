@@ -53,7 +53,7 @@
                     '<a href="/users/' + review.user.id + '" class="text-dark"><b>' + review.user.username + '</b></a>' +
                     ' says:' +
                     '</p>' +
-                    '<div class="card p-2 pl-3 text-justify" id="review-Content">' +
+                    '<div class="card p-2 pl-3 text-justify text-md-smaller">' +
                     review.text +
                     '</div>' +
                     '<div class="row justify-content-between mb-0">' +

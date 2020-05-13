@@ -1,8 +1,8 @@
 /* RESPONZIVITA */
     @media only screen and (max-width: 767px)
     {
-        #placePhoto{
-            width:300px;
+        #userPhoto{
+            width:250px;
             margin-bottom: 10px;
         }
     }

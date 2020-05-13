@@ -75,7 +75,6 @@ var rating = 0;
 /* PSANÍ RECENZE */
     function updateText() {
         document.getElementById('newReviewText').value = document.getElementById('newReviewTextArea').value;
-
     }
 
 /* COLLAPSING */
