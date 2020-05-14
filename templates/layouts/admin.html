@@ -103,10 +103,16 @@
 
         <!-- MESSAGES -->
             {% if messages %}
-                <div class="position-absolute mt-3" style="width: 98% !important; margin-left: 1% !important; z-index: 1000;" id="messages">
+                <!--             KVULI TOMUHLE TO DELA BORDEL NA /places kdyz se vykreluje message               -->
+                <div class="position-absolute mt-3" style="width: 90% !important; margin-left: 5% !important; z-index: 1000;" id="messages">
+                <!--<div style="width: 90% !important; margin-left: 1% !important; z-index: 1000;" id="messages">-->
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }}" role="alert">
                             {{ message }}
+
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                     {% endfor %}
                 </div>
