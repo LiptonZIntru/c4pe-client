@@ -41,10 +41,18 @@
                                         {% endif %}
                                         {{ place.name }}
                                     </h3>
-                                    {% if currentUser and place.owners.userID == currentUser.id or currentUser.role == "Admin" %}
+                                    {% if currentUser.role == "Admin" %}
                                         <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1" href="/places/{{ place.id }}/edit/" style="margin-top: 0.15rem !important;">
                                             Edit
                                         </a>
+                                    {% elif currentUser %}
+                                        {% for owner in place.owners %}
+                                            {% if owner.userID  == currentUser.id %}
+                                                <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1" href="/places/{{ place.id }}/edit/" style="margin-top: 0.15rem !important;">
+                                                    Edit
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
                                     {% endif %}
                                 </div>
 
