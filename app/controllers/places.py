@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .auth import get_user, authorized
 from django.contrib import messages
+from django.views.decorators.http import require_http_methods
 import requests
 import json
 from datetime import datetime
@@ -182,6 +183,27 @@ def edit(request, id):
         else:
             messages.error(request, 'Unknown error. Please try again')
             return redirect('place edit')
+
+
+@require_http_methods(["POST"])
+def create_review(request, id):
+    if request.method == 'POST':
+        data = {
+            'rating': int(request.POST.get('rating')),
+            'text': str(request.POST.get('text'))
+        }
+        headers = {
+            'content-type': 'application/json',
+            'Authorization': 'Bearer ' + request.COOKIES['token']
+        }
+        response = requests.post('http://77.244.251.110/api/places/' + id + '/Reviews', data=json.dumps(data),
+                                 headers=headers)
+        if response.status_code == 201:
+            messages.success(request, 'Review added')
+            return redirect('place profile', id=id)
+        else:
+            messages.error(request, "You have already reviewed this place")
+            return redirect('reviews', id=id)
 
 
 def get_json_reviews(request, id, type):

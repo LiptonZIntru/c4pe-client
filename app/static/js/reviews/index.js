@@ -60,14 +60,12 @@
                     '<div class="row justify-content-between mb-0">' +
                     '<div class="col-auto mt-1 ml-2 row text-nowrap">' +
                     '<x class="defaultCursor">' +
-                    //review.positiveReactions +
-                    "0" +
+                    review.positiveReactions +
                     '</x>' +
                     '<i class="fa fa-thumbs-up px-1 pt-1 text-secondary pointer" id="negativeReaction_' + review.id +
                     '" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="likeReview(' + user_id + ', ' + place_id + ', ' + review.id + ');"></i>' +
                     '<y class="defaultCursor">' +
-                    //review.negativeReactions +
-                    "0" +
+                    review.negativeReactions +
                     '</y>' +
                     '<i class="fa fa-thumbs-down pl-1 pt-1 text-secondary pointer" id="positiveReaction_' + review.id +
                     '" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="dislikeReview(' + user_id + ', ' + place_id + ', ' + review.id + ');"></i>' +

@@ -54,7 +54,7 @@ def create(request, id):
             return redirect('reviews', id=id)
         else:
             messages.error(request, "You have already reviewed this place")
-            return redirect('reviews', id=id)  # TODO: form validation error
+            return redirect('reviews', id=id)
 
 
 def edit(request, place_id, id):

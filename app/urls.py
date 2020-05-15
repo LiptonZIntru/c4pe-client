@@ -39,6 +39,7 @@ urlpatterns = [
     path('places/create/', places.create, name='place create '),
     path('places/<id>/', places.profile, name='place profile'),
     path('places/<id>/edit/', places.edit, name='place edit'),
+    path('places/<id>/createreview/', places.create_review, name='places create review'),
 
 
     path('places/<id>/reviews/', reviews.index, name='reviews'),

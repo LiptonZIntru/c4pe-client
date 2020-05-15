@@ -182,7 +182,7 @@
                                     </div>
                                 </small>
                                 <label for="newReviewTextArea" style="font-size: smaller">Share your experience with other users:</label>
-                                <form method="post" action="/places/{{ place.id }}/reviews/create/">
+                                <form method="post" action="/places/{{ place.id }}/createreview/">
                                     {% csrf_token %}
                                     <input id="rating" name="rating" type="hidden" value="1">
                                     <input type="hidden" name="user" value="2"><!--tohle pak smazat btw-->
