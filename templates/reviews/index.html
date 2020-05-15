@@ -185,7 +185,6 @@
                             <div class="card-body pb-2 pt-2 form-group" style="font-size: 150%;">
                                 <small class="float-right pt-2">
                                     <label class="mr-1 font-weight-bold mb-0" for="rating" style="font-size: smaller">Your rating:</label>
-                                    <input type="number" value="5" min="0" max="5" step="1" style="width: 50px;" hidden/>
                                     <div class="pt-0 mt-0 mb-2 defaultCursor" onclick="saveRating();">
                                         <i id="oneStar" class="fa fa-star" onmouseover="colorStars(this);"></i>
                                         <i id="twoStar" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
@@ -197,7 +196,7 @@
                                 <label for="newReviewTextArea" style="font-size: smaller">Share your experience with other users:</label>
                                 <form method="post" action="/places/{{ place.id }}/reviews/create/">
                                     {% csrf_token %}
-                                    <input id="rating" name="rating" type="hidden">
+                                    <input id="rating" name="rating" type="hidden" value="1">
                                     <input type="hidden" name="user" value="2"><!--tohle pak smazat btw-->
                                     <input type="hidden" name="text" id="newReviewText">
                                     <textarea onchange="updateText();" class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReviewTextArea" rows="3" style="min-height: 2.7em; max-height: 27em;"></textarea>

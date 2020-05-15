@@ -2,18 +2,6 @@ var stars = ['oneStar', 'twoStar', 'threeStar', 'fourStar', 'fiveStar'];
 var freezed = false;
 var rating = 0;
 
-/* ZOBRAZÍ "NO DATA" OTEVÍRACÍ DOBU PRO NEDOSTUPNÉ ČASY */
-    $(function () {
-        for(var i = 0; i < 7; i++)
-        {
-            var e = document.getElementById('time' + i);
-            if(!e.innerHTML.includes('-'))
-            {
-                e.innerHTML = 'no data';
-            }
-        }
-    });
-
 /* ZOBRAZÍ "NEW REVIEW" BUTTON, POKUD UŽIVATEL JE OPRÁVNĚNÝ */
     $(document).ready(function(){
         var user_id = document.getElementById('user_id').value;
