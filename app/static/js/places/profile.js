@@ -82,8 +82,16 @@ var rating = 0;
 
 /* LIKE/DISLIKE RECENZE */
     function likeReview(userID, placeID, reviewID) {
-
+        /*
+        * if review has like
+        *
+        */
+        $.post('/places/' + placeID + '/reviews/' + reviewID + '/like', function (data) {
+            // success = review liked
+        })
     }
     function dislikeReview(userID, placeID, reviewID) {
-
+        $.post('/places/' + placeID + '/reviews/' + reviewID + '/dislike', function (data) {
+            // success = review disliked
+        })
     }

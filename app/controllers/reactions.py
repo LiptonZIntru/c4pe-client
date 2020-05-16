@@ -8,10 +8,30 @@ import json
 from datetime import datetime
 
 
-def create(request):
+@require_http_methods(['POST'])
+def create(request, place_id, review_id):
+    headers = {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    data = {
+        "isHelpful": True
+    }
+    response = requests.post('http://77.244.251.110/api/places/' + place_id + '/reviews/' + review_id + '/reaction',
+                  data=data, headers=headers)
+    if response.status_code == 200:
+        return "true"
+    return HttpResponse(status=400)
 
-    return "true"
 
-
-def delete(request):
-    return "true"
+@require_http_methods(['POST'])
+def delete(request, place_id, review_id):
+    headers = {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    response = requests.delete('http://77.244.251.110/api/places/' + place_id + '/reviews/' + review_id + '/reaction',
+                               headers=headers)
+    if response.status_code == 200:
+        return "true"
+    return HttpResponse(status=400)
