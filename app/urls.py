@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path ,include
-from .controllers import home, places, reviews, users, placetypes, openingtimes, reactions
+from .controllers import home, places, reviews, users, placetypes, openingtimes, reactions, owners
 
 urlpatterns = [
     path('admin/', include('app.controllers.admin.urls')),
@@ -48,6 +48,9 @@ urlpatterns = [
     path('places/<place_id>/reviews/<id>/edit/', reviews.edit, name='reviews edit'),
     path('places/<place_id>/reviews/<review_id>/like', reactions.create, name='reaction create'),
     path('places/<place_id>/reviews/<review_id>/dislike', reactions.delete, name='reaction delete'),
+
+
+    path('places/<place_id>/owners', owners.index, name='owners'),
 
 
     # get positive/negative/all reviews in json

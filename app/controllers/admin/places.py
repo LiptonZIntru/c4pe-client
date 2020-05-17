@@ -71,7 +71,6 @@ def delete(request, place_id):
 
 
 def edit(request, place_id):
-    # TODO: edit existing place
     if request.method == 'GET':
         types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
         place = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id).text)
