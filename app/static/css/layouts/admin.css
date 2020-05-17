@@ -1,0 +1,14 @@
+/* Stylovanání admin navbar itemů */
+    .adminNavItem {
+        width: inherit !important;
+        border: 0px;
+        border-radius: 0px;
+    }
+
+/* přidání oddělovací čáry v mezi NavBaren a contentem na malé obrazovce */
+    @media only screen and (max-width: 768px)
+    {
+        .border-b-md {
+            border-bottom: thin solid #cccccc;
+        }
+    }

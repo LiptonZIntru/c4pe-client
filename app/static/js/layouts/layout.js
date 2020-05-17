@@ -4,7 +4,11 @@
         {
             var userId = document.getElementById('userId').value;
             document.getElementsByTagName("body")[0].style.height = "50px";
-            if (document.baseURI.includes('/places/'))
+            if (document.baseURI.includes('/admin/'))
+            {
+                document.getElementById('adminLink').classList.add('active');
+            }
+            else if (document.baseURI.includes('/places'))
             {
                 document.getElementById('placesLink').classList.add('active');
             }
@@ -19,10 +23,6 @@
             else if (document.baseURI.includes('/users/' + userId + '/'))
             {
                 document.getElementById('users/' + userId + 'Link').style.color = "rgba(255,255,255,.9)";
-            }
-            else if (document.baseURI.includes('/admin'))
-            {
-                document.getElementById('adminLink').classList.add('active');
             }
         });
 
