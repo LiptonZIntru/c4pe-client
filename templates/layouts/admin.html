@@ -13,7 +13,8 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+        <link rel="stylesheet" href="{% static 'css/layouts/layout.css' %}">
+        <link rel="stylesheet" href="{% static 'css/layouts/admin.css' %}">
 
         {% block css %}
 
@@ -119,22 +120,40 @@
             {% endif %}
 
         <!-- ADMIN CONTROL PAGE -->
-            <div class="row">
+            <div class="row m-0">
 
                 <!-- admin navbar -->
-                    <div class="col-sm-3">
-                        <h2>HERE COMES NAVBAR</h2> <br>
-                        Lorem ipsum dolor sit amet, ut integer ut metus, nisl a, tellus elementum varius, pharetra pellentesque suspendisse sodales mauris fermentum metus. Neque sem suscipit sed, dui eleifend amet sit, vestibulum nec magna, felis consectetur nonummy ut labore, velit nec urna dui. Montes orci, pellentesque urna, tincidunt pellentesque ipsum sapien, ultrices sit sit, lacus accumsan vestibulum duis sapien sunt cupiditate. Mattis fusce adipiscing, et sed congue proin risus nec, orci mattis vestibulum, aenean turpis neque ultricies, posuere turpis pede ut. Fermentum praesent mauris amet amet. Quam eligendi facilisi erat risus fusce habitasse, elementum est et mauris repellat lacus, porttitor velit arcu lectus facilisi vivamus, erat cras eros leo eget suspendisse, rhoncus erat lobortis feugiat maecenas non vel.
+                    <div class="col-md-3 pb-2 pt-0 pl-0 border-b-md">
 
-                        Wisi faucibus ut rutrum sit sed scelerisque, eleifend enim, neque ipsum mi pellentesque dolor, pariatur suspendisse diam fusce sed, tempus vitae faucibus eleifend. Ipsum lobortis sociis, laoreet tortor, tellus libero ut sit suscipit integer. Nam sapien molestie sit tortor quis, sodales vitae, sollicitudin vel congue metus, nulla suscipit sed orci, adipisci diam donec libero. Mauris integer, mi semper et fusce quis taciti vehicula, ridiculus aptent itaque mi quam et, vivamus viverra diam eius quam, urna magna magna pede donec metus amet. Nulla elit maecenas, in volutpat metus amet. Amet ligula vivamus laborum etiam sit, dui penatibus a felis vitae, minima quam quis et, elit duis amet semper volutpat. Enim in felis, tellus facilisis venenatis sem ut quis, felis at dictum malesuada aliquam fringilla. Pulvinar erat amet mus, consectetuer egestas convallis pellentesque pede.
+                        <a role="button" class="btn btn-outline-secondary text-left adminNavItem" style="font-size: larger;" href="/admin/" id="adminPagesLink">
+                            Admin pages
+                        </a>
+
+                        <div class="pl-3" style="width: inherit !important;">
+                            <a role="button" class="btn btn-outline-primary text-left adminNavItem" href="/admin/users/" id="adminUsersLink">
+                                Users
+                            </a>
+
+                            <br/>
+
+                            <a role="button" class="btn btn-outline-primary text-left adminNavItem" href="/admin/places/" id="adminPlacesLink">
+                                Places
+                            </a>
+
+                            <br/>
+
+                            <a role="button" class="btn btn-outline-primary text-left adminNavItem" href="/admin/placetypes/" id="adminPlaceTypesLink">
+                                Place types
+                            </a>
+                        </div>
                     </div>
 
                 <!-- admin pages content -->
-                <div class="col-sm-9">
-                    {% block content %}
+                    <div class="col-md-9 pt-2 pt-md-0">
+                        {% block content %}
 
-                    {% endblock %}
-                </div>
+                        {% endblock %}
+                    </div>
             </div>
 
 

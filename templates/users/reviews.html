@@ -144,6 +144,15 @@
                                 <form method="post" action="/users/{{ user.id }}/edit">
                                     {% csrf_token %}
 
+                                    <!-- photo upload -->
+                                        <div class="input-group mb-4">
+                                            <label class="mr-2 pt-2" for="photo">Change profile picture:</label>
+                                            <div class="form-control custom-file mr-2" id="photo" style="max-width: 300px; text-align: left !important; border: 0px;">
+                                                <input type="file" class="custom-file-input" id="photoUpload">
+                                                <label class="custom-file-label" for="photoUpload" style="border-radius: 4px;">Choose file</label>
+                                            </div>
+                                        </div>
+
                                     <!-- Jméno, příjmení -->
                                         <div class="form-inline row">
                                             <div class="form-group mb-2 col-lg-6">
@@ -159,7 +168,7 @@
                                     <hr class="mb-4"/>
 
                                     <!-- Country -->
-                                        <div class="form-inline row mb-2">
+                                        <div class="form-inline row mb-4">
                                             <div class="form-group mb-2 col-lg-6">
                                                 <label for="country" class="mr-2">Country: </label>
                                                 <input type="text" class="form-control" id="country" value="{{ user.country }}" placeholder="Enter your country">
