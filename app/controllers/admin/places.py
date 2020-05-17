@@ -10,7 +10,12 @@ from app.controllers.auth import get_user, authorized, is_admin
 def index(request):
     if is_admin(request):
         size = "999999999"
-        places = json.loads(requests.get('http://77.244.251.110/api/places?PageSize=' + size).text)
+        headers = {
+            'content-type': 'application/json',
+            'Authorization': 'Bearer ' + request.COOKIES['token']
+        }
+        places = json.loads(requests.get('http://77.244.251.110/api/places?PageSize=' + size + '&OrderBy=id',
+                                         headers=headers).text)
         return render(request, 'admin/places/index.html',
                       {
                           'places': places,
@@ -24,6 +29,19 @@ def index(request):
 def create(request):
     # TODO: create new place
     return
+
+
+def delete(request, place_id):
+    headers = {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    response =requests.delete('http://77.244.251.110/api/places/' + place_id, headers=headers)
+    if response.status_code == 200:
+        messages.success(request, 'Place deleted')
+    else:
+        messages.success(request, 'Unknown error. Please try again')
+    return redirect('admin places')
 
 
 def edit(request, id):

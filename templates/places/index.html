@@ -251,7 +251,7 @@
         <!-- PAGINATION -->
             <ul class="pagination justify-content-center mt-3 mb-4">
                 {% if pages.previous %}
-                    <li class="page-item "><a class="page-link" href="/places/?page={{ pages.content.0 }}">Previous</a></li>
+                    <li class="page-item "><a class="page-link" href="/places/?page={{ pages.previous }}">Previous</a></li>
                 {% endif %}
                 {% for i in pages.content %}
                     {% if i == pages.current %}
@@ -261,7 +261,7 @@
                     {% endif %}
                 {% endfor %}
                 {% if pages.next %}
-                    <li class="page-item"><a class="page-link" href="/places/?page={{ pages.content.1 }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="/places/?page={{ pages.next }}">Next</a></li>
                 {% endif %}
             </ul>
     </div>
