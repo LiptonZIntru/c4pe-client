@@ -50,7 +50,7 @@ urlpatterns = [
     path('places/<place_id>/reviews/<review_id>/dislike', reactions.delete, name='reaction delete'),
 
 
-    path('places/<place_id>/owners', owners.index, name='owners'),
+    path('places/<place_id>/owners/', owners.index, name='owners'),
 
 
     # get positive/negative/all reviews in json
