@@ -5,5 +5,26 @@
 {% endblock %}
 
 {% block content %}
-    places
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for place in places %}
+           <tr>
+              <th scope="row">{{ place.id }}</th>
+              <td>{{ place.name }}</td>
+              <td><a class="btn btn-danger" href="/admin/places/{{ place.id }}/delete">Delete</a></td>
+            </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}
+
+{% block js %}
+    <!-- https://stackoverflow.com/questions/17147821/how-to-make-a-whole-row-in-a-table-clickable-as-a-link -->
 {% endblock %}

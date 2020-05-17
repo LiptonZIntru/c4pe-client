@@ -18,7 +18,7 @@ from django.urls import path ,include
 from .controllers import home, places, reviews, users, placetypes, openingtimes, reactions
 
 urlpatterns = [
-    path('admin/', include('app.adminurls')),
+    path('admin/', include('app.controllers.admin.urls')),
 
     path('example/', home.example),
     path('urls/', home.urls),

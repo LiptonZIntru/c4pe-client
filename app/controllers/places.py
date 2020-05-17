@@ -75,14 +75,14 @@ def index(request):
     #  pagination
     if current == 1:
         pages['content'] = [1, 2, 3]
-        pages['next'] = True
+        pages['next'] = 2
     elif current == last:
         pages['content'] = [last - 2, last - 1, last]
-        pages['previous'] = True
+        pages['previous'] = last - 1
     else:
         pages['content'] = [current - 1, current, current + 1]
-        pages['next'] = True
-        pages['previous'] = True
+        pages['next'] = current + 1
+        pages['previous'] = current - 1
 
     if last == 1:
         pages['content'] = [1, ]
