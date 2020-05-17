@@ -1,108 +1,81 @@
 {% extends 'layouts/layout.html' %}
 
-{% block title %}
-Register
-{% endblock %}
-
 {% block css %}
     {% load static %}
-    <style>
-        @media only screen and (min-width: 768px)
-        {
-            #loggingIn{
-                visibility: hidden;
-            }
-        }
-        @media only screen and (max-height: 1080px)
-        {
-            #myDiv{
-                margin-left: auto;
-                margin-right: auto;
-                margin-bottom: 1rem !important;
-                margin-top: 0;
-            }
-        }
-        @media only screen and (min-height: 1081px){
-            .vertically-center{
-                margin: 0%;
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                -ms-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
-            }
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/users/register.css' %}"
+{% endblock %}
+
+{% block title %}
+    Register
 {% endblock %}
 
 {% block content %}
-<body class="bg-primary">
-    <div class="vertically-center wrapper pt-3 pb-3 px-4" id="myDiv" style="width: 360px; background-color: #fff; border: 1px solid #fff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
-        <form id="register" method="post">
-            {% csrf_token %}
-            <div class="form-group mt-3">
-               <label class="text-primary font-weight-bold" for="uname">Username:</label>
-                <input name="username" class="form-control" type="text" id="uname" placeholder="Your username" required>
-            </div>
-            <div class="form-group">
-                <label class="text-primary font-weight-bold" for="pwd">Password:</label>
-                <input id="password" name="password" class="form-control" type="password" id="pwd" placeholder="Your password" required>
-            </div>
-            <div class="form-group">
-                <label class="text-primary font-weight-bold" for="pwdCheck">Confirm password:</label>
-                <input id="confirmation" name="confirmation" class="form-control" type="password" id="pwdCheck" placeholder="Password again" required>
-            </div>
-            <div class="text-center">
-                <label class="text-primary font-weight-bold p-0 mx-auto mt-2" style="font-size: larger">Not required</label>
-            </div>
-            <div class="form-group">
-                <label class="text-primary font-weight-bold" for="fname">First name:</label>
-                <input name="firstName" class="form-control" id="fname" type="text" placeholder="Your first name">
-            </div>
-            <div class="form-group">
-                <label class="text-primary font-weight-bold" for="lname">Last name:</label>
-                <input name="lastName" class="form-control" id="lname" type="text" placeholder="Your last name">
-            </div>
-            <div class="form-group">
-                <label class="text-primary font-weight-bold" for="country">Country:</label>
-                <input name="country" class="form-control" id="country" type="text" placeholder="Your country ('CZ' / 'AT')">
-            </div>
-            <div class="form-group">
-                <label class="text-primary font-weight-bold" for="description">Description:</label>
-                <textarea name="description" class="form-control" id="description" placeholder="Your description" style="min-height: 2.35rem; max-height: 11.75rem;"></textarea>
-            </div>
-            <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px" type="submit">Register</button>
-            <div class="position-relative pr-1" id="loggingIn" style="font-size: 15px; text-align: right; margin-top: 0.75rem !important;">
-                <a class="text-primary text-decoration-none font-weight-bold my-0 py-0" href="/users/login">
-                    Click Here for Log In
-                </a>
-            </div>
-        </form>
-    </div>
-</body>
+    <body class="bg-primary">
+        <div class="vertically-center wrapper py-3 px-4 customBorder" id="myDiv" style="width: 360px;">
+            <form id="register" method="post">
+                {% csrf_token %}
+
+                <!-- Username -->
+                    <div class="form-group mt-3">
+                        <label class="text-primary font-weight-bold" for="uname">Username:</label>
+                        <input name="username" class="form-control" type="text" id="uname" placeholder="Your username" required>
+                    </div>
+
+                <!-- Password -->
+                    <div class="form-group">
+                        <label class="text-primary font-weight-bold" for="pwd">Password:</label>
+                        <input id="password" name="password" class="form-control" type="password" id="pwd" placeholder="Your password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-primary font-weight-bold" for="pwdCheck">Confirm password:</label>
+                        <input id="confirmation" name="confirmation" class="form-control" type="password" id="pwdCheck" placeholder="Password again" required>
+                    </div>
+
+                <!-- NOT REQUIRED INFO -->
+                    <div class="text-center">
+                        <label class="text-primary font-weight-bold p-0 mx-auto mt-2" style="font-size: larger">Not required</label>
+                    </div>
+
+                    <!-- Křestní jméno -->
+                        <div class="form-group">
+                            <label class="text-primary font-weight-bold" for="fname">First name:</label>
+                            <input name="firstName" class="form-control" id="fname" type="text" placeholder="Your first name">
+                        </div>
+
+                    <!-- příjmení -->
+                        <div class="form-group">
+                            <label class="text-primary font-weight-bold" for="lname">Last name:</label>
+                            <input name="lastName" class="form-control" id="lname" type="text" placeholder="Your last name">
+                        </div>
+
+                    <!-- země -->
+                        <div class="form-group">
+                            <label class="text-primary font-weight-bold" for="country">Country:</label>
+                            <input name="country" class="form-control" id="country" type="text" placeholder="Your country ('CZ' / 'AT')">
+                        </div>
+
+                    <!-- bio -->
+                        <div class="form-group">
+                            <label class="text-primary font-weight-bold" for="description">Description:</label>
+                            <textarea name="description" class="form-control" id="description" placeholder="Your description" style="min-height: 2.35rem; max-height: 11.75rem;"></textarea>
+                        </div>
+
+                <!-- submit button -->
+                    <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px" type="submit">
+                        Register
+                    </button>
+
+                <!-- Log In Button -->
+                    <div class="position-relative pr-1" id="loggingIn" style="font-size: 15px; text-align: right; margin-top: 0.75rem !important;">
+                        <a class="text-primary text-decoration-none font-weight-bold my-0 py-0" href="/users/login">
+                            Click Here for Log In
+                        </a>
+                    </div>
+            </form>
+        </div>
+    </body>
 {% endblock %}
 
 {% block js %}
-<script>
-    $(function()                                                                                                                        //nothing but decimal numbers
-      {
-        $('.integerInput').on('input', function()
-        {
-          this.value = this.value
-          .replace(/[^\d]/g, '');
-        });
-      });
-    $('#register').submit(function (e) {
-        if($('#password').val() != $('#confirmation').val())
-        {
-            e.preventDefault(); // TODO: raise password doesn't match error
-            alert("Passwords doesn't match");
-        }
-        if($('#password').val().length < 8)
-        {
-            e.preventDefault();
-            alert("Password must contain 8 or more characters");
-        }
-    })
-</script>
+    <script type="text/javascript" src="{% static '/js/users/register.js' %}"></script>
 {% endblock %}

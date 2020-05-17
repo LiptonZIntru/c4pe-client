@@ -1,0 +1,30 @@
+/* RESPONZIVITA */
+
+    /* držení celého register formu veprostřed */
+        @media only screen and (max-height: 1080px)
+        {
+            #myDiv{
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 1rem !important;
+                margin-top: 0;
+            }
+        }
+        @media only screen and (min-height: 1081px){
+            .vertically-center{
+                margin: 0%;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+        }
+
+    /* zobrazení / schování linku na prihlaseni */
+        @media only screen and (min-width: 768px)
+        {
+            #loggingIn{
+                visibility: hidden;
+            }
+        }
