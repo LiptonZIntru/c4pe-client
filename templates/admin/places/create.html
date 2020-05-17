@@ -1,0 +1,20 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+    Create place
+{% endblock %}
+
+{% block content %}
+    <h2>Create place</h2>
+    <form>
+        {% csrf_token %}
+    </form>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

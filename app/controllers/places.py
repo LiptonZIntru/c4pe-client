@@ -144,13 +144,8 @@ def create(request):
             messages.success(request, 'Place created')
             return redirect('places')
         else:
-            types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
             messages.error(request, 'Unknown error. Please try again')
-            return render(request, 'places/create.html',
-                      {
-                          'types': types,
-                          'currentUser': get_user(request)  # TODO: form validation error
-                      })
+            return redirect('place create')
 
 
 def edit(request, id):

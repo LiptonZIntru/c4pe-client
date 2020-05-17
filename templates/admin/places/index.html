@@ -4,7 +4,12 @@
     Admin pages | Places
 {% endblock %}
 
+{% block css %}
+    {% load static %}
+{% endblock %}
+
 {% block content %}
+    <a class="btn btn-success" href="/admin/places/create">Create new place</a><br>
     <table class="table">
       <thead class="thead-dark">
         <tr>
@@ -15,16 +20,16 @@
       </thead>
       <tbody>
       {% for place in places %}
-           <tr>
+           <tr class="edit" id="{{ place.id }}">
               <th scope="row">{{ place.id }}</th>
               <td>{{ place.name }}</td>
-              <td><a class="btn btn-danger" href="/admin/places/{{ place.id }}/delete">Delete</a></td>
-            </tr>
+              <td><a class="btn btn-danger delete">Delete</a></td>
+           </tr>
       {% endfor %}
       </tbody>
     </table>
 {% endblock %}
 
 {% block js %}
-    <!-- https://stackoverflow.com/questions/17147821/how-to-make-a-whole-row-in-a-table-clickable-as-a-link -->
+    <script src="{% static 'js/admin/places/index.js' %}"></script>
 {% endblock %}
