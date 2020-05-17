@@ -27,8 +27,33 @@ def index(request):
 
 
 def create(request):
-    # TODO: create new place
-    return
+    if request.method == 'GET':
+        types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+        return render(request, 'admin/places/create.html',
+                      {
+                          'types': types,
+                          'currentUser': get_user(request),
+                      })
+    elif request.method == 'POST':
+        headers = {
+            'content-type': 'application/json',
+            'Authorization': 'Bearer ' + request.COOKIES['token']
+        }
+        data = {
+            "street": request.POST.get("street"),
+            "city": request.POST.get("city"),
+            "zipCode": request.POST.get("zipCode"),  # TODO: not required
+            "country": request.POST.get("country"),
+            "name": request.POST.get("name"),
+            "placeTypeID": int(request.POST.get("type"))
+        }
+        response = requests.post('http://77.244.251.110/api/places', data=json.dumps(data), headers=headers)
+        if response.status_code == 201:
+            messages.success(request, 'Place created')
+            return redirect('admin places')
+        else:
+            messages.error(request, 'Unknown error. Please try again')
+            return redirect('admin places create')
 
 
 def delete(request, place_id):
@@ -37,16 +62,45 @@ def delete(request, place_id):
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
     response =requests.delete('http://77.244.251.110/api/places/' + place_id, headers=headers)
-    if response.status_code == 200:
+    print(response.status_code)
+    if response.status_code == 204:
         messages.success(request, 'Place deleted')
     else:
-        messages.success(request, 'Unknown error. Please try again')
+        messages.error(request, 'Unknown error. Please try again')
     return redirect('admin places')
 
 
-def edit(request, id):
+def edit(request, place_id):
     # TODO: edit existing place
-    return
+    if request.method == 'GET':
+        types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+        place = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id).text)
+        return render(request, 'admin/places/edit.html',
+                      {
+                          'types': types,
+                          'place': place,
+                          'currentUser': get_user(request)
+                      })
+    elif request.method == 'POST':
+        headers = {
+            'content-type': 'application/json',
+            'Authorization': 'Bearer ' + request.COOKIES['token']
+        }
+        data = {
+            "street": request.POST.get("street"),
+            "city": request.POST.get("city"),
+            "zipCode": request.POST.get("zipCode"),
+            "country": request.POST.get("country"),
+            "name": request.POST.get("name"),
+            "placeTypeID": int(request.POST.get("type"))
+        }
+        response = requests.put('http://77.244.251.110/api/places/' + place_id, data=json.dumps(data), headers=headers)
+        if response.status_code == 204:
+            messages.success(request, 'Place updated')
+            return redirect('admin places')
+        else:
+            messages.error(request, 'Unknown error. Please try again')
+            return redirect('admin place edit')
 
 
 def delete_avatar(request, id):

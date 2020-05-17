@@ -1,0 +1,20 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+    {{ place.name }}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ place.name }}</h2>
+    <form>
+        {% csrf_token %}
+    </form>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
