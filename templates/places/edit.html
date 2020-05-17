@@ -44,7 +44,20 @@
                     {% endfor %}
                 </select>
             </div>
-            <div style="padding-bottom: 10px; padding-top: 30px">
+            <div class="row mt-3">
+                <div class="col-lg-6 pl-3 pr-lg-2 pr-3">
+                    <a role="button" class="btn btn-sm btn-block btn-primary font-weight-bold text-nowrap" href="/places/{{ place.id }}/openingtimes/edit/" style="border-radius: 10px; background-color: #fff; color: #007dff">
+                        Edit opening times
+                    </a>
+                </div>
+                <div class="col-lg-6 pr-3 pl-lg-2 pl-3 mt-2 mt-lg-0">
+                    <a role="button" class="btn btn-sm btn-block btn-primary font-weight-bold" href="owners" style="border-radius: 10px; background-color: #fff; color: #007dff">
+                        Edit owners list
+                    </a>
+                </div>
+            </div>
+
+            <div class="mb-2 mt-3">
                 <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px; background-color: #fff; color: #007dff" type="submit">Save changes</button>
             </div>
         </form>
