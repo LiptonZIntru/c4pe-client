@@ -24,15 +24,19 @@
                 <i><b>What is your dream<b class="d-md-none"><br/></b> place?</b></i>
             </h3>
 
-        <!-- VYHLEDÁVACÍ POLE, PŘIDÁNÍ NOVÉHO MÍSTA -->
+        <!-- VYHLEDÁVACÍ POLE -->
             <div class="row justify-content-between">
                 {% if currentUser %}
-                        <div class="col-xl-2">
+
+                    <!-- tlačítko pro přidání nového místo -->
+                        <div class="col-lg-2">
                             <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="/places/create/" style="margin-top: 0.15rem !important;">
                                 Add a new place
                             </a>
                         </div>
-                        <form class="col-xl-8">
+
+                    <!-- vyhledávací pole -->
+                        <form class="col-lg-8">
                             <div class="input-group mx-md-auto" style="max-width: 690px;">
                                 <input type="text" class="form-control" placeholder="Your favorite place is here">
                                 <div class="input-group-append">
@@ -40,13 +44,31 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="col-xl-2 invisible d-none d-xl-block">
-                            <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="#" style="margin-top: 0.15rem !important;">
-                                Add a new place
-                            </a>
+
+                    <!-- třídění, seřazení výstupu pro uživatele -->
+                        <div class="col-lg-2 d-block w-100">
+                            <div class="btn-group my-1 float-right">
+                                <button id="sortingButton" type="button" class="btn btn-outline-secondary py-1 px-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Sort by
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <button class="dropdown-item" id="sortingAz" type="button" onclick="sortAz();">A - Z</button>
+                                    <button class="dropdown-item" id="sortingZa" type="button" onclick="sortZa();">Z - A</button>
+                                    <button class="dropdown-item" id="sortingTop" type="button" onclick="sortTopReviewed();">Top rated</button>
+                                    <button class="dropdown-item" id="sortingWorst" type="button" onclick="sortWorstReviewed();">Worst rated</button>
+                                    <button class="dropdown-item" id="sortingMost" type="button" onclick="sortMostReviewed();">Most rated</button>
+                                    <button class="dropdown-item" id="sortingLeast" type="button" onclick="sortLeastReviewed();">Least rated</button>
+                                </div>
+                            </div>
                         </div>
                 {% else %}
-                        <form class="col-xl-12">
+
+                    <!-- placeholder na správné odsazení řádku -->
+                        <div class="col-lg-2">
+                        </div>
+
+                    <!-- vyhledávací pole -->
+                        <form class="col-lg-8">
                             <div class="input-group mx-md-auto" style="max-width: 690px;">
                                 <input type="text" class="form-control" placeholder="Your favorite place is here">
                                 <div class="input-group-append">
@@ -54,6 +76,24 @@
                                 </div>
                             </div>
                         </form>
+
+                    <!-- třídění, seřazení výstupu pro uživatele -->
+                        <div class="col-lg-2 d-block w-100">
+                            <div class="btn-group my-1 float-right">
+                                <button id="sortingButton" type="button" class="btn btn-outline-secondary py-1 px-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Sort by
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <button class="dropdown-item" id="sortingAz" type="button" onclick="sortAz();">A - Z</button>
+                                    <button class="dropdown-item" id="sortingZa" type="button" onclick="sortZa();">Z - A</button>
+                                    <button class="dropdown-item" id="sortingTop" type="button" onclick="sortTopReviewed();">Top rated</button>
+                                    <button class="dropdown-item" id="sortingWorst" type="button" onclick="sortWorstReviewed();">Worst rated</button>
+                                    <button class="dropdown-item" id="sortingMost" type="button" onclick="sortMostReviewed();">Most rated</button>
+                                    <button class="dropdown-item" id="sortingLeast" type="button" onclick="sortLeastReviewed();">Least rated</button>
+                                </div>
+                            </div>
+                        </div>
+
                 {% endif %}
             </div>
 
@@ -268,5 +308,6 @@
 {% endblock %}
 
 {% block js %}
-    <script rel="script" src="{% static 'js/places/index.js' %}"></script>
+    <script rel="script" type="text/javascript" src="{% static 'js/places/index.js' %}"></script>
+    <script rel="script" type="text/javascript" src="{% static 'js/places/sorting.js' %}"></script>
 {% endblock %}
