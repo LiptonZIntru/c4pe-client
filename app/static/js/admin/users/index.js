@@ -1,4 +1,5 @@
 var delete_click = false;
+var edit_click = false;
 $(function () {
     $('.delete').click(function () {
         delete_click = true;
@@ -10,14 +11,12 @@ $(function () {
         }
     });
     $('.edit').click(function () {
-        if(!delete_click)
-        {
-            var id = $(this).attr('id');
-            window.location = '/admin/users/' + id + '/edit/';
-        }
+        edit_click = true;
+        var id = $(this).parent().parent().attr('id');
+        window.location = '/admin/users/' + id + '/edit/';
     });
     $('.profile').click(function () {
-        if(!delete_click)
+        if(!delete_click && !edit_click)
         {
             var id = $(this).attr('id');
             window.location = '/admin/users/' + id + '/';
