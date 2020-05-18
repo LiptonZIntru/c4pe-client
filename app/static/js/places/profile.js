@@ -98,12 +98,16 @@ var rating = 0;
         * if review has like
         *
         */
-        $.post('/places/' + placeID + '/reviews/' + reviewID + '/like', function (data) {
+        $.get('/places/' + placeID + '/reviews/' + reviewID + '/like/', function (data) {
             // success = review liked
-        })
+            // vybarvit/odbarvit like tlacitko
+            alert(data);
+        });
     }
     function dislikeReview(userID, placeID, reviewID) {
-        $.post('/places/' + placeID + '/reviews/' + reviewID + '/dislike', function (data) {
+        $.get('/places/' + placeID + '/reviews/' + reviewID + '/dislike/', function (data) {
             // success = review disliked
-        })
+            // vybarvit/odbarvit dislike tlacitko
+            alert(data);
+        });
     }

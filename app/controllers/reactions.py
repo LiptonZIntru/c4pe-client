@@ -8,7 +8,6 @@ import json
 from datetime import datetime
 
 
-@require_http_methods(['POST'])
 def create(request, place_id, review_id):
     headers = {
         'content-type': 'application/json',
@@ -18,13 +17,13 @@ def create(request, place_id, review_id):
         "isHelpful": True
     }
     response = requests.post('http://77.244.251.110/api/places/' + place_id + '/reviews/' + review_id + '/reaction',
-                  data=data, headers=headers)
+                             data=json.dumps(data), headers=headers)
+    print(response.text)
     if response.status_code == 200:
-        return "true"
+        return HttpResponse("true")
     return HttpResponse(status=400)
 
 
-@require_http_methods(['POST'])
 def delete(request, place_id, review_id):
     headers = {
         'content-type': 'application/json',
@@ -33,5 +32,5 @@ def delete(request, place_id, review_id):
     response = requests.delete('http://77.244.251.110/api/places/' + place_id + '/reviews/' + review_id + '/reaction',
                                headers=headers)
     if response.status_code == 200:
-        return "true"
+        return HttpResponse("true")
     return HttpResponse(status=400)

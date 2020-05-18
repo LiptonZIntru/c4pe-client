@@ -62,7 +62,6 @@ def delete(request, place_id):
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
     response =requests.delete('http://77.244.251.110/api/places/' + place_id, headers=headers)
-    print(response.status_code)
     if response.status_code == 204:
         messages.success(request, 'Place deleted')
     else:
