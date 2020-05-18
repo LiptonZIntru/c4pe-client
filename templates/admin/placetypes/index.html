@@ -4,6 +4,40 @@
     Admin pages | Place types
 {% endblock %}
 
+{% block css %}
+    {% load static %}
+{% endblock %}
+
 {% block content %}
-    placetypes
+
+    <!-- tlačítko pro přidání nového placetypu -->
+    <a class="btn btn-success" href="/admin/plactypes/create">Create new place type</a><br>
+
+    <!-- tabulka plactypů -->
+        <table class="table table-hover mt-2">
+
+            <!-- hlavička -->
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Place type</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+
+            <!-- tabulka -->
+                <tbody>
+                    {% for placetype in placetypes %}
+                        <tr class="edit defaultCursor" id="{{ placetype.id }}">
+                            <th scope="row">{{ placetype.id }}</th>
+                            <td>{{ placetype.name }}</td>
+                            <td><a class="btn btn-danger delete">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/admin/placetypes/index.js' %}"></script>
 {% endblock %}

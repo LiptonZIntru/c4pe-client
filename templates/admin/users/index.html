@@ -4,6 +4,45 @@
     Admin pages | Users
 {% endblock %}
 
+{% block css %}
+    {% load static %}
+{% endblock %}
+
 {% block content %}
-    users
+
+    <!-- tabulka userů -->
+        <table class="table table-hover mt-2">
+
+            <!-- hlavička -->
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Verified?</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+
+            <!-- tabulka -->
+                <tbody>
+                    {% for user in users %}
+                        <tr class="profile defaultCursor" id="{{ user.id }}">
+                            <th scope="row">{{ user.id }}</th>
+                            {% if user.isVerified %}
+                                <th scope="row">TRUE</th>
+                            {% else %}
+                                <th scope="row"></th>
+                            {% endif %}
+                            <td>{{ user.username }}</td>
+                            <td><a class="btn btn-secondary text-white edit">Edit</a></td>
+                            <td><a class="btn btn-danger delete">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/admin/users/index.js' %}"></script>
 {% endblock %}
