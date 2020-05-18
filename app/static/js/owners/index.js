@@ -6,14 +6,7 @@ $(function () {
         if(response == true)
         {
             var id = $(this).parent().parent().attr('id');
-            window.location = '/admin/places/' + id + '/delete';
-        }
-    });
-    $('.edit').click(function () {
-        if(!delete_click)
-        {
-            var id = $(this).attr('id');
-            window.location = '/admin/places/' + id + '/edit/';
+            window.location = '/admin/places/' + place.id + '/owners/' + id + '/delete';
         }
     });
 });

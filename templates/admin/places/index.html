@@ -10,23 +10,27 @@
 
 {% block content %}
     <a class="btn btn-success" href="/admin/places/create">Create new place</a><br>
-    <table class="table">
-      <thead class="thead-dark">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for place in places %}
-           <tr class="edit" id="{{ place.id }}">
-              <th scope="row">{{ place.id }}</th>
-              <td>{{ place.name }}</td>
-              <td><a class="btn btn-danger delete">Delete</a></td>
-           </tr>
-      {% endfor %}
-      </tbody>
+    <table class="table table-hover">
+
+        <!-- hlavička -->
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+
+        <!-- tabulka -->
+            <tbody>
+                {% for place in places %}
+                    <tr class="edit defaultCursor" id="{{ place.id }}">
+                        <th scope="row">{{ place.id }}</th>
+                        <td>{{ place.name }}</td>
+                        <td><a class="btn btn-danger delete">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
     </table>
 {% endblock %}
 

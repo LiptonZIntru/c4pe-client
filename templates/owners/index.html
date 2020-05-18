@@ -1,0 +1,41 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+    {{ place.name }} | owners
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <a class="btn btn-success" href="/places/{{ place.id }}/owners/create">Add a new owner</a><br>
+        <table class="table table-hover mt-2">
+
+            <!-- hlavička -->
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+
+            <!-- tabulka -->
+                <tbody>
+                    {% for owner in owners %}
+                        <tr class="edit defaultCursor" id="{{ owner.id }}">
+                            <th scope="row">{{ owner.id }}</th>
+                            <td>{{ owner.username }}</td>
+                            <td><a class="btn btn-danger delete">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
