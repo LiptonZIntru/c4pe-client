@@ -32,13 +32,13 @@ def create(request, place_id):
     data = {
         'username': username
     }
-    response = requests.post('http://77.244.251.110/api/places/' + place_id + '/owner', data=data, headers=headers)
 
+    response = requests.post('http://77.244.251.110/api/places/' + place_id + '/owner', data=json.dumps(data), headers=headers)
     if response.status_code == 200:
         messages.success(request, 'Owner added')
     else:
-        messages.error(request, response)
-    return redirect('owners')
+        messages.error(request, response.text)
+    return redirect('owners', place_id=place_id)
 
 
 @require_http_methods(['POST'])
@@ -48,9 +48,9 @@ def delete(request, place_id, user_id):
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
     response = requests.delete('http://77.244.251.110/api/places/' + place_id + '/owner/' + user_id, headers=headers)
-
+    print(response.text)
     if response.status_code == 200:
         messages.success(request, 'Owner removed')
     else:
-        messages.error(request, response)
-    return redirect('owners')
+        messages.error(request, response.text)
+    return redirect('owners', place_id=place_id)

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block title %}
-    {{ place.name }} | owners
+    {{ place.name }} | Owners
 {% endblock %}
 
 {% block content %}
@@ -13,11 +13,13 @@
 
         <!-- formulář pro přidání ownera -->
       <!--  <a class="btn btn-success" href="/places/{{ place.id }}/owners/create">Add a new owner</a><br> -->
+        <form action="/places/{{ place.id }}/owners/create/" method="post">
+            {% csrf_token %}
             <div class="form-inline">
-                <input id="ownerUsername" class="form-control" placeholder="new owner username" style="min-width: 300px;">
+                <input id="ownerUsername" name="username" class="form-control" placeholder="Enter username" style="min-width: 300px;">
                 <button type="submit" class="btn btn-success ml-sm-2 mt-2 mt-sm-0">Add owner</button>
             </div>
-
+        </form>
         <!-- tabulka ownerů -->
             <table class="table table-hover mt-2">
 
@@ -36,7 +38,12 @@
                             <tr class="edit defaultCursor" id="{{ owner.id }}">
                                 <th scope="row">{{ owner.id }}</th>
                                 <td>{{ owner.username }}</td>
-                                <td><a class="btn btn-danger delete">Delete</a></td>
+                                <td>
+                                    <form method="post" action="/places/{{ place.id }}/owners/{{ owner.id }}/delete/">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger delete">Delete</button>
+                                    </form>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -46,5 +53,5 @@
 {% endblock %}
 
 {% block js %}
-
+    <script src="{% static 'js/owners/index.js' %}"></script>
 {% endblock %}

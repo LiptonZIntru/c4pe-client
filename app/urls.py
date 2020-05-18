@@ -51,8 +51,8 @@ urlpatterns = [
 
 
     path('places/<place_id>/owners/', owners.index, name='owners'),
-    path('places/<place_id>/owners/create', owners.create, name='owners create'),
-    path('places/<place_id>/owners/<user_id>/delete', owners.delete, name='owners delete'),
+    path('places/<place_id>/owners/create/', owners.create, name='owners create'),
+    path('places/<place_id>/owners/<user_id>/delete/', owners.delete, name='owners delete'),
 
 
     # get positive/negative/all reviews in json

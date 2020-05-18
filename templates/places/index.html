@@ -26,13 +26,14 @@
 
         <!-- VYHLEDÁVACÍ POLE -->
             <div class="row justify-content-between">
-                {% if currentUser %}
 
                     <!-- tlačítko pro přidání nového místo -->
                         <div class="col-lg-2">
-                            <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="/places/create/" style="margin-top: 0.15rem !important;">
-                                Add a new place
-                            </a>
+                            {% if currentUser %}
+                                <a role="button" class="btn btn-outline-secondary py-1 px-2 pt-1 mb-1 text-nowrap" href="/places/create/" style="margin-top: 0.15rem !important;">
+                                    Add a new place
+                                </a>
+                            {% endif %}
                         </div>
 
                     <!-- vyhledávací pole -->
@@ -46,7 +47,7 @@
                         </form>
 
                     <!-- třídění, seřazení výstupu pro uživatele -->
-                        <div class="col-lg-2 d-block w-100">
+                        <div class="col-lg-2">
                             <div class="btn-group my-1 float-right">
                                 <button id="sortingButton" type="button" class="btn btn-outline-secondary py-1 px-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Sort by
@@ -61,42 +62,6 @@
                                 </div>
                             </div>
                         </div>
-                {% else %}
-
-                    <!-- placeholder na správné odsazení řádku -->
-                        <div class="col-lg-2">
-                        </div>
-
-                    <!-- vyhledávací pole -->
-                        <form class="col-lg-8">
-                            <div class="input-group mx-md-auto" style="max-width: 690px;">
-                                <input type="text" class="form-control" placeholder="Your favorite place is here">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
-
-                    <!-- třídění, seřazení výstupu pro uživatele -->
-                        <div class="col-lg-2 d-block w-100">
-                            <div class="btn-group my-1 float-right">
-                                <button id="sortingButton" type="button" class="btn btn-outline-secondary py-1 px-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Sort by
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" id="sortingAz" onclick="sortAz();">A - Z</a>
-                                    <a class="dropdown-item" id="sortingZa" onclick="sortZa();">Z - A</a>
-
-                                    <a class="dropdown-item" id="sortingTop" onclick="sortTopReviewed();">Top rated</a>
-                                    <a class="dropdown-item" id="sortingWorst" onclick="sortWorstReviewed();">Worst rated</a>
-
-                                    <a class="dropdown-item" id="sortingMost" onclick="sortMostReviewed();">Most rated</a>
-                                    <a class="dropdown-item" id="sortingLeast" onclick="sortLeastReviewed();">Least rated</a>
-                                </div>
-                            </div>
-                        </div>
-
-                {% endif %}
             </div>
 
         <div class="row mt-3">
