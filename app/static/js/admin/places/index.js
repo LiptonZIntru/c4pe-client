@@ -15,5 +15,6 @@ $(function () {
             var id = $(this).attr('id');
             window.location = '/admin/places/' + id + '/edit/';
         }
+        delete_click = false;
     });
 });
