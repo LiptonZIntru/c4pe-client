@@ -11,8 +11,12 @@
 {% block content %}
     <div class="container">
 
-        <!-- tlačítko pro přidání ownera -->
-        <a class="btn btn-success" href="/places/{{ place.id }}/owners/create">Add a new owner</a><br>
+        <!-- formulář pro přidání ownera -->
+      <!--  <a class="btn btn-success" href="/places/{{ place.id }}/owners/create">Add a new owner</a><br> -->
+            <div class="form-inline">
+                <input id="ownerUsername" class="form-control" placeholder="new owner username" style="min-width: 300px;">
+                <button type="submit" class="btn btn-success ml-sm-2 mt-2 mt-sm-0">Add owner</button>
+            </div>
 
         <!-- tabulka ownerů -->
             <table class="table table-hover mt-2">
