@@ -159,3 +159,8 @@ def get_json_reviews(request, id, type):
             if review['user']['isVerified']:
                 response_reviews.append(review)
     return HttpResponse(json.dumps(response_reviews))  # REQUIRED TO BE HTTP RESPONSE
+
+
+def newIndex(request):
+    return render(request, 'karel/index.html')
+

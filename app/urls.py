@@ -68,4 +68,7 @@ urlpatterns = [
     path('places/<place_id>/openingtimes/', openingtimes.index, name='openingtimes'),
     path('places/<place_id>/openingtimes/create/', openingtimes.create, name='openingtimes create'),
     path('places/<place_id>/openingtimes/edit/', openingtimes.edit, name='openingtimes edit'),
+
+
+    path('testing/', places.newIndex, name='new index')
 ]

@@ -19,7 +19,6 @@
                         <th scope="col">ID</th>
                         <th scope="col">Verified?</th>
                         <th scope="col">Username</th>
-                        <th scope="col">Edit</th>
                         <th scope="col">Delete</th>
                     </tr>
                 </thead>
@@ -27,7 +26,7 @@
             <!-- tabulka -->
                 <tbody>
                     {% for user in users %}
-                        <tr class="profile defaultCursor" id="{{ user.id }}">
+                        <tr class="edit defaultCursor" id="{{ user.id }}">
                             <th scope="row">{{ user.id }}</th>
                             {% if user.isVerified %}
                                 <th scope="row">TRUE</th>
@@ -35,7 +34,6 @@
                                 <th scope="row"></th>
                             {% endif %}
                             <td>{{ user.username }}</td>
-                            <td><a class="btn btn-secondary text-white edit">Edit</a></td>
                             <td><a class="btn btn-danger delete">Delete</a></td>
                         </tr>
                     {% endfor %}

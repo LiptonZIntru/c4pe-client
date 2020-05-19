@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block title %}
-
+    {{ placeType.name }}
 {% endblock %}
 
 {% block content %}
-    <h2></h2>
+    <h2>{{ placeType.name }}</h2>
     <form>
         {% csrf_token %}
     </form>

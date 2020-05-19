@@ -11,7 +11,7 @@
 {% block content %}
 
     <!-- tlačítko pro přidání nového placetypu -->
-    <a class="btn btn-success" href="/admin/plactypes/create">Create new place type</a><br>
+    <a class="btn btn-success" href="create">Create new place type</a><br>
 
     <!-- tabulka plactypů -->
         <table class="table table-hover mt-2">
@@ -27,10 +27,10 @@
 
             <!-- tabulka -->
                 <tbody>
-                    {% for placetype in placetypes %}
-                        <tr class="edit defaultCursor" id="{{ placetype.id }}">
-                            <th scope="row">{{ placetype.id }}</th>
-                            <td>{{ placetype.name }}</td>
+                    {% for placeType in placeTypes %}
+                        <tr class="edit defaultCursor" id="{{ placeType.id }}">
+                            <th scope="row">{{ placeType.id }}</th>
+                            <td>{{ placeType.name }}</td>
                             <td><a class="btn btn-danger delete">Delete</a></td>
                         </tr>
                     {% endfor %}
