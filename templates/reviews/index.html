@@ -281,7 +281,7 @@
                                             <form id="editReview" method="post" action="/places/{{ place.id }}/reviews/{{ review.id }}/edit" hidden>
                                                 {% csrf_token %}
                                                 <input id="editRating" name="rating" value="{{ review.rating }}" hidden>
-                                                <input name="text" id="editReviewContentInput" hidden>
+                                                <input name="review" id="editReviewContentInput" hidden>
                                                 <label for="editReviewContent" hidden></label>
                                                 <textarea onchange="updateText('editReviewContentInput', this.id);" name="text" class="card p-2 pl-3 text-justify text-md-smaller disabled w-100" id="editReviewContent" rows="3" style="min-height: 2.7em; max-height: 27em;">{{ review.text }}</textarea>
                                             </form>

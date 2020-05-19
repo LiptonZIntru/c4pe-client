@@ -151,9 +151,6 @@ var rating = 0;
         if(editReviewButton.innerText == "Edit")
         {
             editReviewButton.innerText = 'Save';
-            editReviewButton.type = 'submit';
-            editReviewButton.form = 'editReview';
-            reviewForm.action = '/places/' + place_id + '/reviews/' + review_id + '/edit';
             staticReview.hidden = true;
             reviewForm.hidden = false;
             staticRating.hidden = true;
@@ -161,12 +158,8 @@ var rating = 0;
         }
         else
         {
-            editReviewButton.innerText = 'Edit';
-            editReviewButton.type = 'button';
-            editReviewButton.form = ' ';
-            staticReview.hidden = false;
-            reviewForm.hidden = true;
-            staticRating.hidden = false;
-            editRating.hidden = true;
+            editReviewButton.setAttribute('form', 'editReview');
+            reviewForm.action = '/places/' + place_id + '/reviews/' + review_id + '/edit/';
+            editReviewButton.type = 'submit';
         }
     }

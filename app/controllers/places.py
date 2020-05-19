@@ -27,11 +27,6 @@ def index(request):
         current = json.loads(response.headers['X-Pagination'])['CurrentPage']
         last = json.loads(response.headers['X-Pagination'])['TotalPages']
 
-        """
-        SOMEHOW THIS SHIT WORKS
-        It appends new index to dict which tells if restaurant is opening/closing/opened/closed
-        """
-
         places = set_time(places)  # opened until ...
 
         pages = paginate(current, last)
@@ -159,7 +154,3 @@ def get_json_reviews(request, id, type):
             if review['user']['isVerified']:
                 response_reviews.append(review)
     return HttpResponse(json.dumps(response_reviews))  # REQUIRED TO BE HTTP RESPONSE
-
-
-def newIndex(request):
-    return render(request, 'karel/index.html')
