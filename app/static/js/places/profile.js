@@ -101,21 +101,21 @@ var rating = 0;
     }
 
 /* LIKE/DISLIKE RECENZE */
-    function likeReview(userID, placeID, reviewID) {
+    function likeReview(userID, placeID, reviewID, elementID) {
         /*
         * if review has like
         *
         */
         $.get('/places/' + placeID + '/reviews/' + reviewID + '/like/', function (data) {
             // success = review liked
-            // vybarvit/odbarvit like tlacitko
+            blueThis(elementID);
             alert(data);
         });
     }
-    function dislikeReview(userID, placeID, reviewID) {
+    function dislikeReview(userID, placeID, reviewID, elementID) {
         $.get('/places/' + placeID + '/reviews/' + reviewID + '/dislike/', function (data) {
             // success = review disliked
-            // vybarvit/odbarvit dislike tlacitko
+            blueThis(elementID);
             alert(data);
         });
     }

@@ -379,9 +379,9 @@
                                             <div class="row justify-content-between mb-0">
                                                 <div class="col-auto mt-1 ml-2 row text-nowrap">
                                                     <x class="defaultCursor">{{ review.positiveReactions }}</x>
-                                                    <i class="fa fa-thumbs-up px-1 pt-1 text-secondary pointer" id="negativeReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="likeReview({{ currentUser.id }}, {{ place.id }}, {{ review.id }});"></i>
+                                                    <i class="fa fa-thumbs-up px-1 pt-1 text-secondary pointer" id="negativeReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="likeReview({{ currentUser.id }}, {{ place.id }}, {{ review.id }}, this.id);"></i>
                                                     <y class="defaultCursor">{{ review.negativeReactions }}</y>
-                                                    <i class="fa fa-thumbs-down pl-1 pt-1 text-secondary pointer" id="positiveReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="dislikeReview({{ currentUser.id }}, {{ place.id }}, {{ review.id }});"></i>
+                                                    <i class="fa fa-thumbs-down pl-1 pt-1 text-secondary pointer" id="positiveReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="dislikeReview({{ currentUser.id }}, {{ place.id }}, {{ review.id }}, this.id);"></i>
                                                 </div>
                                                 <div class="col-auto">
                                                     <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
