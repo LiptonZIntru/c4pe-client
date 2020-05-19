@@ -121,8 +121,8 @@ def edit(request, id):
 def create_review(request, id):
     if request.method == 'POST':
         data = {
-            'rating': int(request.POST.get('rating')),
-            'text': str(request.POST.get('text'))
+            'rating': int(request.POST.get('newRating')),
+            'text': str(request.POST.get('newReviewText'))
         }
         headers = {
             'content-type': 'application/json',

@@ -15,5 +15,6 @@ $(function () {
             var id = $(this).attr('id');
             window.location = '/admin/users/' + id + '/edit/';
         }
+        delete_click = false;
     });
 });

@@ -29,9 +29,9 @@
                         <tr class="edit defaultCursor" id="{{ user.id }}">
                             <th scope="row">{{ user.id }}</th>
                             {% if user.isVerified %}
-                                <th scope="row">TRUE</th>
+                                <td>TRUE</td>
                             {% else %}
-                                <th scope="row"></th>
+                                <td></td>
                             {% endif %}
                             <td>{{ user.username }}</td>
                             <td><a class="btn btn-danger delete">Delete</a></td>

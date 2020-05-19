@@ -1,5 +1,5 @@
 var newStars = ['oneStar', 'twoStar', 'threeStar', 'fourStar', 'fiveStar'];
-var editStars = ['oneS', 'twoS', 'threeS', 'fourS', 'fiveS'];
+var editStars = ['oneStarEdit', 'twoStarEdit', 'threeStarEdit', 'fourStarEdit', 'fiveStarEdit'];
 var freezed = false;
 var rating = 0;
 
@@ -36,53 +36,34 @@ var rating = 0;
         })
     })
 
-/* VYKRESLUJE HVĚZDY PŘI PSANÍ NOVÉ RECENZE */
-    function colorStars(method, element) {
-        if(method == 'edit')
-        {
-            if(!freezed) {
-                for (var i = 5; i < editStars.length; i++) {
-                    document.getElementById(editStars[i]).classList = "fa fa-star-o";
-                }
-                if (element.id == 'oneS') {
-                    rating = 1;
-                } else if (element.id == 'twoS') {
-                    rating = 2;
-                } else if (element.id == 'threeS') {
-                    rating = 3;
-                } else if (element.id == 'fourS') {
-                    rating = 4;
-                } else if (element.id == 'fiveS') {
-                    rating = 5;
-                }
-                for (var i = 0; i < rating; i++) {
-                    document.getElementById(editStars[i]).classList = "fa fa-star";
-                }
+/* VYKRESLUJE HVĚZDY PŘI PSANÍ RECENZE */
+    function colorStars(element) {
+        if(!freezed){
+            if (element.id.includes('oneStar')) {
+                rating = 1;
+            } else if (element.id.includes('twoStar')) {
+                rating = 2;
+            } else if (element.id.includes('threeStar')) {
+                rating = 3;
+            } else if (element.id.includes('fourStar')){
+                rating = 4;
+            } else if (element.id.includes('fiveStar')) {
+                rating = 5;
             }
-        }
-        else
-        {
-            if(!freezed) {
-                for (var i = 0; i < newStars.length; i++) {
-                    document.getElementById(newStars[i]).classList = "fa fa-star-o";
-                }
-                if (element.id == 'oneStar') {
-                    rating = 1;
-                } else if (element.id == 'twoStar') {
-                    rating = 2;
-                } else if (element.id == 'threeStar') {
-                    rating = 3;
-                } else if (element.id == 'fourStar') {
-                    rating = 4;
-                } else if (element.id == 'fiveStar') {
-                    rating = 5;
-                }
-                for (var i = 0; i < rating; i++) {
-                    document.getElementById(newStars[i]).classList = "fa fa-star";
-                }
-            }
-        }
 
+            if(element.id.includes('Edit'))
+                for (var i = 0; i < editStars.length; i++) {
+                    if (i < rating) document.getElementById(editStars[i]).classList = "fa fa-star";
+                    else document.getElementById(editStars[i]).classList = "fa fa-star-o";
+                }
+            else
+            {
+                for (var i = 0; i < newStars.length; i++) {
+                    if(i < rating) document.getElementById(newStars[i]).classList = "fa fa-star";
+                    else document.getElementById(newStars[i]).classList = "fa fa-star-o";
+                }
+            }
+        }
     }
 
 /* ULOŽÍ ZVOLENÝ POČET HVĚZD PŘI KLIKU */
@@ -120,46 +101,58 @@ var rating = 0;
     }
 
 /* LIKE/DISLIKE RECENZE */
-    function likeReview(userID, placeID, reviewID) {
+    function likeReview(userID, placeID, reviewID, elementID) {
         /*
         * if review has like
         *
         */
         $.get('/places/' + placeID + '/reviews/' + reviewID + '/like/', function (data) {
             // success = review liked
-            // vybarvit/odbarvit like tlacitko
+            blueThis(elementID);
             alert(data);
         });
     }
-    function dislikeReview(userID, placeID, reviewID) {
+    function dislikeReview(userID, placeID, reviewID, elementID) {
         $.get('/places/' + placeID + '/reviews/' + reviewID + '/dislike/', function (data) {
             // success = review disliked
-            // vybarvit/odbarvit dislike tlacitko
+            blueThis(elementID);
             alert(data);
         });
     }
 
 /* EDITACE RECENZE */
-    function editReview(place_id, review_id)
+    function editReview(revRating)
     {
-        var reviewForm = document.getElementById('editReview');
-        var staticReview = document.getElementById('review-Content');
         var editReviewButton = document.getElementById('editReviewButton');
+        var submitReviewButton = document.getElementById('submitReviewButton');
+        var reviewForm = document.getElementById('editReview');
+        var reviewRating = document.getElementById('editReviewRating');
+        var staticReview = document.getElementById('editReviewContent');
         var staticRating = document.getElementById('staticRating');
-        var editRating = document.getElementById('editRating');
 
-        if(editReviewButton.innerText == "Edit")
+        rating = revRating;
+        for (var i = 0; i < editStars.length; i++) {
+            if(i < rating) document.getElementById(editStars[i]).classList = "fa fa-star";
+            else document.getElementById(editStars[i]).classList = "fa fa-star-o";
+        }
+
+
+        if(!editReviewButton.hidden)
         {
-            editReviewButton.innerText = 'Save';
-            staticReview.hidden = true;
+            editReviewButton.hidden = true;
             reviewForm.hidden = false;
+            reviewRating.hidden = false;
+            staticReview.hidden = true;
             staticRating.hidden = true;
-            editRating.hidden = false;
+            submitReviewButton.hidden = false;
         }
         else
         {
-            editReviewButton.setAttribute('form', 'editReview');
-            reviewForm.action = '/places/' + place_id + '/reviews/' + review_id + '/edit/';
-            editReviewButton.type = 'submit';
+            editReviewButton.hidden = false;
+            reviewForm.hidden = true;
+            reviewRating.hidden = true;
+            staticReview.hidden = false;
+            staticRating.hidden = false;
+            submitReviewButton.hidden = true;
         }
     }

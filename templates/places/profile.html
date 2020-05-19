@@ -95,7 +95,7 @@
                                         </div>
                                     </div>
 
-                                <!-- tlačítko pro naspání recenze -->
+                                <!-- tlacitko pro napsani recenze -->
                                     {% if currentUser %}
                                         <div class="col-4 text-nowrap" id="newReviewButton" hidden>
                                             <button type="button" class="btn btn-outline-secondary position-absolute mr-2" data-toggle="collapse" data-target="#newReviewForm" aria-expanded="false" aria-controls="newReviewForm" id="buttonCollapse" style="bottom:10px; right: 10px;">
@@ -173,7 +173,7 @@
                             <div class="card-body pb-2 pt-2 form-group" style="font-size: 150%;">
                                 <small class="float-right pt-2">
                                     <label class="mr-1 font-weight-bold mb-0" for="rating" style="font-size: smaller">Your rating:</label>
-                                    <div class="pt-0 mt-0 mb-2 defaultCursor" onclick="saveRating();">
+                                    <div class="pt-0 mt-0 mb-2 defaultCursor" onclick="saveRating('newRating');">
                                         <i id="oneStar" class="fa fa-star" onmouseover="colorStars(this);"></i>
                                         <i id="twoStar" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
                                         <i id="threeStar" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
@@ -184,9 +184,9 @@
                                 <label for="newReviewTextArea" style="font-size: smaller">Share your experience with other users:</label>
                                 <form method="post" action="/places/{{ place.id }}/reviews/create/">
                                     {% csrf_token %}
-                                    <input id="rating" name="rating" type="hidden" value="1">
-                                    <input type="hidden" name="text" id="newReviewText">
-                                    <textarea onchange="updateText();" class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReviewTextArea" rows="3" style="min-height: 2.7em; max-height: 27em;"></textarea>
+                                    <input id="newRating" name="newRating" type="hidden" value="1">
+                                    <input type="hidden" name="newReviewText" id="newReviewText">
+                                    <textarea onchange="updateText('newReviewText', this.id);" class="card p-2 pl-3 text-justify form-control" placeholder="Write your experience down here." id="newReviewTextArea" rows="3" style="min-height: 2.7em; max-height: 27em;"></textarea>
                                     <button type="submit" class="btn float-right mt-2 border-primary text-primary" data-toggle="collapse" data-target="#newReviewForm" aria-expanded="false" aria-controls="newReviewForm" onclick="document.getElementById('newReviewTextArea').value = ''">Post review</button>
                                 </form>
                             </div>
@@ -200,7 +200,7 @@
                                 {% if review.user.id == currentUser.id %}
                                     <div class="card m-2 mt-1 mb-3">
                                         <div class="card-body pb-2 pt-2">
-                                            <small class="float-right pt-2">
+                                            <small class="float-right pt-2" id="staticRating">
                                                 {% if review.rating|floatformat:"0" == "0" %}
                                                     <i class="fa fa-star-o"></i>
                                                     <i class="fa fa-star-o"></i>
@@ -244,6 +244,15 @@
                                                     <i class="fa fa-star"></i>
                                                 {% endif %}
                                             </small>
+                                            <small class="float-right pt-2" id="editReviewRating" hidden>
+                                                <div class="p-0 m-0 defaultCursor" onclick="saveRating('editRating');">
+                                                    <i id="oneStarEdit" class="fa fa-star" onmouseover="colorStars(this);"></i>
+                                                    <i id="twoStarEdit" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
+                                                    <i id="threeStarEdit" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
+                                                    <i id="fourStarEdit" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
+                                                    <i id="fiveStarEdit" class="fa fa-star-o" onmouseover="colorStars(this);"></i>
+                                                </div>
+                                            </small>
                                             <div class="row">
                                                 <p class="text-nowrap mb-2 pt-1 mr-2">
                                                     User
@@ -252,17 +261,23 @@
                                                     {% endif %}
                                                     <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
                                                 </p>
-                                                <a role="button" class="btn btn-outline-secondary py-1 px-2 mb-2" href="/places/{{ place.id }}/reviews/{{ review.id }}/edit/">
+                                                <button type="button" class="btn btn-outline-secondary py-1 px-2 mb-2" onclick="editReview({{ review.rating }});" id="editReviewButton">
                                                     Edit
-                                                </a>
+                                                </button>
+                                                <button type="submit" class="btn btn-outline-secondary py-1 px-2 mb-2" form="editReview" onclick="editReview(0);" id="submitReviewButton" hidden>
+                                                    Save
+                                                </button>
                                             </div>
-                                            <div class="card p-2 pl-3 text-justify text-md-smaller" hidden>
+                                            <label for="editReviewTextArea" hidden></label>
+                                            <form id="editReview" method="post" action="/places/{{ place.id }}/reviews/{{ review.id }}/edit/" hidden>
+                                                {% csrf_token %}
+                                                <input type="number" id="editRating" name="editRating" value="{{ review.rating }}" hidden>
+                                                <input type="text" name="editReviewText" id="editReviewText" value="{{ review.text }}" hidden>
+                                                <textarea onchange="updateText('editReviewText', this.id);" name="editReviewTextArea" class="card p-2 pl-3 text-justify text-md-smaller disabled w-100" id="editReviewTextArea" rows="3" style="min-height: 2.7em; max-height: 27em;">{{ review.text }}</textarea>
+                                            </form>
+                                            <div class="card p-2 pl-3 text-justify" id="editReviewContent">
                                                 {{ review.text }}
                                             </div>
-                                            <label for="editReview" hidden></label>
-                                            <textarea class="p-2 pl-3 text-justify text-md-smaller disabled" id="editReview">
-                                                {{ review.text }}
-                                            </textarea>
                                             <div class="row justify-content-between mb-0">
                                                 <div class="col-auto mt-1 ml-2 row text-nowrap">
                                                     <x class="defaultCursor">{{ review.positiveReactions }}</x>
@@ -337,15 +352,15 @@
                                                 {% endif %}
                                                 <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
                                             </p>
-                                            <div class="card p-2 pl-3 text-justify text-md-smaller">
+                                            <div class="card p-2 pl-3 text-justify text-md-smaller" id="reviewContent">
                                                 {{ review.text }}
                                             </div>
                                             <div class="row justify-content-between mb-0">
                                                 <div class="col-auto mt-1 ml-2 row text-nowrap">
                                                     <x class="defaultCursor">{{ review.positiveReactions }}</x>
-                                                    <i class="fa fa-thumbs-up px-1 pt-1 text-secondary pointer" id="negativeReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="likeReview({{ currentUser.id }}, {{ place.id }}, {{ review.id }});"></i>
+                                                    <i class="fa fa-thumbs-up px-1 pt-1 text-secondary pointer" id="negativeReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="likeReview({{ currentUser.id }}, {{ place.id }}, {{ review.id }}, this.id);"></i>
                                                     <y class="defaultCursor">{{ review.negativeReactions }}</y>
-                                                    <i class="fa fa-thumbs-down pl-1 pt-1 text-secondary pointer" id="positiveReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="dislikeReview({{ currentUser.id }}, {{ place.id }}, {{ review.id }});"></i>
+                                                    <i class="fa fa-thumbs-down pl-1 pt-1 text-secondary pointer" id="positiveReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="dislikeReview({{ currentUser.id }}, {{ place.id }}, {{ review.id }}, this.id);"></i>
                                                 </div>
                                                 <div class="col-auto">
                                                     <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
