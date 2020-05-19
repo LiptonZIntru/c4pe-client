@@ -40,8 +40,8 @@ def create(request, id):
                       })
     elif request.method == 'POST':
         data = {
-            'rating': int(request.POST.get('rating')),
-            'text': str(request.POST.get('text'))
+            'rating': int(request.POST.get('newRating')),
+            'text': str(request.POST.get('newReviewText'))
         }
         headers = {
             'content-type': 'application/json',
@@ -67,8 +67,8 @@ def edit(request, place_id, id):
                       })
     elif request.method == 'POST':
         data = {
-            'rating': int(request.POST.get('rating')),
-            'text': str(request.POST.get('text')),
+            'rating': int(request.POST.get('editRating')),
+            'text': str(request.POST.get('editReviewText')),
         }
         headers = {
             'content-type': 'application/json',
