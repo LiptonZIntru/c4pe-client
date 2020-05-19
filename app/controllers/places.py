@@ -163,4 +163,3 @@ def get_json_reviews(request, id, type):
 
 def newIndex(request):
     return render(request, 'karel/index.html')
-
