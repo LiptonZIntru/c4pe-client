@@ -39,6 +39,7 @@ def index(request):
 
         return render(request, 'places/index.html',
                       {
+                          'search': request.GET.get('name'),
                           'places': places,
                           'pages': pages,
                           'types': types,

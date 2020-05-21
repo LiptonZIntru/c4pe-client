@@ -39,8 +39,8 @@
                     <!-- vyhledávací pole -->
                         <form class="col-lg-8">
                             <div class="input-group mx-md-auto" style="max-width: 690px;">
-                                <form method="post" action="">
-                                    <input type="text" class="form-control" placeholder="Your favorite place is here">
+                                <form>
+                                    <input name="name" type="text" class="form-control" placeholder="Your favorite place is here" value="{% if search %}{{ search }}{% endif %}">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
                                     </div>

@@ -94,6 +94,7 @@ def get_url(request, url):
     placeTypes = request.GET.get('placetype')
     isOpen = request.GET.get('isopen')
     orderBy = request.GET.get('sortby')
+    country = request.GET.get('country')
 
     if name:
         url = url + '&Name=' + name
@@ -109,6 +110,8 @@ def get_url(request, url):
         url = url + '&IsOpen=' + isOpen
     if orderBy:
         url = url + '&OrderBy=' + orderBy
+    if country:
+        url = url + '&Country=' + country
 
     if placeTypes:
         for placeType in json.loads(placeTypes):
