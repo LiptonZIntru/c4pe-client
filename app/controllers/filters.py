@@ -88,30 +88,30 @@ def set_time(places):
 def get_url(request, url):
     name = request.GET.get('name')
     city = request.GET.get('city')
-    isVerified = request.GET.get('isVerified')
-    minRating = request.GET.get('minRating')
-    maxRating = request.GET.get('maxRating')
-    placeTypes = request.GET.get('placeType')
-    isOpen = request.GET.get('isOpen')
-    orderBy = request.GET.get('orderBy')
+    isVerified = request.GET.get('isverified')
+    minRating = request.GET.get('minrating')
+    maxRating = request.GET.get('maxrating')
+    placeTypes = request.GET.get('placetype')
+    isOpen = request.GET.get('isopen')
+    orderBy = request.GET.get('sortby')
 
     if name:
-        url = url + '&name=' + name
+        url = url + '&Name=' + name
     if city:
-        url = url + '&city=' + city
+        url = url + '&City=' + city
     if isVerified:
-        url = url + '&=isVerified=' + isVerified
+        url = url + '&IsVerified=' + isVerified
     if minRating:
-        url = url + '&=minRating=' + minRating
+        url = url + '&MinRating=' + minRating
     if maxRating:
-        url = url + '&=maxRating=' + maxRating
+        url = url + '&MaxRating=' + maxRating
     if isOpen:
-        url = url + '&=isOpen=' + isOpen
+        url = url + '&IsOpen=' + isOpen
     if orderBy:
-        url = url + '&=orderBy=' + orderBy
+        url = url + '&OrderBy=' + orderBy
 
     if placeTypes:
         for placeType in json.loads(placeTypes):
-            url = url + '&placeType=' + str(placeType)
-
+            url = url + '&PlaceType=' + str(placeType)
+    print(url)
     return url

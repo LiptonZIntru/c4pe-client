@@ -10,10 +10,15 @@ from .auth import authorized, get_user
 def profile(request, id):
     user = json.loads(requests.get('http://77.244.251.110/api/users/' + id).text)
     reviews = json.loads(requests.get('http://77.244.251.110/api/users/' + id + '/reviews').text)
+    best = reviews[0]
+    for review in reviews:
+        if review['positiveReactions'] > best['positiveReactions']:
+            best = review
+    print(best)
     return render(request, 'users/index.html',
                   {
                       'user': user,
-                      'reviews': reviews,
+                      'review': best,
                       'currentUser': get_user(request)
                   })
 
