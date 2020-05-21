@@ -1,0 +1,25 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+    {% if user %}
+    {{ user.username }}<br/><br/>
+    {% endif %}
+
+    {% for review in reviews %}
+        {{ review.id }}<br/>
+        {{ review.rating }}<br/>
+        {{ review.text }}<br/><br/>
+    {% endfor %}
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

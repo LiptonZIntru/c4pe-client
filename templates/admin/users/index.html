@@ -11,34 +11,38 @@
 {% block content %}
 
     <!-- tabulka userů -->
-        <table class="table table-hover mt-2">
+        <div style="overflow: auto">
+            <table class="table table-hover mt-2">
 
-            <!-- hlavička -->
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Verified?</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Delete</th>
-                    </tr>
-                </thead>
-
-            <!-- tabulka -->
-                <tbody>
-                    {% for user in users %}
-                        <tr class="edit defaultCursor" id="{{ user.id }}">
-                            <th scope="row">{{ user.id }}</th>
-                            {% if user.isVerified %}
-                                <td>TRUE</td>
-                            {% else %}
-                                <td></td>
-                            {% endif %}
-                            <td>{{ user.username }}</td>
-                            <td><a class="btn btn-danger delete">Delete</a></td>
+                <!-- hlavička -->
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Verified?</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Reviews</th>
+                            <th scope="col">Delete</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-        </table>
+                    </thead>
+
+                <!-- tabulka -->
+                    <tbody>
+                        {% for user in users %}
+                            <tr class="edit defaultCursor" id="{{ user.id }}">
+                                <th scope="row">{{ user.id }}</th>
+                                {% if user.isVerified %}
+                                    <td>TRUE</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                                <td>{{ user.username }}</td>
+                                <td><a class="btn btn-outline-secondary reviews text-nowrap">Reviews ({{ reviewCount }})</a></td>
+                                <td><a class="btn btn-danger delete">Delete</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+        </div>
 {% endblock %}
 
 {% block js %}

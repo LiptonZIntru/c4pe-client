@@ -16,5 +16,6 @@ urlpatterns = [
 
     path('users/', users.index, name='admin users'),
     path('users/<id>/edit/', users.edit, name='admin users edit'),
+    path('users/<id>/reviews/', users.reviews, name='admin users reviews'),
     path('users/<id>/delete/', users.delete, name='admin users delete'),
 ]

@@ -121,7 +121,7 @@ var rating = 0;
     }
 
 /* EDITACE RECENZE */
-    function editReview(revRat, revID)
+    function editReview(revRat)
     {
         var editReviewButton = document.getElementById('editReviewButton');
         var submitReviewButton = document.getElementById('submitReviewButton');

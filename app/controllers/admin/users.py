@@ -54,6 +54,21 @@ def edit(request, id):
     return
 
 
+def reviews(request, id):
+    if is_admin(request):
+        reviews = json.loads(requests.get('http://77.244.251.110/api/users/' + id + '/reviews').text)
+        user = json.loads(requests.get('http://77.244.251.110/api/users/' + id).text)
+        return render(request, 'admin/users/reviews.html',
+                      {
+                          'user': user,
+                          'reviews': reviews,
+                          'currentUser': get_user(request),
+                      })
+    else:
+        messages.error(request, 'Permission denied')
+        return redirect('index')
+
+
 def delete(request, id):
     headers = {
         'content-type': 'application/json',
