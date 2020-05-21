@@ -121,7 +121,7 @@ var rating = 0;
     }
 
 /* EDITACE RECENZE */
-    function editReview(revRating)
+    function editReview(revRat, revID)
     {
         var editReviewButton = document.getElementById('editReviewButton');
         var submitReviewButton = document.getElementById('submitReviewButton');
@@ -130,12 +130,11 @@ var rating = 0;
         var staticReview = document.getElementById('editReviewContent');
         var staticRating = document.getElementById('staticRating');
 
-        rating = revRating;
+        rating = revRat;
         for (var i = 0; i < editStars.length; i++) {
             if(i < rating) document.getElementById(editStars[i]).classList = "fa fa-star";
             else document.getElementById(editStars[i]).classList = "fa fa-star-o";
         }
-
 
         if(!editReviewButton.hidden)
         {
@@ -155,4 +154,5 @@ var rating = 0;
             staticRating.hidden = false;
             submitReviewButton.hidden = true;
         }
+        freezed = true;
     }

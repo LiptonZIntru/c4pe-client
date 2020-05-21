@@ -65,7 +65,7 @@
             <!-- NEJUŽITEČNĚJŠÍ RECENZE UŽIVATELE -->
                 <div class="card-body pt-0 pb-3">
                     <b>Most useful reviews written by {{ user.username }}:</b>
-                    {% for review in reviews %}
+                    {% if review %}
                         <div class="card m-2 mt-1 mb-3">
                             <div class="card-body pb-2 pt-2">
                                 <small class="float-right pt-2">
@@ -123,7 +123,7 @@
                                 </p>
                             </div>
                         </div>
-                    {% endfor %}
+                    {% endif %}
 
                     <!-- Odkaz na users/id/reviews -->
                         <div class="card mb-0 ml-2" style="border-width: 0px;">

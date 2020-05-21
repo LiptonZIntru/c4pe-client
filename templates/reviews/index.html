@@ -282,7 +282,7 @@
                                                     {% endif %}
                                                     <a href="/users/{{ review.user.id }}" class="text-dark"><b>{{ review.user.username }}</b></a> says:
                                                 </p>
-                                                <button type="button" class="btn btn-outline-secondary py-1 px-2 mb-2" onclick="editReview({{ review.rating }});" id="editReviewButton">
+                                                <button type="button" class="btn btn-outline-secondary py-1 px-2 mb-2" onclick="editReview({{ review.rating }}, {{ review.id }});" id="editReviewButton">
                                                     Edit
                                                 </button>
                                                 <button type="submit" class="btn btn-outline-secondary py-1 px-2 mb-2" form="editReview" onclick="editReview(0);" id="submitReviewButton" hidden>
