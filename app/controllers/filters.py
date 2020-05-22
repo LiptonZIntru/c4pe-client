@@ -93,7 +93,7 @@ def get_url(request, url):
     maxRating = request.GET.get('maxrating')
     placeTypes = request.GET.get('placetype')
     isOpen = request.GET.get('isopen')
-    orderBy = request.GET.get('sortby')
+    orderBy = request.GET.get('orderby')
     country = request.GET.get('country')
 
     if name:

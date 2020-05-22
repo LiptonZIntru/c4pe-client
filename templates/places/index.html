@@ -51,16 +51,16 @@
                     <!-- třídění, seřazení výstupu pro uživatele -->
                         <div class="col-lg-2">
                             <div class="btn-group my-1 float-right">
-                                <button id="sortingButton" type="button" class="btn btn-outline-secondary py-1 px-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Sort by
+                                <button id="orderingButton" type="button" class="btn btn-outline-secondary py-1 px-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Order by
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <button class="dropdown-item" id="sortingAz" type="button" onclick="sortAz();">A - Z</button>
-                                    <button class="dropdown-item" id="sortingZa" type="button" onclick="sortZa();">Z - A</button>
-                                    <button class="dropdown-item" id="sortingTop" type="button" onclick="sortTopReviewed();">Top rated</button>
-                                    <button class="dropdown-item" id="sortingWorst" type="button" onclick="sortWorstReviewed();">Worst rated</button>
-                                    <button class="dropdown-item" id="sortingMost" type="button" onclick="sortMostReviewed();">Most rated</button>
-                                    <button class="dropdown-item" id="sortingLeast" type="button" onclick="sortLeastReviewed();">Least rated</button>
+                                    <button class="dropdown-item" id="orderingAz" type="button" onclick="OrderNow('name');">A - Z</button>
+                                    <button class="dropdown-item" id="orderingZa" type="button" onclick="OrderNow('name+desc');">Z - A</button>
+                                    <button class="dropdown-item" id="orderingTop" type="button" onclick="OrderNow('rating+desc');">Top rated</button>
+                                    <button class="dropdown-item" id="orderingWorst" type="button" onclick="OrderNow('rating');">Worst rated</button>
+                                    <button class="dropdown-item" id="orderingMost" type="button" onclick="OrderNow('reviewcount+desc');">Most rated</button>
+                                    <button class="dropdown-item" id="orderingLeast" type="button" onclick="OrderNow('reviewcount');">Least rated</button>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                         Show filters
                     </button>
                     <br class="d-none d-lg-inline" id="filters-ButtonSeparator"/>
-                    <button type="button" class="btn collapse border-primary text-primary mt-0 mt-lg-5 unselectable" id="filters-Section">
+                    <button type="button" class="btn collapse border-primary text-primary mt-0 mt-lg-5 unselectable" onclick="filter();" id="filters-Section">
                         Apply filters
                     </button>
                 </div>
@@ -89,14 +89,14 @@
                             </a>
                             <div class="collapse" id="filters-placeTypes">
                                 <div class="custom-control custom-control-inline custom-checkbox">
-                                   <input type="checkbox" class="custom-control-input" id="0.any" value="0.any" checked>
-                                   <label class="custom-control-label" for="0.any">any</label>
+                                   <input type="checkbox" class="custom-control-input" id="0" value="0" checked>
+                                   <label class="custom-control-label" for="0">any</label>
                                 </div>
                                 <br/>
                                 {% for type in types %}
                                    <div class="custom-control custom-control-inline custom-checkbox">
-                                       <input type="checkbox" class="custom-control-input" id="{{ type.id }}.{{ type.name }}" value="{{ type.id }}.{{ type.name }}">
-                                       <label class="custom-control-label" for="{{ type.id }}.{{ type.name }}">{{ type.name }}</label>
+                                       <input type="checkbox" class="custom-control-input" id="{{ type.id }}.{{ type.name }}" value="{{ type.id }}">
+                                       <label class="custom-control-label" for="{{ type.id }}">{{ type.name }}</label>
                                    </div>
                                 {% endfor %}
                             </div>
@@ -113,12 +113,8 @@
                                <label class="custom-control-label" for="filters-Verified">verified places only</label>
                             </div>
                             <div class="custom-control custom-checkbox pt-2">
-                               <input type="checkbox" class="custom-control-input" id="filters-OpenedState" onclick="Disable('filters-OpenedStateNone');">
+                               <input type="checkbox" class="custom-control-input" id="filters-OpenedState">
                                <label class="custom-control-label" for="filters-OpenedState">opened places only</label>
-                            </div>
-                            <div class="custom-control custom-checkbox pt-2">
-                               <input type="checkbox" class="custom-control-input" id="filters-OpenedStateNone" disabled>
-                               <label class="custom-control-label" for="filters-OpenedStateNone">"no data" including</label>
                             </div>
                         </div>
 
@@ -143,12 +139,12 @@
                             <label class="text-nowrap font-weight-bold unselectable">Rating:</label>
                             <div class="row ml-3">
                                 <div class="row">
-                                    <label class="pt-2 pr-2" for="filters-LowerRating">min:</label>
-                                    <input class="form-control" id="filters-LowerRating" type="number" value="0" min="0" max="5" step="1" style="width: 3.5em;"/>
+                                    <label class="pt-2 pr-2" for="filters-MinRating">min:</label>
+                                    <input class="form-control" id="filters-MinRating" type="number" value="0" min="0" max="5" step="1" style="width: 3.5em;"/>
                                 </div>
                                 <div class="row ml-4 ml-lg-n3 mt-lg-1">
-                                    <label class="pt-2 pr-2" for="filters-HighRating">max:</label>
-                                    <input class="form-control" id="filters-HighRating" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
+                                    <label class="pt-2 pr-2" for="filters-MaxRating">max:</label>
+                                    <input class="form-control" id="filters-MaxRating" type="number" value="5" min="0" max="5" step="1" style="width: 3.5em;"/>
                                 </div>
                             </div>
                         </div>
@@ -279,4 +275,5 @@
 {% block js %}
     <script rel="script" type="text/javascript" src="{% static 'js/places/index.js' %}"></script>
     <script rel="script" type="text/javascript" src="{% static 'js/places/sorting.js' %}"></script>
+    <script rel="script" type="text/javascript" src="{% static 'js/places/filters.js' %}"></script>
 {% endblock %}
