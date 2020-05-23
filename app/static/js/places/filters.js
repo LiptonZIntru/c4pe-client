@@ -39,7 +39,6 @@ var elementValue = "";
             var tempElement = "";
             if(currentUrl.includes('placetype=[')) {
                 currentUrl.slice(currentUrl.indexOf('placetype=[') + "placetype=[".length).slice(0, currentUrl.slice(currentUrl.indexOf('placetype=[') + "placetype=[".length).indexOf(']')).split(',').forEach(id => {
-                    window.alert(id);
                     tempElement = document.getElementById(id);
                     if(tempElement.classList.contains('placeType')) {
                         tempElement.checked = (tempElement.id == id);
@@ -83,7 +82,7 @@ var elementValue = "";
             filterValues[5] = document.getElementById('filters-MaxRating').value;
 
             document.querySelectorAll('.placeType').forEach(element => {
-                if(element.id == "any") {
+                if(element.id == "any" && element.checked) {
                     anyPlaceTypeChecked = true;
                 }
                 else if (counter == 0 && element.checked) {
