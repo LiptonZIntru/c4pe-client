@@ -50,8 +50,8 @@ urlpatterns = [
     path('places/<place_id>/reviews/<id>/edit/', reviews.edit, name='reviews edit'),
     path('places/<place_id>/images/<id>/', places.avatar, name='places image upload'),
     path('places/<place_id>/images/<id>/delete/', places.delete_avatar, name='places image delete'),
-    # path('places/<place_id>/reviews/<review_id>/like/', reactions.like, name='reaction create'),
-    # path('places/<place_id>/reviews/<review_id>/dislike/', reactions.dislike, name='reaction delete'),
+    path('places/<place_id>/reviews/<review_id>/like/', reactions.like, name='reaction create'),
+    path('places/<place_id>/reviews/<review_id>/dislike/', reactions.dislike, name='reaction delete'),
 
 
     path('places/<place_id>/owners/', owners.index, name='owners'),
