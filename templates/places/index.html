@@ -40,9 +40,9 @@
                         <form class="col-lg-8">
                             <div class="input-group mx-md-auto" style="max-width: 690px;">
                                 <form>
-                                    <input name="name" type="text" class="form-control" placeholder="Your favorite place is here" value="{% if search %}{{ search }}{% endif %}">
+                                    <input type="text" class="form-control" placeholder="Your favorite place is here" id="searchField">
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                                        <button class="btn btn-primary" type="button" onclick="filter();"><i class="fa fa-search"></i></button>
                                     </div>
                                 </form>
                             </div>
