@@ -89,13 +89,13 @@
                             </a>
                             <div class="collapse" id="filters-placeTypes">
                                 <div class="custom-control custom-control-inline custom-checkbox">
-                                   <input type="checkbox" class="custom-control-input" id="0" value="0" checked>
-                                   <label class="custom-control-label" for="0">any</label>
+                                   <input type="checkbox" class="placeType custom-control-input" id="any" value="any">
+                                   <label class="custom-control-label" for="any">any</label>
                                 </div>
                                 <br/>
                                 {% for type in types %}
                                    <div class="custom-control custom-control-inline custom-checkbox">
-                                       <input type="checkbox" class="custom-control-input" id="{{ type.id }}.{{ type.name }}" value="{{ type.id }}">
+                                       <input type="checkbox" class="placeType custom-control-input" id="{{ type.id }}" value="{{ type.id }}">
                                        <label class="custom-control-label" for="{{ type.id }}">{{ type.name }}</label>
                                    </div>
                                 {% endfor %}
@@ -274,6 +274,6 @@
 
 {% block js %}
     <script rel="script" type="text/javascript" src="{% static 'js/places/index.js' %}"></script>
-    <script rel="script" type="text/javascript" src="{% static 'js/places/sorting.js' %}"></script>
+    <script rel="script" type="text/javascript" src="{% static 'js/places/ordering.js' %}"></script>
     <script rel="script" type="text/javascript" src="{% static 'js/places/filters.js' %}"></script>
 {% endblock %}
