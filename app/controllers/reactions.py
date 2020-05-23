@@ -8,7 +8,7 @@ import json
 from datetime import datetime
 
 
-def create(request, place_id, review_id):
+def like(request, place_id, review_id):
     headers = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']
@@ -18,13 +18,12 @@ def create(request, place_id, review_id):
     }
     response = requests.post('http://77.244.251.110/api/places/' + place_id + '/reviews/' + review_id + '/reaction',
                              data=json.dumps(data), headers=headers)
-    print(response.text)
     if response.status_code == 200:
         return HttpResponse("true")
     return HttpResponse(status=400)
 
 
-def delete(request, place_id, review_id):
+def dislike(request, place_id, review_id):
     headers = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']

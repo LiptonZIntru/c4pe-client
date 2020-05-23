@@ -63,13 +63,13 @@ def edit(request, id):
 
 # @require_http_methods('POST')
 
-def avatar(request):
+def avatar(request, id):
     if request.method == 'GET':
         return render(request, 'users/avatar.html')
-    if request.method == 'POST':
-        avatar = request.FILES.get('avatar')
+    elif request.method == 'POST':
+        avatar_file = request.FILES.get('avatar')
         file = open('app/static/upload/image.jpg', 'wb+')
-        for chunk in avatar.chunks():
+        for chunk in avatar_file.chunks():
             file.write(chunk)
         headers = {
             'Authorization': 'Bearer ' + request.COOKIES['token']
@@ -77,25 +77,24 @@ def avatar(request):
         data = {
             "image": open(r'app/static/upload/image.jpg', 'rb')
         }
-        print(data)
         response = requests.post('http://77.244.251.110/api/users/me/avatar', files=data, headers=headers)
         if response.status_code == 200:
-            messages.success('Avatar uploaded')
+            messages.success(request, 'Avatar uploaded')
         else:
-            messages.error(response.text)
-        return redirect('user profile')
+            messages.error(request, response.text)
+        return redirect('user profile', id=id)
 
 
-def delete_avatar(request):
+def delete_avatar(request, id):
     headers = {
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
     response = requests.delete('http://77.244.251.110/api/users/me/avatar', headers=headers)
     if response.status_code == 200:
-        messages.success('Avatar deleted')
+        messages.success(request, 'Avatar deleted')
     else:
-        messages.error(response.text)
-    return redirect('user profile')
+        messages.error(request, response.text)
+    return redirect('user profile', id=id)
 
 
 def login(request):

@@ -162,3 +162,46 @@ def get_json_reviews(request, id, type):
             if review['user']['isVerified']:
                 response_reviews.append(review)
     return HttpResponse(json.dumps(response_reviews))  # REQUIRED TO BE HTTP RESPONSE
+
+
+def avatar(request, place_id, id):
+    if request.method == 'GET':
+        images = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id).text)['images']
+        print(images)
+        try:
+            return render(request, 'places/image.html',
+                          {
+                              'image': images[int(id) - 1]
+                          })
+        except:
+            return render(request, 'places/avatar.html')
+    elif request.method == 'POST':
+        avatar_file = request.FILES.get('avatar')
+        file = open('app/static/upload/place.jpg', 'wb+')
+        for chunk in avatar_file.chunks():
+            file.write(chunk)
+        headers = {
+            'Authorization': 'Bearer ' + request.COOKIES['token']
+        }
+        data = {
+            "image": open(r'app/static/upload/place.jpg', 'rb')
+        }
+        response = requests.post('http://77.244.251.110/api/places/' + place_id + '/images/' + id, files=data, headers=headers)
+        if response.status_code == 200:
+            messages.success(request, 'Avatar uploaded')
+        else:
+            messages.error(request, response.text)
+        print(response)
+        return redirect('place profile', id=place_id)
+
+
+def delete_avatar(request, place_id, id):
+    headers = {
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    response = requests.delete('http://77.244.251.110/api/place/' + place_id + '/images/' + id, headers=headers)
+    if response.status_code == 200:
+        messages.success(request, 'Avatar deleted')
+    else:
+        messages.error(request, response.text)
+    return redirect('place profile', id=place_id)

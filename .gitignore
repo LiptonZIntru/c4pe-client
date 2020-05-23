@@ -8,3 +8,4 @@ app/static/test
 __pycache__
 app/__pycache__
 image.png
+app/static/upload
