@@ -145,6 +145,7 @@ def create_review(request, id):
             return redirect('reviews', id=id)
 
 
+# po dokonceni odstranit
 def get_json_reviews(request, id, type):
     reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
     response_reviews = []

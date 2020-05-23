@@ -64,23 +64,38 @@ def edit(request, id):
 # @require_http_methods('POST')
 
 def avatar(request):
-    url = 'image.png'
     if request.method == 'GET':
         return render(request, 'users/avatar.html')
-    avatar = request.FILES.get('avatar')
-    file = open(url, 'wb+')
-    for chunk in avatar.chunks():
-        file.write(chunk)
+    if request.method == 'POST':
+        avatar = request.FILES.get('avatar')
+        file = open('app/static/upload/image.jpg', 'wb+')
+        for chunk in avatar.chunks():
+            file.write(chunk)
+        headers = {
+            'Authorization': 'Bearer ' + request.COOKIES['token']
+        }
+        data = {
+            "image": open(r'app/static/upload/image.jpg', 'rb')
+        }
+        print(data)
+        response = requests.post('http://77.244.251.110/api/users/me/avatar', files=data, headers=headers)
+        if response.status_code == 200:
+            messages.success('Avatar uploaded')
+        else:
+            messages.error(response.text)
+        return redirect('user profile')
+
+
+def delete_avatar(request):
     headers = {
-        'Authorization': 'Bearer ' + request.COOKIES['token'],
-        'content-type': 'multipart/form-data'
+        'Authorization': 'Bearer ' + request.COOKIES['token']
     }
-    data = {
-        "image": open(url, 'rb')
-    }
-    print(data)
-    response = requests.post('http://77.244.251.110/api/users/me/avatar', data=data, headers=headers)
-    return HttpResponse(response.status_code)
+    response = requests.delete('http://77.244.251.110/api/users/me/avatar', headers=headers)
+    if response.status_code == 200:
+        messages.success('Avatar deleted')
+    else:
+        messages.error(response.text)
+    return redirect('user profile')
 
 
 def login(request):

@@ -69,8 +69,8 @@
 
                                                 <!-- username a profilový obrázek -->
                                                     <a class="text-decoration-none" id="users/{{ currentUser.id }}Link" onmouseover="ColorLinkOnHover('users/{{ currentUser.id }}', 'white', 75);" onmouseout="ColorLinkOnHover('users/{{ currentUser.id }}', 'white', 5);" href="/users/{{ currentUser.id }}/" style="color: rgba(255,255,255,.5);">
-                                                        {% if currentUser.avatar != NULL and currentUser.avatar != "none" %}
-                                                            <img class="rounded-circle" src="{{ currentUser.avatar }}" height="40px" width="40px">
+                                                        {% if currentUser.avatarURI %}
+                                                            <img class="rounded-circle" src="http://77.244.251.110/{{ currentUser.avatarURI }}" height="40px" width="40px">
                                                         {% else %}
                                                             <img class="rounded-circle" src="{% static '/img/AvatarPlaceholder.png' %}" height="40px" width="40px">
                                                         {% endif %}
