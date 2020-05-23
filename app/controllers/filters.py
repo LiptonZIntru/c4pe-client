@@ -116,5 +116,4 @@ def get_url(request, url):
     if placeTypes:
         for placeType in json.loads(placeTypes):
             url = url + '&PlaceType=' + str(placeType)
-    print(url)
     return url

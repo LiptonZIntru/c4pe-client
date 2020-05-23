@@ -14,17 +14,29 @@ def index(request, id):
     positive = 0
     negative = 0
     verified = 0
+
+    positiveReviews = []
+    negativeReviews = []
+    verifiedReviews = []
+
     for review in reviews:
         if review['rating'] < 3:
             negative = negative + 1
+            negativeReviews.append(review)
         elif review['rating'] > 2:
             positive = positive + 1
+            positiveReviews.append(review)
         if review['user']['isVerified']:
             verified = verified + 1
+            verifiedReviews.append(review)
+
     return render(request, 'reviews/index.html',
                   {
                       'place': place,
                       'reviews': reviews,
+                      'positiveReviews': positiveReviews,
+                      'negativeReviews': negativeReviews,
+                      'verifiedReviews': verifiedReviews,
                       'positive': positive,
                       'negative': negative,
                       'verified': verified,
