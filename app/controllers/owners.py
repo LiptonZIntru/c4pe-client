@@ -18,8 +18,7 @@ def index(request, place_id):
     return render(request, 'owners/index.html',
                   {
                       'place': place,
-                      'owners': owners,
-                      'currentUser': get_user(request),
+                      'owners': owners
                   })
 
 

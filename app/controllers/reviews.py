@@ -33,17 +33,13 @@ def index(request, id):
                       'verifiedReviews': verifiedReviews,
                       'positive': len(positiveReviews),
                       'negative': len(negativeReviews),
-                      'verified': len(verifiedReviews),
-                      'currentUser': get_user(request)
+                      'verified': len(verifiedReviews)
                   })
 
 
 def create(request, id):
     if request.method == 'GET':
-        return render(request, 'reviews/create.html',
-                      {
-                          'currentUser': get_user(request)
-                      })
+        return render(request, 'reviews/create.html')
     elif request.method == 'POST':
         data = {
             'rating': int(request.POST.get('newRating')),
@@ -68,8 +64,7 @@ def edit(request, place_id, id):
         review = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/Reviews/' + id).text)
         return render(request, 'reviews/edit.html',
                       {
-                          'review': review,
-                          'currentUser': get_user(request)
+                          'review': review
                       })
     elif request.method == 'POST':
         data = {

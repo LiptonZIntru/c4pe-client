@@ -15,10 +15,7 @@ def example(request):
 
 
 def urls(request):
-    return render(request, 'urls.html',
-                  {
-                      'currentUser': get_user(request)
-                  })
+    return render(request, 'urls.html')
 
 
 def index(request):
@@ -27,16 +24,12 @@ def index(request):
                   {
                       'places': response['amountPlaces'],
                       'users': response['amountUsers'],
-                      'reviews': response['amountReviews'],
-                      'currentUser': get_user(request)
+                      'reviews': response['amountReviews']
                   })
 
 
 def about(request):
-    return render(request, 'home/about.html',
-                  {
-                      'currentUser': get_user(request)
-                  })
+    return render(request, 'home/about.html')
 
 
 def test(request):
@@ -45,6 +38,5 @@ def test(request):
                   {
                       'places': response['amountPlaces'],
                       'users': response['amountUsers'],
-                      'reviews': response['amountReviews'],
-                      'currentUser': get_user(request)
+                      'reviews': response['amountReviews']
                   })

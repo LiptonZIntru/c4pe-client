@@ -15,8 +15,7 @@ def index(request):
                       {
                           'places': response['amountPlaces'],
                           'users': response['amountUsers'],
-                          'reviews': response['amountReviews'],
-                          'currentUser': get_user(request)
+                          'reviews': response['amountReviews']
                       })
     else:
         messages.error(request, 'Permission denied')

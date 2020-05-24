@@ -13,8 +13,7 @@ def index(request):
         placeTypes = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         return render(request, 'admin/placetypes/index.html',
                       {
-                          'placeTypes': placeTypes,
-                          'currentUser': get_user(request),
+                          'placeTypes': placeTypes
                       })
     else:
         messages.error(request, 'Permission denied')
@@ -23,10 +22,7 @@ def index(request):
 
 def create(request):
     if request.method == 'GET':
-        return render(request, 'admin/placetypes/create.html',
-                      {
-                          'currentUser': get_user(request),
-                      })
+        return render(request, 'admin/placetypes/create.html')
     elif request.method == 'POST':
         headers = {
             'content-type': 'application/json',
@@ -49,8 +45,7 @@ def edit(request, id):
         placeType = json.loads(requests.get(settings.API_IP + '/api/placetypes/' + id).text)
         return render(request, 'admin/places/edit.html',
                       {
-                          'placeType': placeType,
-                          'currentUser': get_user(request)
+                          'placeType': placeType
                       })
     elif request.method == 'POST':
         headers = {

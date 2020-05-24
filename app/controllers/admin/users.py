@@ -13,8 +13,7 @@ def index(request):
         users = json.loads(requests.get(settings.API_IP + '/api/users').text)
         return render(request, 'admin/users/index.html',
                       {
-                          'users': users,
-                          'currentUser': get_user(request),
+                          'users': users
                       })
     else:
         messages.error(request, 'Permission denied')
@@ -28,8 +27,7 @@ def edit(request, id):
         return render(request, 'admin/users/edit.html',
                       {
                           'user': user,
-                          'userReviews': userReviews,
-                          'currentUser': get_user(request)
+                          'userReviews': userReviews
                       })
     elif request.method == 'POST':
         headers = {
@@ -62,8 +60,7 @@ def reviews(request, id):
         return render(request, 'admin/users/reviews.html',
                       {
                           'user': user,
-                          'reviews': reviews,
-                          'currentUser': get_user(request),
+                          'reviews': reviews
                       })
     else:
         messages.error(request, 'Permission denied')
