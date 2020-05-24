@@ -28,7 +28,7 @@
                             <div class="col-md-4">
                                 <div class="placePhoto m-0" style="width: available; position: relative;">
                                     {% if place.images.0 %}
-                                        <img class="rounded img-fluid mx-auto d-block" src="http://77.244.251.110/{{ place.images.0.uri }}" style="position: absolute; object-fit: cover; width: 100%; height: 100%;">
+                                        <img class="rounded img-fluid mx-auto d-block" src="{{ API_IP }}/{{ place.images.0.uri }}" style="position: absolute; object-fit: cover; width: 100%; height: 100%;">
                                     {% else %}
                                         <img class="rounded img-fluid mx-auto d-block" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" style="position: absolute; object-fit: cover; width: 100%; height: 100%;">
                                     {% endif %}

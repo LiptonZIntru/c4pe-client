@@ -157,7 +157,11 @@
 
                             <!-- obrázek podniku -->
                                 <div class="col-md-2">
-                                    <img src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" class="img-thumbnail img-responsive" alt="Place photo" style="width: 150px;">
+                                    {% if place.images.0 %}
+                                        <img src="{{ API_IP }}/{{ place.images.0.uri }}" class="img-thumbnail img-responsive" style="width: 150px;">
+                                    {% else %}
+                                        <img src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" class="img-thumbnail img-responsive" alt="Place photo" style="width: 150px;">
+                                    {% endif %}
                                 </div>
                             <!-- info o podniku -->
                                 <div class="col-md-10">
