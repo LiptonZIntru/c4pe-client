@@ -26,10 +26,16 @@
 
                         <!-- foto -->
                             <div class="col-md-4">
-                                <img class="rounded img-fluid mx-auto d-block" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" style="width: available;" id="placePhoto">
+                                <div class="placePhoto m-0" style="width: available; position: relative;">
+                                    {% if place.images.0 %}
+                                        <img class="rounded img-fluid mx-auto d-block" src="http://77.244.251.110/{{ place.images.0.uri }}" style="position: absolute; object-fit: cover; width: 100%; height: 100%;">
+                                    {% else %}
+                                        <img class="rounded img-fluid mx-auto d-block" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" style="position: absolute; object-fit: cover; width: 100%; height: 100%;">
+                                    {% endif %}
+                                </div>
                             </div>
 
-                        <div class="col-md-8">
+                        <div class="col-md-8 mt-md-0 mt-2">
 
                             <!-- název (edit button pro admina) -->
                                 <div class="row ml-1">

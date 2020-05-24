@@ -1,8 +1,5 @@
-/* RESPONZIVITA */
-    @media only screen and (max-width: 767px)
-    {
-        #placePhoto{
-            width:300px;
-            margin-bottom: 10px;
-        }
-    }
+.placePhoto:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}

@@ -20,8 +20,8 @@
 
                     <!-- profilový obrázek -->
                         <div class="col-sm-3">
-                            {% if user.avatar != NULL and user.avatar != "" and user.avatar != "None" %}
-                                <img class="rounded-circle img-fluid mx-auto d-block" src="{{ user.avatar }}" style="width: available;" id="userPhoto"/>
+                            {% if user.avatarURI %}
+                                <img class="rounded-circle img-fluid mx-auto d-block" src="http://77.244.251.110/{{ user.avatarURI }}" style="width: available;" id="userPhoto"/>
                             {% else %}
                                 <img class="rounded-circle img-fluid mx-auto d-block" src="{% static '/img/AvatarPlaceholder.png' %}" style="width: available;" id="userPhoto"/>
                             {% endif %}
