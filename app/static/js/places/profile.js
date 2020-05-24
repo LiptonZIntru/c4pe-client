@@ -96,27 +96,49 @@ var rating = 0;
 /* ZAMODRÁVÁNÍ LIKE/DISLIKE BUTTONU */
     function blueThis(id)
     {
+        /*
+         |__   __/ __ \| |  | | |    |  ____|      | |/ ____|  ____|  \/  | |__   __|_   _| |___  /   /\   | |/ / __ \|  \/  |  ____| \ | |__   __/ __ \ \    / /\   | |
+            | | | |  | | |__| | |    | |__         | | (___ | |__  | \  / |    | |    | |      / /   /  \  | ' / |  | | \  / | |__  |  \| |  | | | |  | \ \  / /  \  | |
+            | | | |  | |  __  | |    |  __|    _   | |\___ \|  __| | |\/| |    | |    | |     / /   / /\ \ |  <| |  | | |\/| |  __| | . ` |  | | | |  | |\ \/ / /\ \ | |
+            | | | |__| | |  | | |____| |____  | |__| |____) | |____| |  | |    | |   _| |_   / /__ / ____ \| . \ |__| | |  | | |____| |\  |  | | | |__| | \  / ____ \| |____
+            |_|  \____/|_|  |_|______|______|  \____/|_____/|______|_|  |_|    |_|  |_____| /_____/_/    \_\_|\_\____/|_|  |_|______|_| \_|  |_|  \____/   \/_/    \_\______|*/
         document.getElementById(id).classList.toggle("text-primary");
         document.getElementById(id).classList.toggle("text-secondary");
+
     }
 
 /* LIKE/DISLIKE RECENZE */
     function likeReview(userID, placeID, reviewID, elementID) {
-        /*
-        * if review has like
-        *
-        */
         $.get('/places/' + placeID + '/reviews/' + reviewID + '/like/', function (data) {
-            // success = review liked
-            blueThis(elementID);
-            alert(data);
+            var reactions = JSON.parse(data);
+            /*
+            * vyresit to co je pod timhle pls
+            * */
+            if(reactions.success == 'liked')
+            {
+                //vybarvi like button
+            }
+            else if(reactions.success == 'deleted')
+            {
+                //odbarvi like button
+            }
+            document.getElementById('positiveReactionCount_' + reviewID).innerHTML = reactions.positiveReactions;
+            document.getElementById('negativeReactionCount_' + reviewID).innerHTML = reactions.negativeReactions;
         });
     }
     function dislikeReview(userID, placeID, reviewID, elementID) {
         $.get('/places/' + placeID + '/reviews/' + reviewID + '/dislike/', function (data) {
-            // success = review disliked
-            blueThis(elementID);
-            alert(data);
+            var reactions = JSON.parse(data);
+            if(reactions.success == 'disliked')
+            {
+                //vybarvi dislike button
+            }
+            else if(reactions.success == 'deleted')
+            {
+                //odbarvi dislike button
+            }
+            document.getElementById('positiveReactionCount_' + reviewID).innerHTML = reactions.positiveReactions;
+            document.getElementById('negativeReactionCount_' + reviewID).innerHTML = reactions.negativeReactions;
         });
     }
 
