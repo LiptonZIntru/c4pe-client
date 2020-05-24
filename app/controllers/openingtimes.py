@@ -5,10 +5,11 @@ import requests
 import json
 from datetime import datetime
 from .auth import authorized, get_user
+from django.conf import settings
 
 
 def index(request, place_id):
-    openingTimes = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id + '/openingTimes').text)
+    openingTimes = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/openingTimes').text)
     return render(request, 'openingtimes/index.html',
                   {
                       'openingTimes': openingTimes,
@@ -41,7 +42,7 @@ def create(request, place_id):
             "open": open_time,
             "close": close_time,
         }
-        response = requests.post('http://77.244.251.110/api/places/' + place_id + '/openingTimes',
+        response = requests.post(settings.API_IP + '/api/places/' + place_id + '/openingTimes',
                                  data=json.dumps(data),
                                  headers=headers)
         if response.status_code == 201:
@@ -57,7 +58,7 @@ def create(request, place_id):
 
 def edit(request, place_id):
     if request.method == 'GET':
-        openingTimes = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id + '/openingTimes').text)
+        openingTimes = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/openingTimes').text)
         return render(request, 'openingtimes/edit.html',
                       {
                           'openingTimes': openingTimes,
@@ -79,7 +80,7 @@ def edit(request, place_id):
             "open": open_time,
             "close": close_time,
         }
-        response = requests.put('http://77.244.251.110/api/places/' + place_id + '/openingTimes/' + id,
+        response = requests.put(settings.API_IP + '/api/places/' + place_id + '/openingTimes/' + id,
                                 data=json.dumps(data),
                                 headers=headers)
         if response.status_code == 204:

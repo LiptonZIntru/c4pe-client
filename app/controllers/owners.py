@@ -6,14 +6,15 @@ from django.views.decorators.http import require_http_methods
 import requests
 import json
 from datetime import datetime
+from django.conf import settings
 
 
 def index(request, place_id):
-    place = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id).text)
+    place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
     owners_id = place['owners']
     owners = []
     for i in owners_id:
-        owners.append(json.loads(requests.get('http://77.244.251.110/api/users/' + str(i['userID'])).text))
+        owners.append(json.loads(requests.get(settings.API_IP + '/api/users/' + str(i['userID'])).text))
     return render(request, 'owners/index.html',
                   {
                       'place': place,
@@ -33,7 +34,7 @@ def create(request, place_id):
         'username': username
     }
 
-    response = requests.post('http://77.244.251.110/api/places/' + place_id + '/owner', data=json.dumps(data), headers=headers)
+    response = requests.post(settings.API_IP + '/api/places/' + place_id + '/owner', data=json.dumps(data), headers=headers)
     if response.status_code == 200:
         messages.success(request, 'Owner added')
     else:
@@ -47,7 +48,7 @@ def delete(request, place_id, user_id):
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
-    response = requests.delete('http://77.244.251.110/api/places/' + place_id + '/owner/' + user_id, headers=headers)
+    response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/owner/' + user_id, headers=headers)
     print(response.text)
     if response.status_code == 200:
         messages.success(request, 'Owner removed')

@@ -1,5 +1,6 @@
 import requests
 import json
+from django.conf import settings
 
 
 def authorized(token):
@@ -12,7 +13,7 @@ def authorized(token):
         headers = {
             "Authorization": "Bearer " + token
         }
-        response = requests.get('http://77.244.251.110/api/users/me', headers=headers)
+        response = requests.get(settings.API_IP + '/api/users/me', headers=headers)
         return response.status_code
     return 0
 
@@ -22,7 +23,7 @@ def get_user(request):
         headers = {
             "Authorization": "Bearer " + request.COOKIES['token']
         }
-        return json.loads(requests.get('http://77.244.251.110/api/users/me', headers=headers).text)
+        return json.loads(requests.get(settings.API_IP + '/api/users/me', headers=headers).text)
     return None
 
 
@@ -31,7 +32,7 @@ def is_admin(request):
         headers = {
             "Authorization": "Bearer " + request.COOKIES['token']
         }
-        role = json.loads(requests.get('http://77.244.251.110/api/users/me', headers=headers).text)['role']
+        role = json.loads(requests.get(settings.API_IP + '/api/users/me', headers=headers).text)['role']
         if role == 'Admin':
             return True
     return False

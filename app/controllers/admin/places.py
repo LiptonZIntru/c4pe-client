@@ -5,6 +5,7 @@ from django.views.defaults import page_not_found
 import json
 import requests
 from app.controllers.auth import get_user, authorized, is_admin
+from django.conf import settings
 
 
 def index(request):
@@ -14,7 +15,7 @@ def index(request):
             'content-type': 'application/json',
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
-        places = json.loads(requests.get('http://77.244.251.110/api/places?PageSize=' + size + '&OrderBy=id',
+        places = json.loads(requests.get(settings.API_IP + '/api/places?PageSize=' + size + '&OrderBy=id',
                                          headers=headers).text)
         return render(request, 'admin/places/index.html',
                       {
@@ -28,7 +29,7 @@ def index(request):
 
 def create(request):
     if request.method == 'GET':
-        types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+        types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         return render(request, 'admin/places/create.html',
                       {
                           'types': types,
@@ -47,7 +48,7 @@ def create(request):
             "name": request.POST.get("name"),
             "placeTypeID": int(request.POST.get("type"))
         }
-        response = requests.post('http://77.244.251.110/api/places', data=json.dumps(data), headers=headers)
+        response = requests.post(settings.API_IP + '/api/places', data=json.dumps(data), headers=headers)
         if response.status_code == 201:
             messages.success(request, 'Place created')
             return redirect('admin places')
@@ -61,7 +62,7 @@ def delete(request, place_id):
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
-    response =requests.delete('http://77.244.251.110/api/places/' + place_id, headers=headers)
+    response =requests.delete(settings.API_IP + '/api/places/' + place_id, headers=headers)
     if response.status_code == 204:
         messages.success(request, 'Place deleted')
     else:
@@ -71,8 +72,8 @@ def delete(request, place_id):
 
 def edit(request, place_id):
     if request.method == 'GET':
-        types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
-        place = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id).text)
+        types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
+        place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
         return render(request, 'admin/places/edit.html',
                       {
                           'types': types,
@@ -92,7 +93,7 @@ def edit(request, place_id):
             "name": request.POST.get("name"),
             "placeTypeID": int(request.POST.get("type"))
         }
-        response = requests.put('http://77.244.251.110/api/places/' + place_id, data=json.dumps(data), headers=headers)
+        response = requests.put(settings.API_IP + '/api/places/' + place_id, data=json.dumps(data), headers=headers)
         if response.status_code == 204:
             messages.success(request, 'Place updated')
             return redirect('admin places')

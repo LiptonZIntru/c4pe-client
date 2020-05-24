@@ -5,11 +5,12 @@ from django.contrib import messages
 import requests
 import json
 from datetime import datetime
+from django.conf import settings
 
 
 def index(request, id):
-    place = json.loads(requests.get('http://77.244.251.110/api/places/' + id).text)
-    reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
+    place = json.loads(requests.get(settings.API_IP + '/api/places/' + id).text)
+    reviews = json.loads(requests.get(settings.API_IP + '/api/places/' + id + '/Reviews').text)
 
     positiveReviews = []
     negativeReviews = []
@@ -52,7 +53,7 @@ def create(request, id):
             'content-type': 'application/json',
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
-        response = requests.post('http://77.244.251.110/api/places/' + id + '/Reviews', data=json.dumps(data),
+        response = requests.post(settings.API_IP + '/api/places/' + id + '/Reviews', data=json.dumps(data),
                                  headers=headers)
         if response.status_code == 201:
             messages.success(request, 'Review added')
@@ -64,7 +65,7 @@ def create(request, id):
 
 def edit(request, place_id, id):
     if request.method == 'GET':
-        review = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id + '/Reviews/' + id).text)
+        review = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/Reviews/' + id).text)
         return render(request, 'reviews/edit.html',
                       {
                           'review': review,
@@ -79,7 +80,7 @@ def edit(request, place_id, id):
             'content-type': 'application/json',
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
-        response = requests.put('http://77.244.251.110/api/places/' + place_id + '/Reviews/' + id, data=json.dumps(data), headers=headers)
+        response = requests.put(settings.API_IP + '/api/places/' + place_id + '/Reviews/' + id, data=json.dumps(data), headers=headers)
         if response.status_code == 204:
             messages.success(request, 'Review updated')
             return redirect('reviews', id=place_id)

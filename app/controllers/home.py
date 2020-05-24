@@ -4,7 +4,7 @@ from django.views.defaults import page_not_found
 import json
 import requests
 from .auth import get_user
-
+from django.conf import settings
 
 # Create your views here.
 
@@ -22,7 +22,7 @@ def urls(request):
 
 
 def index(request):
-    response = json.loads(requests.get('http://77.244.251.110/api/stats').text)
+    response = json.loads(requests.get(settings.API_IP + '/api/stats').text)
     return render(request, 'home/index.html',
                   {
                       'places': response['amountPlaces'],
@@ -40,7 +40,7 @@ def about(request):
 
 
 def test(request):
-    response = json.loads(requests.get('http://77.244.251.110/api/stats').text)
+    response = json.loads(requests.get(settings.API_IP + '/api/stats').text)
     return render(request, 'karel/index.html',
                   {
                       'places': response['amountPlaces'],

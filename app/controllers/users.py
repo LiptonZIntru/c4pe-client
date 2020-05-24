@@ -5,11 +5,12 @@ from django.contrib import messages
 import requests
 import json
 from .auth import authorized, get_user
+from django.conf import settings
 
 
 def profile(request, id):
-    user = json.loads(requests.get('http://77.244.251.110/api/users/' + id).text)
-    reviews = json.loads(requests.get('http://77.244.251.110/api/users/' + id + '/reviews').text)
+    user = json.loads(requests.get(settings.API_IP + '/api/users/' + id).text)
+    reviews = json.loads(requests.get(settings.API_IP + '/api/users/' + id + '/reviews').text)
     best = ""
     if reviews:
         best = reviews[0]
@@ -25,8 +26,8 @@ def profile(request, id):
 
 
 def reviews(request, id):
-    reviews = json.loads(requests.get('http://77.244.251.110/api/users/' + id + '/reviews').text)
-    user = json.loads(requests.get('http://77.244.251.110/api/users/' + id).text)
+    reviews = json.loads(requests.get(settings.API_IP + '/api/users/' + id + '/reviews').text)
+    user = json.loads(requests.get(settings.API_IP + '/api/users/' + id).text)
     return render(request, 'users/reviews.html',
                   {
                       'user': user,
@@ -52,7 +53,7 @@ def edit(request, id):
             'content-type': 'application/json',
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
-        response = requests.put('http://77.244.251.110/api/users/me', data=json.dumps(data), headers=headers)
+        response = requests.put(settings.API_IP + '/api/users/me', data=json.dumps(data), headers=headers)
         if response.status_code == 204:
             messages.success(request, 'Profile updated')
             return redirect('user profile', id=id)
@@ -77,7 +78,7 @@ def avatar(request, id):
         data = {
             "image": open(r'app/static/upload/image.jpg', 'rb')
         }
-        response = requests.post('http://77.244.251.110/api/users/me/avatar', files=data, headers=headers)
+        response = requests.post(settings.API_IP + '/api/users/me/avatar', files=data, headers=headers)
         if response.status_code == 200:
             messages.success(request, 'Avatar uploaded')
         else:
@@ -89,7 +90,7 @@ def delete_avatar(request, id):
     headers = {
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
-    response = requests.delete('http://77.244.251.110/api/users/me/avatar', headers=headers)
+    response = requests.delete(settings.API_IP + '/api/users/me/avatar', headers=headers)
     if response.status_code == 200:
         messages.success(request, 'Avatar deleted')
     else:
@@ -111,7 +112,7 @@ def login(request):
         headers = {
             'content-type': 'application/json'
         }
-        api_response = requests.post('http://77.244.251.110/api/users/login', data=json.dumps(data), headers=headers)
+        api_response = requests.post(settings.API_IP + '/api/users/login', data=json.dumps(data), headers=headers)
 
         api_response_content = json.loads(api_response.text)
         if api_response.status_code == 200:
@@ -147,7 +148,7 @@ def register(request):
             'content-type': 'application/json'
         }
 
-        response = requests.post('http://77.244.251.110/api/users/register', data=json.dumps(data), headers=headers)
+        response = requests.post(settings.API_IP + '/api/users/register', data=json.dumps(data), headers=headers)
         if not response.status_code == 201:
             messages.error(request, response.text)
             return redirect('register')  # TODO: message - return response content

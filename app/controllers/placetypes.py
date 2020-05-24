@@ -4,10 +4,11 @@ from .auth import get_user, authorized
 from django.contrib import messages
 import requests
 import json
+from django.conf import settings
 
 
 def index(request):
-    placetype = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+    placetype = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
     return render(request, 'placetypes/index.html',
                   {
                       'placetypes': placetype,
@@ -32,7 +33,7 @@ def create(request):
             'content-type': 'application/json',
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
-        response = requests.post('http://77.244.251.110/api/placetypes', data=json.dumps(data), headers=headers)
+        response = requests.post(settings.API_IP + '/api/placetypes', data=json.dumps(data), headers=headers)
         if response.status_code == 201:
             messages.success(request, 'Place type added')
             return redirect('placetypes')
@@ -49,7 +50,7 @@ def edit(request, id):
         TODO: admin route
     """
     if request.method == 'GET':
-        placetype = json.loads(requests.get('http://77.244.251.110/api/placetypes/' + id).text)
+        placetype = json.loads(requests.get(settings.API_IP + '/api/placetypes/' + id).text)
         return render(request, 'placetypes/edit.html',
                       {
                           'placetype': placetype,
@@ -63,7 +64,7 @@ def edit(request, id):
             'content-type': 'application/json',
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
-        response = requests.put('http://77.244.251.110/api/placetypes/' + id, data=json.dumps(data), headers=headers)
+        response = requests.put(settings.API_IP + '/api/placetypes/' + id, data=json.dumps(data), headers=headers)
         if response.status_code == 204:
             messages.success(request, 'Place type updated')
             return redirect('placetypes')

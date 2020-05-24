@@ -7,6 +7,7 @@ from .filters import *
 import requests
 import json
 from datetime import datetime
+from django.conf import settings
 
 # Create your views here.
 
@@ -20,12 +21,12 @@ def index(request):
         if page is None:
             page = '1'
 
-        url = 'http://77.244.251.110/api/places?PageNumber=' + page
+        url = settings.API_IP + '/api/places?PageNumber=' + page
 
         url = get_url(request, url)
 
         response = requests.get(url)
-        types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+        types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         try:
             places = json.loads(response.text)
             current = json.loads(response.headers['X-Pagination'])['CurrentPage']
@@ -48,8 +49,8 @@ def index(request):
 
 
 def profile(request, id):
-    place = json.loads(requests.get('http://77.244.251.110/api/places/' + id).text)
-    reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
+    place = json.loads(requests.get(settings.API_IP + '/api/places/' + id).text)
+    reviews = json.loads(requests.get(settings.API_IP + '/api/places/' + id + '/Reviews').text)
 
     if len(reviews) > 5:
         reviews = reviews[len(reviews) - 6:len(reviews) - 1]
@@ -64,7 +65,7 @@ def profile(request, id):
 
 def create(request):
     if request.method == 'GET':
-        types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+        types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         return render(request, 'places/create.html',
                       {
                           'types': types,
@@ -83,7 +84,7 @@ def create(request):
             "name": request.POST.get("name"),
             "placeTypeID": int(request.POST.get("type"))
         }
-        response = requests.post('http://77.244.251.110/api/places', data=json.dumps(data), headers=headers)
+        response = requests.post(settings.API_IP + '/api/places', data=json.dumps(data), headers=headers)
         if response.status_code == 201:
             messages.success(request, 'Place created')
             return redirect('places')
@@ -94,8 +95,8 @@ def create(request):
 
 def edit(request, id):
     if request.method == 'GET':
-        types = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
-        place = json.loads(requests.get('http://77.244.251.110/api/places/' + id).text)
+        types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
+        place = json.loads(requests.get(settings.API_IP + '/api/places/' + id).text)
         return render(request, 'places/edit.html',
                       {
                           'types': types,
@@ -115,7 +116,7 @@ def edit(request, id):
             "name": request.POST.get("name"),
             "placeTypeID": int(request.POST.get("type"))
         }
-        response = requests.put('http://77.244.251.110/api/places/' + id, data=json.dumps(data), headers=headers)
+        response = requests.put(settings.API_IP + '/api/places/' + id, data=json.dumps(data), headers=headers)
         if response.status_code == 204:
             messages.success(request, 'Place updated')
             return redirect('places')
@@ -135,7 +136,7 @@ def create_review(request, id):
             'content-type': 'application/json',
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
-        response = requests.post('http://77.244.251.110/api/places/' + id + '/Reviews', data=json.dumps(data),
+        response = requests.post(settings.API_IP + '/api/places/' + id + '/Reviews', data=json.dumps(data),
                                  headers=headers)
         if response.status_code == 201:
             messages.success(request, 'Review added')
@@ -147,7 +148,7 @@ def create_review(request, id):
 
 # po dokonceni odstranit
 def get_json_reviews(request, id, type):
-    reviews = json.loads(requests.get('http://77.244.251.110/api/places/' + id + '/Reviews').text)
+    reviews = json.loads(requests.get(settings.API_IP + '/api/places/' + id + '/Reviews').text)
     response_reviews = []
     for review in reviews:
         if int(type) == 1:  # all
@@ -166,7 +167,7 @@ def get_json_reviews(request, id, type):
 
 def avatar(request, place_id, id):
     if request.method == 'GET':
-        images = json.loads(requests.get('http://77.244.251.110/api/places/' + place_id).text)['images']
+        images = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)['images']
         print(images)
         try:
             return render(request, 'places/image.html',
@@ -186,7 +187,7 @@ def avatar(request, place_id, id):
         data = {
             "image": open(r'app/static/upload/place.jpg', 'rb')
         }
-        response = requests.post('http://77.244.251.110/api/places/' + place_id + '/images/' + id, files=data, headers=headers)
+        response = requests.post(settings.API_IP + '/api/places/' + place_id + '/images/' + id, files=data, headers=headers)
         if response.status_code == 200:
             messages.success(request, 'Avatar uploaded')
         else:
@@ -199,7 +200,7 @@ def delete_avatar(request, place_id, id):
     headers = {
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
-    response = requests.delete('http://77.244.251.110/api/place/' + place_id + '/images/' + id, headers=headers)
+    response = requests.delete(settings.API_IP + '/api/place/' + place_id + '/images/' + id, headers=headers)
     if response.status_code == 200:
         messages.success(request, 'Avatar deleted')
     else:

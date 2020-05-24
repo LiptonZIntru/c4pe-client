@@ -5,11 +5,12 @@ from django.contrib import messages
 import json
 import requests
 from app.controllers.auth import get_user, authorized, is_admin
+from django.conf import settings
 
 
 def index(request):
     if is_admin(request):
-        placeTypes = json.loads(requests.get('http://77.244.251.110/api/placetypes').text)
+        placeTypes = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         return render(request, 'admin/placetypes/index.html',
                       {
                           'placeTypes': placeTypes,
@@ -34,7 +35,7 @@ def create(request):
         data = {
             "name": request.POST.get('name')
         }
-        response = requests.post('http://77.244.251.110/api/placetypes', data=json.dumps(data), headers=headers)
+        response = requests.post(settings.API_IP + '/api/placetypes', data=json.dumps(data), headers=headers)
         if response.status_code == 201:
             messages.success(request, 'Place type created')
             return redirect('admin placetypes')
@@ -45,7 +46,7 @@ def create(request):
 
 def edit(request, id):
     if request.method == 'GET':
-        placeType = json.loads(requests.get('http://77.244.251.110/api/placetypes/' + id).text)
+        placeType = json.loads(requests.get(settings.API_IP + '/api/placetypes/' + id).text)
         return render(request, 'admin/places/edit.html',
                       {
                           'placeType': placeType,
@@ -59,7 +60,7 @@ def edit(request, id):
         data = {
             "name": request.POST.get("name"),
         }
-        response = requests.put('http://77.244.251.110/api/placetypes/' + id, data=json.dumps(data), headers=headers)
+        response = requests.put(settings.API_IP + '/api/placetypes/' + id, data=json.dumps(data), headers=headers)
         if response.status_code == 204:
             messages.success(request, 'Place type updated')
             return redirect('admin placetypes')
@@ -73,7 +74,7 @@ def delete(request, id):
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
-    response = requests.delete('http://77.244.251.110/api/placetypes/' + id, headers=headers)
+    response = requests.delete(settings.API_IP + '/api/placetypes/' + id, headers=headers)
     if response.status_code == 204:
         messages.success(request, 'Place type deleted')
     else:

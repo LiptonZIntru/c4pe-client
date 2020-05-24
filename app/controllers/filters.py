@@ -6,6 +6,7 @@ from django.views.decorators.http import require_http_methods
 import requests
 import json
 from datetime import datetime
+from django.conf import settings
 
 
 def paginate(current, last):
