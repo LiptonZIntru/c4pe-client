@@ -20,8 +20,7 @@ def profile(request, id):
     return render(request, 'users/index.html',
                   {
                       'user': user,
-                      'review': best,
-                      'currentUser': get_user(request)
+                      'review': best
                   })
 
 
@@ -31,8 +30,7 @@ def reviews(request, id):
     return render(request, 'users/reviews.html',
                   {
                       'user': user,
-                      'reviews': reviews,
-                      'currentUser': get_user(request)  # TODO: vykreslovani reviews
+                      'reviews': reviews
                   })
 
 

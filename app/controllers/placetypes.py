@@ -9,11 +9,7 @@ from django.conf import settings
 
 def index(request):
     placetype = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
-    return render(request, 'placetypes/index.html',
-                  {
-                      'placetypes': placetype,
-                      'currentUser': get_user(request)
-                  })
+    return render(request, 'placetypes/index.html')
 
 
 def create(request):
@@ -21,10 +17,7 @@ def create(request):
         TODO: admin route
     """
     if request.method == 'GET':
-        return render(request, 'placetypes/create.html',
-                      {
-                          'currentUser': get_user(request)
-                      })
+        return render(request, 'placetypes/create.html')
     elif request.method == 'POST':
         data = {
             'name': request.POST.get('name')
@@ -39,10 +32,7 @@ def create(request):
             return redirect('placetypes')
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return render(request, 'placetypes/create.html',  # TODO: form validation error
-                          {
-                              'currentUser': get_user(request)
-                          })
+            return render(request, 'placetypes/create.html') # TODO: form validation error
 
 
 def edit(request, id):
@@ -53,8 +43,7 @@ def edit(request, id):
         placetype = json.loads(requests.get(settings.API_IP + '/api/placetypes/' + id).text)
         return render(request, 'placetypes/edit.html',
                       {
-                          'placetype': placetype,
-                          'currentUser': get_user(request)
+                          'placetype': placetype
                       })
     elif request.method == 'POST':
         data = {
@@ -70,7 +59,4 @@ def edit(request, id):
             return redirect('placetypes')
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return render(request, 'placetypes/edit.html',  # TODO: form validation error
-                          {
-                              'currentUser': get_user(request)
-                          })
+            return render(request, 'placetypes/edit.html')  # TODO: form validation error

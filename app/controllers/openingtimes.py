@@ -12,17 +12,13 @@ def index(request, place_id):
     openingTimes = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/openingTimes').text)
     return render(request, 'openingtimes/index.html',
                   {
-                      'openingTimes': openingTimes,
-                      'currentUser': get_user(request)
+                      'openingTimes': openingTimes
                   })
 
 
 def create(request, place_id):
     if request.method == 'GET':
-        return render(request, 'openingtimes/create.html',
-                      {
-                          'currentUser': get_user(request)
-                      })
+        return render(request, 'openingtimes/create.html')
 
     elif request.method == 'POST':
         open_min = int(request.POST.get("openMinutes"))
@@ -50,10 +46,7 @@ def create(request, place_id):
             return redirect('places')
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return render(request, 'openingtimes/create.html',  # TODO: form validation error
-                          {
-                              'currentUser': get_user(request)
-                          })
+            return render(request, 'openingtimes/create.html')  # TODO: form validation error
 
 
 def edit(request, place_id):
@@ -61,8 +54,7 @@ def edit(request, place_id):
         openingTimes = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/openingTimes').text)
         return render(request, 'openingtimes/edit.html',
                       {
-                          'openingTimes': openingTimes,
-                          'currentUser': get_user(request)
+                          'openingTimes': openingTimes
                       })
 
     elif request.method == 'POST':
@@ -88,7 +80,4 @@ def edit(request, place_id):
             return redirect('places')
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return render(request, 'openingtimes/edit.html',  # TODO: form validation error
-                          {
-                              'currentUser': get_user(request)
-                          })
+            return render(request, 'openingtimes/edit.html')  # TODO: form validation error

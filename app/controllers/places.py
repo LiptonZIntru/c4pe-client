@@ -43,8 +43,7 @@ def index(request):
                           'search': request.GET.get('name'),
                           'places': places,
                           'pages': pages,
-                          'types': types,
-                          'currentUser': get_user(request)
+                          'types': types
                       })
 
 
@@ -58,8 +57,7 @@ def profile(request, id):
     return render(request, 'places/profile.html',
                   {
                       'place': place,
-                      'reviews': reviews,
-                      'currentUser': get_user(request)
+                      'reviews': reviews
                   })
 
 
@@ -68,8 +66,7 @@ def create(request):
         types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         return render(request, 'places/create.html',
                       {
-                          'types': types,
-                          'currentUser': get_user(request)
+                          'types': types
                       })
     elif request.method == 'POST':
         headers = {
@@ -100,8 +97,7 @@ def edit(request, id):
         return render(request, 'places/edit.html',
                       {
                           'types': types,
-                          'place': place,
-                          'currentUser': get_user(request)
+                          'place': place
                       })
     elif request.method == 'POST':
         headers = {
@@ -167,15 +163,15 @@ def get_json_reviews(request, id, type):
 
 def avatar(request, place_id, id):
     if request.method == 'GET':
-        images = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)['images']
+        '''images = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)['images']
         print(images)
         try:
             return render(request, 'places/image.html',
                           {
                               'image': images[int(id) - 1]
                           })
-        except:
-            return render(request, 'places/avatar.html')
+        except:'''
+        return render(request, 'places/avatar.html')
     elif request.method == 'POST':
         avatar_file = request.FILES.get('avatar')
         file = open('app/static/upload/place.jpg', 'wb+')

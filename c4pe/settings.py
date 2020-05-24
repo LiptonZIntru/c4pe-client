@@ -30,7 +30,6 @@ API_IP = 'http://77.244.251.110'
 
 ALLOWED_HOSTS = ['localhost', '192.168.0.127', '127.0.0.1', '192.168.0.21', '192.168.0.11', '192.168.1.180', '40.114.229.170', '192.168.0.12']
 
-
 MESSAGE_TAGS = {
     constants.ERROR: 'danger',
 }
@@ -72,6 +71,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app.context.api_url',
+                'app.context.user',
             ],
         },
     },
