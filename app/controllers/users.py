@@ -52,6 +52,10 @@ def edit(request, id):
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
         response = requests.put(settings.API_IP + '/api/users/me', data=json.dumps(data), headers=headers)
+
+        if request.FILES.get('avatar'):
+            avatar(request, id)
+
         if response.status_code == 204:
             messages.success(request, 'Profile updated')
             return redirect('user profile', id=id)

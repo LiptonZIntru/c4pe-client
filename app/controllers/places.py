@@ -113,6 +113,10 @@ def edit(request, id):
             "placeTypeID": int(request.POST.get("type"))
         }
         response = requests.put(settings.API_IP + '/api/places/' + id, data=json.dumps(data), headers=headers)
+
+        '''if request.POST.get('image_id'):
+            avatar(request, id, request.POST.get('image_id'))'''
+
         if response.status_code == 204:
             messages.success(request, 'Place updated')
             return redirect('places')
@@ -188,7 +192,6 @@ def avatar(request, place_id, id):
             messages.success(request, 'Avatar uploaded')
         else:
             messages.error(request, response.text)
-        print(response)
         return redirect('place profile', id=place_id)
 
 
