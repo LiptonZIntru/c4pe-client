@@ -200,8 +200,8 @@ def delete_avatar(request, place_id, id):
     headers = {
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
-    response = requests.delete(settings.API_IP + '/api/place/' + place_id + '/images/' + id, headers=headers)
-    if response.status_code == 200:
+    response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/images/' + id, headers=headers)
+    if response.status_code == 204:
         messages.success(request, 'Avatar deleted')
     else:
         messages.error(request, response.text)
