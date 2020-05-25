@@ -4,7 +4,7 @@
 
 {% block css %}
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/places/profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/pictures.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -26,11 +26,11 @@
 
                         <!-- foto -->
                             <div class="col-md-4">
-                                <div class="placePhoto m-0" style="width: available; position: relative;">
+                                <div class="profilePhotoDiv">
                                     {% if place.images.0 %}
-                                        <img class="rounded img-fluid mx-auto d-block" src="{{ API_IP }}/{{ place.images.0.uri }}" style="position: absolute; object-fit: cover; width: 100%; height: 100%;">
+                                        <img class="rounded img-fluid mx-auto d-block photoStyle" src="{{ API_IP }}/{{ place.images.0.uri }}">
                                     {% else %}
-                                        <img class="rounded img-fluid mx-auto d-block" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" style="position: absolute; object-fit: cover; width: 100%; height: 100%;">
+                                        <img class="rounded img-fluid mx-auto d-block photoStyle" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg">
                                     {% endif %}
                                 </div>
                             </div>

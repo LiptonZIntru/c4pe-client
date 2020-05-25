@@ -1,0 +1,18 @@
+.profilePhotoDiv:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.profilePhotoDiv {
+    width: available;
+    position: relative;
+    margin: 0 auto;
+}
+
+.photoStyle {
+    position: absolute;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}

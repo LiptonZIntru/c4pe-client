@@ -4,7 +4,7 @@
 
 {% block css %}
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/users/index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/pictures.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -20,11 +20,13 @@
 
                     <!-- profilový obrázek -->
                         <div class="col-sm-3">
-                            {% if user.avatarURI %}
-                                <img class="rounded-circle img-fluid mx-auto d-block" src="{{ API_IP }}/{{ user.avatarURI }}" style="width: available;" id="userPhoto"/>
-                            {% else %}
-                                <img class="rounded-circle img-fluid mx-auto d-block" src="{% static '/img/AvatarPlaceholder.png' %}" style="width: available;" id="userPhoto"/>
-                            {% endif %}
+                            <div class="profilePhotoDiv" style="max-width: 250px; max-height: 250px;">
+                                {% if user.avatarURI %}
+                                    <img class="rounded-circle img-fluid mx-auto d-block photoStyle" src="{{ API_IP }}/{{ user.avatarURI }}"/>
+                                {% else %}
+                                    <img class="rounded-circle img-fluid mx-auto d-block photoStyle" src="{% static '/img/AvatarPlaceholder.png' %}"/>
+                                {% endif %}
+                            </div>
                         </div>
 
                     <div class="col-sm-9 pt-2">
