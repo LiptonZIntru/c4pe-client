@@ -1,0 +1,46 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block content %}
+    <form method="post" class="container">
+        {% csrf_token %}
+
+        <!-- photo upload -->
+            <div class="form-group">
+                <label class="mr-2 pt-2" for="photo">Change profile picture:</label>
+                <div class="form-control custom-file" id="photo" style="border: 0;">
+                    <input type="file" class="custom-file-input" id="photoUpload" name="avatar">
+                    <label class="custom-file-label" for="photoUpload" style="border-radius: 4px;">Choose file</label>
+                </div>
+            </div>
+
+        <!-- Jméno, příjmení -->
+            <div class="form-group">
+                <label for="firstName" class="mr-2">First name: </label>
+                <input type="text" class="form-control" name="firstName" id="firstName" value="{{ user.firstName }}" placeholder="Enter your first name" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName" class="mr-2">Last name: </label>
+                <input type="text" class="form-control" name="lastName" id="lastName" value="{{ user.lastName }}" placeholder="Enter your last name" required>
+            </div>
+
+        <!-- Country -->
+            <div class="form-group">
+                <label for="country" class="mr-2">Country: </label>
+                <input type="text" class="form-control" id="country" name="country" value="{{ meUser.country }}" placeholder="Enter your country">
+            </div>
+
+        <!-- Description, biografie -->
+            <div class="form-group">
+                <label for="description">Your biography:</label>
+                <textarea class="form-control text-md-smaller" id="description" name="description" rows="3" placeholder="Your biography">{{ user.description }}</textarea>
+            </div>
+
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-danger" onclick="window.location = '/users/{{ user.id }}'">Cancel</button>
+    </form>
+{% endblock %}

@@ -35,7 +35,13 @@ def reviews(request, id):
 
 
 def edit(request, id):
-    if request.method == 'POST':
+    if request.method == 'GET':
+        user = json.loads(requests.get(settings.API_IP + '/api/users/' + id).text)
+        return render(request, 'users/edit.html',
+                      {
+                          'user': user,
+                      })
+    elif request.method == 'POST':
         data = {
             'username': request.POST.get('username'),
             'password': request.POST.get('password'),
