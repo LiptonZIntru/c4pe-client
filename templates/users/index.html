@@ -70,7 +70,7 @@
                     {% if review %}
                         <div class="card m-2 mt-1 mb-3">
                             <div class="card-body pb-2 pt-2">
-                                <small class="float-right pt-2">
+                                <small class="float-right pt-1 ml-2">
                                     {% if review.rating|floatformat:"0" == "0" %}
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>
@@ -114,7 +114,7 @@
                                         <i class="fa fa-star"></i>
                                     {% endif %}
                                 </small>
-                                <p class="text-nowrap mb-2">
+                                <p class="mb-2">
                                     <b>{{ user.username }}</b> reviewed <a href="/places/{{ review.place.id }}" class="text-dark">{{ review.place.name }}</a> ({{ review.place.street }} street in {{ review.place.country }})
                                 </p>
                                 <div class="card p-2 pl-3 text-justify text-md-smaller">
