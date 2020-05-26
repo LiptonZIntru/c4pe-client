@@ -52,7 +52,7 @@
 
                         <!-- linky vlevo (podniky, admin pages) -->
                             <ul class="navbar-nav" onmouseover="ColorLinkOnHover('places', 'white', 75);" onmouseout="ColorLinkOnHover('places', 'white', 5);">
-                                <li class="nav-item"><a class="nav-link" href="/places" id="placesLink">Browse places</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/places?page=1" id="placesLink">Browse places</a></li>
                             </ul>
                             {% if currentUser.role == "Admin" %}
                                 <ul class="navbar-nav" onmouseover="ColorLinkOnHover('admin', 'white', 75);" onmouseout="ColorLinkOnHover('admin', 'white', 5);">
