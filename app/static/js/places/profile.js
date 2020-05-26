@@ -18,7 +18,7 @@ var rating = 0;
 /* ZOBRAZÍ "NEW REVIEW" BUTTON, POKUD UŽIVATEL JE OPRÁVNĚNÝ */
     $(document).ready(function(){
         var user_id = document.getElementById('user_id').value;
-        var place_id = document.getElementById('page_id').value;
+        var place_id = document.getElementById('place_id').value;
         var isCurrent = false;
         $.get( "/places/" + place_id + '/reviews/type/1', function ( data ) {
             var reviews = JSON.parse(data);
@@ -94,24 +94,18 @@ var rating = 0;
       });
 
 /* ZAMODRÁVÁNÍ LIKE/DISLIKE BUTTONU */
-    function blueThis(id)
+    function blueThis(parent, id)
     {
-        /*
-         |__   __/ __ \| |  | | |    |  ____|      | |/ ____|  ____|  \/  | |__   __|_   _| |___  /   /\   | |/ / __ \|  \/  |  ____| \ | |__   __/ __ \ \    / /\   | |
-            | | | |  | | |__| | |    | |__         | | (___ | |__  | \  / |    | |    | |      / /   /  \  | ' / |  | | \  / | |__  |  \| |  | | | |  | \ \  / /  \  | |
-            | | | |  | |  __  | |    |  __|    _   | |\___ \|  __| | |\/| |    | |    | |     / /   / /\ \ |  <| |  | | |\/| |  __| | . ` |  | | | |  | |\ \/ / /\ \ | |
-            | | | |__| | |  | | |____| |____  | |__| |____) | |____| |  | |    | |   _| |_   / /__ / ____ \| . \ |__| | |  | | |____| |\  |  | | | |__| | \  / ____ \| |____
-            |_|  \____/|_|  |_|______|______|  \____/|_____/|______|_|  |_|    |_|  |_____| /_____/_/    \_\_|\_\____/|_|  |_|______|_| \_|  |_|  \____/   \/_/    \_\______|*/
-        if(!document.getElementById(id).classList.contains('permanent')) {
-            document.getElementById(id).classList.toggle('text-primary');
-            document.getElementById(id).classList.toggle('text-secondary');
+        if(!document.getElementById(parent).children[id].classList.contains('permanent')) {
+            document.getElementById(parent).children[id].classList.toggle('text-primary');
+            document.getElementById(parent).children[id].classList.toggle('text-secondary');
         }
 
     }
 
 /* LIKE/DISLIKE RECENZE */
-    function reviewReaction(placeID, reviewID, elementID) {
-        var likeDislikeButton = document.getElementById(elementID);
+    function reviewReaction(parent, placeID, reviewID, elementID) {
+        var likeDislikeButton = document.getElementById(parent).children[elementID];
         $.get('/places/' + placeID + '/reviews/' + reviewID + (elementID.includes('positive') ? '/like/' : '/dislike/'), function (data) {
             var reactions = JSON.parse(data);
 
@@ -126,17 +120,17 @@ var rating = 0;
                 likeDislikeButton.classList.add('text-secondary');
             }
 
-            if(reactions.success == 'liked' && document.getElementById('negativeReaction_' + reviewID).classList.contains('permanent')) {
-                document.getElementById('negativeReaction_' + reviewID).classList.remove('text-primary', 'permanent');
-                document.getElementById('negativeReaction_' + reviewID).classList.add('text-secondary');
+            if(reactions.success == 'liked' && document.getElementById(parent).children['negativeReaction_' + reviewID].classList.contains('permanent')) {
+                document.getElementById(parent).children['negativeReaction_' + reviewID].classList.remove('text-primary', 'permanent');
+                document.getElementById(parent).children['negativeReaction_' + reviewID].classList.add('text-secondary');
             }
-            else if (reactions.success == 'disliked' && document.getElementById('positiveReaction_' + reviewID).classList.contains('permanent')) {
-                document.getElementById('positiveReaction_' + reviewID).classList.remove('text-primary', 'permanent');
-                document.getElementById('positiveReaction_' + reviewID).classList.add('text-secondary');
+            else if (reactions.success == 'disliked' && document.getElementById(parent).children['positiveReaction_' + reviewID].classList.contains('permanent')) {
+                document.getElementById(parent).children['positiveReaction_' + reviewID].classList.remove('text-primary', 'permanent');
+                document.getElementById(parent).children['positiveReaction_' + reviewID].classList.add('text-secondary');
             }
 
-            document.getElementById('positiveReactionCount_' + reviewID).innerHTML = reactions.positiveReactions;
-            document.getElementById('negativeReactionCount_' + reviewID).innerHTML = reactions.negativeReactions;
+            document.getElementById(parent).children['positiveReactionCount_' + reviewID].innerHTML = reactions.positiveReactions;
+            document.getElementById(parent).children['negativeReactionCount_' + reviewID].innerHTML = reactions.negativeReactions;
         })
     }
 

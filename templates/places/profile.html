@@ -13,7 +13,7 @@
 
 {% block content %}
     <!-- PROMĚNNÉ PRO JAVASCRIPT -->
-        <input id="page_id" value="{{ place.id }}" hidden>
+        <input id="place_id" value="{{ place.id }}" hidden>
         <input id="user_id" value="{{ currentUser.id }}" hidden>
 
 
@@ -362,11 +362,11 @@
                                                 {{ review.text }}
                                             </div>
                                             <div class="row justify-content-between mb-0">
-                                                <div class="col-auto mt-1 ml-2 row text-nowrap">
+                                                <div class="col-auto mt-1 ml-2 row text-nowrap" id="reactions_{{ review.id }}">
                                                     <x class="defaultCursor" id="positiveReactionCount_{{ review.id }}">{{ review.positiveReactions }}</x>
-                                                    <i class="fa fa-thumbs-up px-1 pt-1 text-secondary pointer" id="positiveReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="reviewReaction({{ place.id }}, {{ review.id }}, this.id);"></i>
+                                                    <i class="fa fa-thumbs-up px-1 pt-1 text-secondary pointer" id="positiveReaction_{{ review.id }}" onmouseover="blueThis('reactions_{{ review.id }}', this.id);" onmouseout="blueThis('reactions_{{ review.id }}', this.id);" onclick="reviewReaction('reactions_{{ review.id }}', {{ place.id }}, {{ review.id }}, this.id);"></i>
                                                     <y class="defaultCursor" id="negativeReactionCount_{{ review.id }}">{{ review.negativeReactions }}</y>
-                                                    <i class="fa fa-thumbs-down pl-1 pt-1 text-secondary pointer" id="negativeReaction_{{ review.id }}" onmouseover="blueThis(this.id);" onmouseout="blueThis(this.id);" onclick="reviewReaction({{ place.id }}, {{ review.id }}, this.id);"></i>
+                                                    <i class="fa fa-thumbs-down pl-1 pt-1 text-secondary pointer" id="negativeReaction_{{ review.id }}" onmouseover="blueThis('reactions_{{ review.id }}', this.id);" onmouseout="blueThis('reactions_{{ review.id }}', this.id);" onclick="reviewReaction('reactions_{{ review.id }}', {{ place.id }}, {{ review.id }}, this.id);"></i>
                                                 </div>
                                                 <div class="col-auto">
                                                     <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
