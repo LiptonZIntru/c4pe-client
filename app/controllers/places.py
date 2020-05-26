@@ -51,6 +51,13 @@ def profile(request, id):
     place = json.loads(requests.get(settings.API_IP + '/api/places/' + id).text)
     reviews = json.loads(requests.get(settings.API_IP + '/api/places/' + id + '/Reviews').text)
 
+# SERAZENI PODLE NEJVICE LAJKOVANYCH
+    def get_positive_reactions(review):
+        return review.get('positiveReactions')
+
+    reviews.sort(key=get_positive_reactions, reverse=True)
+# KONEC SEKCE
+
     if len(reviews) > 5:
         reviews = reviews[len(reviews) - 6:len(reviews) - 1]
 
