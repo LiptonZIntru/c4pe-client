@@ -102,44 +102,42 @@ var rating = 0;
             | | | |  | |  __  | |    |  __|    _   | |\___ \|  __| | |\/| |    | |    | |     / /   / /\ \ |  <| |  | | |\/| |  __| | . ` |  | | | |  | |\ \/ / /\ \ | |
             | | | |__| | |  | | |____| |____  | |__| |____) | |____| |  | |    | |   _| |_   / /__ / ____ \| . \ |__| | |  | | |____| |\  |  | | | |__| | \  / ____ \| |____
             |_|  \____/|_|  |_|______|______|  \____/|_____/|______|_|  |_|    |_|  |_____| /_____/_/    \_\_|\_\____/|_|  |_|______|_| \_|  |_|  \____/   \/_/    \_\______|*/
-        document.getElementById(id).classList.toggle("text-primary");
-        document.getElementById(id).classList.toggle("text-secondary");
+        if(!document.getElementById(id).classList.contains('permanent')) {
+            document.getElementById(id).classList.toggle('text-primary');
+            document.getElementById(id).classList.toggle('text-secondary');
+        }
 
     }
 
 /* LIKE/DISLIKE RECENZE */
-    function likeReview(userID, placeID, reviewID, elementID) {
-        $.get('/places/' + placeID + '/reviews/' + reviewID + '/like/', function (data) {
+    function reviewReaction(placeID, reviewID, elementID) {
+        var likeDislikeButton = document.getElementById(elementID);
+        $.get('/places/' + placeID + '/reviews/' + reviewID + (elementID.includes('positive') ? '/like/' : '/dislike/'), function (data) {
             var reactions = JSON.parse(data);
-            /*
-            * vyresit to co je pod timhle pls
-            * */
-            if(reactions.success == 'liked')
+
+            if (reactions.success.includes('liked'))
             {
-                //vybarvi like button
+                likeDislikeButton.classList.remove('text-secondary');
+                likeDislikeButton.classList.add('text-primary', 'permanent');
             }
-            else if(reactions.success == 'deleted')
+            else if (reactions.success == 'deleted')
             {
-                //odbarvi like button
+                likeDislikeButton.classList.remove('text-primary', 'permanent');
+                likeDislikeButton.classList.add('text-secondary');
             }
+
+            if(reactions.success == 'liked' && document.getElementById('negativeReaction_' + reviewID).classList.contains('permanent')) {
+                document.getElementById('negativeReaction_' + reviewID).classList.remove('text-primary', 'permanent');
+                document.getElementById('negativeReaction_' + reviewID).classList.add('text-secondary');
+            }
+            else if (reactions.success == 'disliked' && document.getElementById('positiveReaction_' + reviewID).classList.contains('permanent')) {
+                document.getElementById('positiveReaction_' + reviewID).classList.remove('text-primary', 'permanent');
+                document.getElementById('positiveReaction_' + reviewID).classList.add('text-secondary');
+            }
+
             document.getElementById('positiveReactionCount_' + reviewID).innerHTML = reactions.positiveReactions;
             document.getElementById('negativeReactionCount_' + reviewID).innerHTML = reactions.negativeReactions;
-        });
-    }
-    function dislikeReview(userID, placeID, reviewID, elementID) {
-        $.get('/places/' + placeID + '/reviews/' + reviewID + '/dislike/', function (data) {
-            var reactions = JSON.parse(data);
-            if(reactions.success == 'disliked')
-            {
-                //vybarvi dislike button
-            }
-            else if(reactions.success == 'deleted')
-            {
-                //odbarvi dislike button
-            }
-            document.getElementById('positiveReactionCount_' + reviewID).innerHTML = reactions.positiveReactions;
-            document.getElementById('negativeReactionCount_' + reviewID).innerHTML = reactions.negativeReactions;
-        });
+        })
     }
 
 /* EDITACE RECENZE */
