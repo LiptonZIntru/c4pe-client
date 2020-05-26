@@ -15,3 +15,15 @@
         document.getElementById('filters-ShowHideButton').innerText = "Show filters";
         document.getElementById('filters-ButtonSeparator').hidden = true;
     });
+
+/* Rating input limitace na cisla 0 - 5 */
+    $('.markInput').on('input', function() {
+        if (this.value.length > 1) {
+            this.value = this.value.slice(0, 1);
+        }
+        this.value = this.value.replace(/[^\d]/g, '');
+        this.value = this.value.replace('6', '5');
+        this.value = this.value.replace('7', '5');
+        this.value = this.value.replace('8', '5');
+        this.value = this.value.replace('9', '5');
+    });
