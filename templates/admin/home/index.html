@@ -1,9 +1,45 @@
 {% extends 'layouts/admin.html' %}
 
+{% block css %}
+ {% load static %}
+{% endblock %}
+
 {% block title %}
-    Admin pages
+    Admin pages | Dashboard
 {% endblock %}
 
 {% block content %}
-    index
+
+    <!-- Nadpis -->
+        <b class="py-1" style="font-size: x-large;">DASHBOARD</b>
+
+    <!-- tabulky -->
+        <div style="overflow: auto">
+            <table class="table table-hover mt-2">
+
+                <!-- hlavička -->
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Element</th>
+                            <th scope="col">Amount</th>
+                        </tr>
+                    </thead>
+
+                <!-- tabulka -->
+                    <tbody>
+                        <tr class="pointer" onclick="window.location = '/admin/users/'">
+                            <th scope="row">Users</th>
+                            <td>{{ places }}</td>
+                        </tr>
+                        <tr class="pointer" onclick="window.location = '/admin/places/'">
+                            <th scope="row">Places</th>
+                            <td>{{ places }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Reviews</th>
+                            <td>{{ reviews }}</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
 {% endblock %}

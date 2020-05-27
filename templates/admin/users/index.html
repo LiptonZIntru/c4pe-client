@@ -9,8 +9,9 @@
 {% endblock %}
 
 {% block content %}
-    <!-- placeholder pro odsazení -->
-        <a class="btn invisible" href="#">s</a><br/>
+
+    <!-- Nadpis -->
+        <b class="py-1" style="font-size: x-large;">USERS</b>
 
     <!-- tabulka userů -->
         <div style="overflow: auto">
@@ -30,7 +31,7 @@
                 <!-- tabulka -->
                     <tbody>
                         {% for user in users %}
-                            <tr class="edit defaultCursor" id="{{ user.id }}">
+                            <tr class="edit pointer" id="{{ user.id }}">
                                 <th scope="row">{{ user.id }}</th>
                                 {% if user.isVerified %}
                                     <td>TRUE</td>
@@ -38,7 +39,7 @@
                                     <td></td>
                                 {% endif %}
                                 <td>{{ user.username }}</td>
-                                <td><a class="btn btn-outline-secondary reviews text-nowrap">Reviews ({{ reviewCount }})</a></td>
+                                <td><a class="btn btn-outline-secondary reviews text-nowrap">Reviews ({{ user.reviewCount }})</a></td>
                                 <td><a class="btn btn-danger delete">Delete</a></td>
                             </tr>
                         {% endfor %}

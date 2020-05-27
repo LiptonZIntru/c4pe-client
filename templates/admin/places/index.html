@@ -9,12 +9,16 @@
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <!-- Nadpis -->
+            <b class="col-auto" style="font-size: x-large;">PLACES</b>
 
-    <!-- tlačítko pro přidání nového podniku -->
-    <a class="btn btn-success" href="/admin/places/create">Create new place</a><br>
+        <!-- tlačítko pro přidání nového podniku -->
+            <a class="col-auto btn btn-success my-auto" href="/admin/places/create">Create new place</a>
+    </div>
 
     <!-- tabulka podniků -->
-        <div style="overflow: auto">
+        <div class="mx-0" style="overflow: auto">
             <table class="table table-hover mt-2">
 
                 <!-- hlavička -->
@@ -29,7 +33,7 @@
                 <!-- tabulka -->
                     <tbody>
                         {% for place in places %}
-                            <tr class="edit defaultCursor" id="{{ place.id }}">
+                            <tr class="edit pointer" id="{{ place.id }}">
                                 <th scope="row">{{ place.id }}</th>
                                 <td>{{ place.name }}</td>
                                 <td><a class="btn btn-danger delete">Delete</a></td>

@@ -9,12 +9,20 @@
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <!-- Nadpis -->
+            <b class="col-md-auto" style="font-size: x-large;">PLACE TYPES</b>
 
-    <!-- tlačítko pro přidání nového placetypu -->
-    <a class="btn btn-success" href="create">Create new place type</a><br>
+        <!-- přidání nového placetypu -->
+            <form method="post" class="mt-2 mt-md-0 col-md-auto form-inline d-flex flex-nowrap">
+                {% csrf_token %}
+                <input class="form-control mr-2" name="name" placeholder="New placetype name" required>
+                <button class="col-auto btn btn-success my-auto">Create</button>
+            </form>
+    </div>
 
     <!-- tabulka plactypů -->
-        <div style="overflow: auto">
+        <div class="mx-0" style="overflow: auto">
             <table class="table table-hover mt-2">
 
                 <!-- hlavička -->
@@ -29,7 +37,7 @@
                 <!-- tabulka -->
                     <tbody>
                         {% for placeType in placeTypes %}
-                            <tr class="edit defaultCursor" id="{{ placeType.id }}">
+                            <tr class="edit pointer" id="{{ placeType.id }}">
                                 <th scope="row">{{ placeType.id }}</th>
                                 <td>{{ placeType.name }}</td>
                                 <td><a class="btn btn-danger delete">Delete</a></td>

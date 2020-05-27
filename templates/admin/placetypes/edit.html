@@ -9,12 +9,25 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{{ placeType.name }}</h2>
-    <form>
-        {% csrf_token %}
-    </form>
+    <div class="container">
+        <b style="font-size: x-large;">{{ placeType.name }} (ID {{ placeType.id }})</b>
+        <form class="pt-2" method="post">
+            {% csrf_token %}
+            <div class="form-inline">
+                <label class="mr-2" for="name">Update place type name:</label>
+                <input class="form-control" name="name" id="name" style="width: available;" value="{{ placeType.name }}" required>
+            </div>
+
+            <button type="button" class="btn btn-outline-danger mt-2" onclick="deleteThis({{ placeType.id }});">Delete placetype</button>
+
+            <div class="mt-2">
+                <button type="submit" class="btn btn-success">Save</button>
+                <a type="button" class="btn btn-danger" href="/admin/placetypes/">Cancel</a>
+            </div>
+        </form>
+    </div>
 {% endblock %}
 
 {% block js %}
-
+    <script src="{% static '/js/admin/placetypes/edit.js' %}"></script>
 {% endblock %}
