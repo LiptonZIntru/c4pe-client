@@ -94,11 +94,17 @@ var rating = 0;
       });
 
 /* ZAMODRÁVÁNÍ LIKE/DISLIKE BUTTONU */
-    function blueThis(parent, id)
+    function blueThis(parent, id, method)
     {
         if(!document.getElementById(parent).children[id].classList.contains('permanent')) {
-            document.getElementById(parent).children[id].classList.toggle('text-primary');
-            document.getElementById(parent).children[id].classList.toggle('text-secondary');
+            if(method == 'over') {
+                document.getElementById(parent).children[id].classList.add('text-primary');
+                document.getElementById(parent).children[id].classList.remove('text-secondary');
+            }
+            else {
+                document.getElementById(parent).children[id].classList.add('text-secondary');
+                document.getElementById(parent).children[id].classList.remove('text-primary');
+            }
         }
 
     }
