@@ -27,6 +27,14 @@ def profile(request, id):
 def reviews(request, id):
     reviews = json.loads(requests.get(settings.API_IP + '/api/users/' + id + '/reviews').text)
     user = json.loads(requests.get(settings.API_IP + '/api/users/' + id).text)
+
+# SERAZENI PODLE NEJVICE LAJKOVANYCH
+    def get_positive_reactions(review):
+        return review.get('positiveReactions')
+
+    reviews.sort(key=get_positive_reactions, reverse=True)
+# KONEC SEKCE
+
     return render(request, 'users/reviews.html',
                   {
                       'user': user,

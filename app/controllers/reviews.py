@@ -24,6 +24,16 @@ def index(request, id):
         if review['user']['isVerified']:
             verifiedReviews.append(review)
 
+# odsud jsem pridal kod  - sortuje to reviews od nejlajkovanejsich
+    def get_positive_reactions(this_review):
+        return this_review.get('positiveReactions')
+
+    reviews.sort(key=get_positive_reactions, reverse=True)
+    positiveReviews.sort(key=get_positive_reactions, reverse=True)
+    negativeReviews.sort(key=get_positive_reactions, reverse=True)
+    verifiedReviews.sort(key=get_positive_reactions, reverse=True)
+# po sem :)
+
     return render(request, 'reviews/index.html',
                   {
                       'place': place,
