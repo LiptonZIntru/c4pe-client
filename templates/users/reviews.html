@@ -91,9 +91,19 @@
                                 <div class="card p-2 pl-3 text-justify text-md-smaller">
                                     {{ review.text }}
                                 </div>
-                                <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
-                                    Review written {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
-                                </p>
+                                <div class="row justify-content-between mb-0">
+                                    <div class="col-auto mt-1 ml-2 row text-nowrap">
+                                        <x class="defaultCursor">{{ review.positiveReactions }}</x>
+                                        <i class="fa fa-thumbs-up px-1 pt-1 text-secondary"></i>
+                                        <y class="defaultCursor">{{ review.negativeReactions }}</y>
+                                        <i class="fa fa-thumbs-down pl-1 pt-1 text-secondary"></i>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="text-nowrap m-0 pt-1 float-right" style="font-size: smaller">
+                                            Review written {{ review.time|slice:"5:7"}}.{{ review.time|slice:"8:10"}}.{{ review.time|slice:"0:4"}} {{ review.time|slice:"11:16"}}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     {% endfor %}
