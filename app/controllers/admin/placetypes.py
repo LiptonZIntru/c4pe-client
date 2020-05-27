@@ -9,20 +9,16 @@ from django.conf import settings
 
 
 def index(request):
-    if is_admin(request):
-        placeTypes = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
-        return render(request, 'admin/placetypes/index.html',
-                      {
-                          'placeTypes': placeTypes
-                      })
-    else:
-        messages.error(request, 'Permission denied')
-        return redirect('index')
-
-
-def create(request):
     if request.method == 'GET':
-        return render(request, 'admin/placetypes/create.html')
+        if is_admin(request):
+            placeTypes = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
+            return render(request, 'admin/placetypes/index.html',
+                          {
+                              'placeTypes': placeTypes
+                          })
+        else:
+            messages.error(request, 'Permission denied')
+            return redirect('index')
     elif request.method == 'POST':
         headers = {
             'content-type': 'application/json',
@@ -36,14 +32,14 @@ def create(request):
             messages.success(request, 'Place type created')
             return redirect('admin placetypes')
         else:
-            messages.error(request, 'Unknown error. Please try again')
+            messages.error(request, 'Unknown error. Please try again.')
             return redirect('admin placetypes')
 
 
 def edit(request, id):
     if request.method == 'GET':
         placeType = json.loads(requests.get(settings.API_IP + '/api/placetypes/' + id).text)
-        return render(request, 'admin/places/edit.html',
+        return render(request, 'admin/placetypes/edit.html',
                       {
                           'placeType': placeType
                       })

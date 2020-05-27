@@ -11,12 +11,12 @@ urlpatterns = [
     path('places/<place_id>/delete/', places.delete, name='admin places delete'),
 
     path('placetypes/', placetypes.index, name='admin placetypes'),
-    path('placetypes/create/', placetypes.create, name='admin placetypes create'),
     path('placetypes/<id>/edit/', placetypes.edit, name='admin placetypes edit'),
     path('placetypes/<id>/delete/', placetypes.delete, name='admin placetypes delete'),
 
     path('users/', users.index, name='admin users'),
     path('users/<id>/edit/', users.edit, name='admin users edit'),
+    path('users/<id>/avatar/delete', users.delete_avatar, name='admin users avatar delete'),
     path('users/<id>/reviews/', users.reviews, name='admin users reviews'),
     path('users/<id>/delete/', users.delete, name='admin users delete'),
 ]

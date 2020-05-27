@@ -39,8 +39,8 @@
                                     <td></td>
                                 {% endif %}
                                 <td>{{ user.username }}</td>
-                                <td><a class="btn btn-outline-secondary reviews text-nowrap">Reviews ({{ user.reviewCount }})</a></td>
-                                <td><a class="btn btn-danger delete">Delete</a></td>
+                                <td><button class="btn btn-outline-secondary reviews text-nowrap" ondragover="">Reviews ({{ user.reviewCount }})</button></td>
+                                <td><button class="btn btn-danger delete">Delete</button></td>
                             </tr>
                         {% endfor %}
                     </tbody>

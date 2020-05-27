@@ -14,7 +14,7 @@
             <b class="col-auto" style="font-size: x-large;">PLACES</b>
 
         <!-- tlačítko pro přidání nového podniku -->
-            <a class="col-auto btn btn-success my-auto" href="/admin/places/create">Create new place</a>
+            <a class="col-auto btn btn-success my-auto ml-5" href="/admin/places/create">Create new place</a>
     </div>
 
     <!-- tabulka podniků -->
@@ -36,7 +36,7 @@
                             <tr class="edit pointer" id="{{ place.id }}">
                                 <th scope="row">{{ place.id }}</th>
                                 <td>{{ place.name }}</td>
-                                <td><a class="btn btn-danger delete">Delete</a></td>
+                                <td><button class="btn btn-danger delete">Delete</button></td>
                             </tr>
                         {% endfor %}
                     </tbody>

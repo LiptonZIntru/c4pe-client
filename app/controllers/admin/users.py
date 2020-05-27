@@ -35,13 +35,12 @@ def edit(request, id):
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
         data = {
+            "username": request.POST.get("username"),
             "firstName": request.POST.get("firstName"),
             "lastName": request.POST.get("lastName"),
             "description": request.POST.get("description"),
-            "street": request.POST.get("street"),
-            "city": request.POST.get("city"),
-            "zipCode": request.POST.get("zipCode"),
-            "country": request.POST.get("country")
+            "country": request.POST.get("country"),
+            "isVerified": request.POST.get("isVerified")
         }
         response = requests.put(settings.API_IP + '/api/users/' + id, data=json.dumps(data), headers=headers)
         if response.status_code == 204:
@@ -49,7 +48,7 @@ def edit(request, id):
             return redirect('admin users')
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return redirect('admin users edit')
+            return redirect('admin users edit', id=id)
     return
 
 
@@ -81,5 +80,17 @@ def delete(request, id):
 
 
 def delete_avatar(request, id):
-    # TODO: delete user's avatar
-    return
+    headers = {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    data = {
+        "avatarURI": ""
+    }
+    response = requests.put(settings.API_IP + '/api/users/' + id, data=json.dumps(data), headers=headers)
+    if response.status_code == 204:
+        messages.success(request, 'User avatar deleted')
+        return redirect('admin users edit', id=id)
+    else:
+        messages.error(request, 'Unknown error. Please try again.')
+        return redirect('admin users edit', id=id)

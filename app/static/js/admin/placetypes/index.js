@@ -15,5 +15,6 @@ $(function () {
             var id = $(this).attr('id');
             window.location = '/admin/placetypes/' + id + '/edit/';
         }
+        delete_click = false;
     });
 });

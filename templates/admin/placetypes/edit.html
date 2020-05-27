@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block title %}
-    {{ placeType.name }}
+    Admin pages | PlaceType {{ placeType.name }} - Edit
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container pb-3">
         <b style="font-size: x-large;">{{ placeType.name }} (ID {{ placeType.id }})</b>
         <form class="pt-2" method="post">
             {% csrf_token %}
