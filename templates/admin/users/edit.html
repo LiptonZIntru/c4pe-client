@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container pb-3 pl-2">
-        <div class="row ml-n2 mb-2">
+    <div class="container pb-3">
+        <div class="row mb-2 px-2">
             <b style="font-size: x-large;">{{ user.username }} (ID {{ user.id }})</b>
             <button type="button" class="btn btn-outline-danger ml-3" onclick="deleteThis({{ user.id }}, 's');">Delete user</button>
         </div>
@@ -28,13 +28,8 @@
             <div class="form-inline">
                 <label class="mr-2" for="verified">Verified:</label>
                 <select class="form-control" id="verified" style="width: available;">
-                    {% if user.isVerified %}
-                        <option value="true" onclick="document.getElementById('hiddenInput').value = 'true';" selected>true</option>
-                        <option value="false" onclick="document.getElementById('hiddenInput').value = 'false';">false</option>
-                    {% else %}
-                        <option value="true" onclick="document.getElementById('hiddenInput').value = 'true';">true</option>
-                        <option value="false" onclick="document.getElementById('hiddenInput').value = 'false';" selected>false</option>
-                    {% endif %}
+                    <option value="true" onclick="document.getElementById('hiddenInput').value = 'true';" {% if user.isVerified %}selected{% endif %}>true</option>
+                    <option value="false" onclick="document.getElementById('hiddenInput').value = 'false';" {% if user.isVerified == False %}selected{% endif %}>false</option>
                 </select>
                 {% if user.isVerified %}
                     <input id="hiddenInput" value="true" name="isVerified" hidden required>
@@ -62,7 +57,7 @@
             <label class="mt-2" for="description">Description:</label>
             <textarea class="form-control text-justify" name="description" id="description"placeholder="Biography or description" style="width: available;">{% if user.description %}{{ user.description }}{% endif %}</textarea>
 
-            <div class="pt-3 ml-n2">
+            <div class="pt-3">
                 <button type="submit" class="btn btn-success">Save</button>
                 <a type="button" class="btn btn-danger" href="/admin/users/">Cancel</a>
             </div>

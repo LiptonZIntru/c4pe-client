@@ -1,0 +1,132 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+    Admin pages | {{ place.name }} - Opening times
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <!-- nadpis -->
+        <b style="font-size: x-large;">{{ place.name }} (ID {{ place.id }}): Opening times</b>
+
+        <div class="row justify-content-between">
+            <!-- formulář pro přidání opening times -->
+                <form class="mt-2 col-md-auto" action="/admin/places/{{ place.id }}/openingTimes/create/" method="post">
+                    {% csrf_token %}
+                     <div class="form-inline pt-2">
+                        <label class="mr-2" for="timeDay">Day:</label>
+                        <select class="form-control" id="timeDay" style="width: available;" required>
+                            <option value="0" onclick="document.getElementById('hiddenInput').value = this.value;" selected>Monday</option>
+                            <option value="1" onclick="document.getElementById('hiddenInput').value = this.value;">Tuesday</option>
+                            <option value="2" onclick="document.getElementById('hiddenInput').value = this.value;">Wednesday</option>
+                            <option value="3" onclick="document.getElementById('hiddenInput').value = this.value;">Thursday</option>
+                            <option value="4" onclick="document.getElementById('hiddenInput').value = this.value;">Friday</option>
+                            <option value="5" onclick="document.getElementById('hiddenInput').value = this.value;">Saturday</option>
+                            <option value="6" onclick="document.getElementById('hiddenInput').value = this.value;">Sunday</option>
+                        </select>
+                        <input id="hiddenInput" value="0" name="day" hidden required>
+                    </div>
+                    <div class="form-inline pt-2">
+                        <label class="mr-2" for="open">Opens at:</label>
+                        <input class="form-control" name="open" id="open" type="text" value="00:00" style="width: available;" required>
+                    </div>
+                    <div class="form-inline pt-2">
+                        <label class="mr-2" for="close">Closes at:</label>
+                        <input class="form-control" name="close" id="close" type="text" value="00:00" style="width: available;" required>
+                    </div>
+                    <button type="submit" class="mt-2 btn btn-success">Add opening times</button>
+                </form>
+
+            <!-- Editace opening times -->
+                {% for time in times %}
+                    <form class="mt-2 col-md-auto" action="/admin/places/{{ place.id }}/openingTimes/{{ time.id }}/edit" id="editForm_{{ time.id }}" method="post" hidden>
+                        {% csrf_token %}
+                         <div class="form-inline pt-2">
+                            <label class="mr-2" for="timeDay_{{ time.id }}">Day:</label>
+                            <select class="form-control" id="timeDay_{{ time.id }}" style="width: available;" required>
+                                <option value="0" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 0 %}selected{% endif %}>Monday</option>
+                                <option value="1" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 1 %}selected{% endif %}>Tuesday</option>
+                                <option value="2" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 2 %}selected{% endif %}>Wednesday</option>
+                                <option value="3" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 3 %}selected{% endif %}>Thursday</option>
+                                <option value="4" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 4 %}selected{% endif %}>Friday</option>
+                                <option value="5" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 5 %}selected{% endif %}>Saturday</option>
+                                <option value="6" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 6 %}selected{% endif %}>Sunday</option>
+                            </select>
+                            <input id="hiddenEdit_{{ time.id }}" value="{{ time.day }}" name="day" hidden required>
+                        </div>
+                        <div class="form-inline pt-2">
+                            <label class="mr-2" for="open_{{ time.id }}">Opens at:</label>
+                            <input class="form-control" name="open" id="open_{{ time.id }}" type="text" value="{{ time.open }}" style="width: available;" required>
+                        </div>
+                        <div class="form-inline pt-2">
+                            <label class="mr-2" for="close_{{ time.id }}">Closes at:</label>
+                            <input class="form-control" name="close" id="close_{{ time.id }}" type="text" value="{{ time.close }}" style="width: available;" required>
+                        </div>
+                        <button type="submit" class="mt-2 btn btn-success">Edit opening times</button>
+                        <button type="button" class="mt-2 btn btn-danger" onclick="document.getElementById('editForm_{{ time.id }}').hidden = true;">Cancel</button>
+                    </form>
+                {% endfor %}
+
+        </div>
+
+        <!-- tabulka opening times -->
+            <div style="overflow: auto">
+                <table class="table table-hover mt-2">
+
+                    <!-- hlavička -->
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Times ID</th>
+                                <th scope="col">Day</th>
+                                <th scope="col">Open</th>
+                                <th scope="col">Close</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+
+                    <!-- tabulka -->
+                        <tbody>
+                            {% for time in times %}
+                                <tr class="defaultCursor">
+                                    <th scope="row">{{ time.id }}</th>
+                                    <td id="{{ time.id }}_day">
+                                        {% if time.day == 0 %}
+                                            Monday
+                                        {% elif time.day == 1 %}
+                                            Tuesday
+                                        {% elif time.day == 2 %}
+                                            Wednesday
+                                        {% elif time.day == 3 %}
+                                            Thursday
+                                        {% elif time.day == 4 %}
+                                            Friday
+                                        {% elif time.day == 5 %}
+                                            Saturday
+                                        {% elif time.day == 6 %}
+                                            Sunday
+                                        {% endif %}
+                                    </td>
+                                    <td id="{{ time.id }}_open">{{ time.open }}</td>
+                                    <td id="{{ time.id }}_close">{{ time.close }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-secondary" onclick="showEdit({{ time.id }});">Edit</button>
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-danger" onclick="deleteThis({{ place.id }}, {{ time.id }})">Delete</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                </table>
+            </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static '/js/admin/places/opening_times.js' %}"></script>
+{% endblock %}

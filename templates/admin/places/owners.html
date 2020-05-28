@@ -1,0 +1,59 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+    Admin pages | {{ place.name }} - Owners
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <!-- nadpis -->
+        <b style="font-size: x-large;">{{ place.name }} (ID {{ place.id }}): Owners</b>
+
+        <!-- formulář pro přidání ownera -->
+            <form class="mt-2" action="/admin/places/{{ place.id }}/owners/create/" method="post">
+                {% csrf_token %}
+                <div class="form-inline">
+                    <input id="ownerUsername" name="username" class="form-control" placeholder="Enter username" style="min-width: 300px;">
+                    <button type="submit" class="btn btn-success ml-sm-2 mt-2 mt-sm-0">Add owner</button>
+                </div>
+            </form>
+
+        <!-- tabulka ownerů -->
+            <table class="table table-hover mt-2">
+
+                <!-- hlavička -->
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">User ID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+
+                <!-- tabulka -->
+                    <tbody>
+                        {% for owner in owners %}
+                            <tr class="edit defaultCursor" id="{{ owner.id }}">
+                                <th scope="row">{{ owner.id }}</th>
+                                <td>{{ owner.username }}</td>
+                                <td>
+                                    <form method="post" action="/admin/places/{{ place.id }}/owners/{{ owner.id }}/delete/">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger delete">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/owners/index.js' %}"></script>
+{% endblock %}

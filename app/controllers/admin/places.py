@@ -60,7 +60,7 @@ def delete(request, place_id):
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
-    response =requests.delete(settings.API_IP + '/api/places/' + place_id, headers=headers)
+    response = requests.delete(settings.API_IP + '/api/places/' + place_id, headers=headers)
     if response.status_code == 204:
         messages.success(request, 'Place deleted')
     else:
@@ -99,6 +99,32 @@ def edit(request, place_id):
             return redirect('admin place edit')
 
 
+def reviews(request, place_id):
+    if request.method == 'GET':
+        reviews = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/reviews').text)
+        place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
+        return render(request, 'admin/places/reviews.html',
+                      {
+                          'reviews': reviews,
+                          'place': place
+                      })
+
+
+def delete_review(request, place_id, review_id):
+    if is_admin(request):
+        headers = {
+            'content-type': 'application/json',
+            'Authorization': 'Bearer ' + request.COOKIES['token']
+        }
+        response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/Reviews/' + review_id,
+                                   headers=headers)
+        if response.status_code == 200:
+            messages.success(request, 'Review deleted')
+        else:
+            messages.error(request, 'Unknown error. Please try again')
+        return redirect('admin places reviews', place_id=place_id)
+
+
 def delete_avatar(request, id):
     # TODO: delete image of place
     return
@@ -109,6 +135,59 @@ def add_avatar(request, id):
     return
 
 
-def add_owner(request, id):
-    # TODO: add new owner
-    return
+def owners(request, place_id):
+    if request.method == 'GET':
+        place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
+        owners_id = place['owners']
+        owners = []
+        for i in owners_id:
+            owners.append(json.loads(requests.get(settings.API_IP + '/api/users/' + str(i['userID'])).text))
+            return render(request, 'admin/places/owners.html',
+                          {
+                              'place': place,
+                              'owners': owners
+                          })
+    elif request.method == 'POST':
+        username = request.POST.get('username')
+        headers = {
+            'content-type': 'application/json',
+            'Authorization': 'Bearer ' + request.COOKIES['token']
+        }
+        data = {
+            'username': username
+        }
+
+        response = requests.post(settings.API_IP + '/api/places/' + place_id + '/owner', data=json.dumps(data),
+                                 headers=headers)
+        if response.status_code == 200:
+            messages.success(request, 'Owner added')
+        else:
+            messages.error(request, response.text)
+        return redirect('admin places owners', place_id=place_id)
+
+
+def delete_owner(request, place_id, user_id):
+    if request.method == 'POST':
+        headers = {
+            'content-type': 'application/json',
+            'Authorization': 'Bearer ' + request.COOKIES['token']
+        }
+        response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/owner/' + user_id, headers=headers)
+        print(response.text)
+        if response.status_code == 200:
+            messages.success(request, 'Owner removed')
+        else:
+            messages.error(request, response.text)
+        return redirect('admin places owners', place_id=place_id)
+
+
+def opening_times(request, place_id):
+    if request.method == 'GET':
+        place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
+        opening_times = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/OpeningTimes').text)
+        return render(request, 'admin/places/opening_times.html',
+                      {
+                          'place': place,
+                          'times': opening_times
+                      })
+

@@ -40,7 +40,7 @@ def edit(request, id):
             "lastName": request.POST.get("lastName"),
             "description": request.POST.get("description"),
             "country": request.POST.get("country"),
-            "isVerified": request.POST.get("isVerified")
+            "isVerified": bool(request.POST.get("isVerified"))
         }
         response = requests.put(settings.API_IP + '/api/users/' + id, data=json.dumps(data), headers=headers)
         if response.status_code == 204:

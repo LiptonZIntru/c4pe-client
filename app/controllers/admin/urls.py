@@ -8,6 +8,13 @@ urlpatterns = [
     path('places/', places.index, name='admin places'),
     path('places/create/', places.create, name='admin places create'),
     path('places/<place_id>/edit/', places.edit, name='admin places edit'),
+    path('places/<place_id>/reviews/', places.reviews, name='admin places reviews'),
+    path('places/<place_id>/reviews/<review_id>/delete/', places.delete_review, name='admin places reviews delete'),
+    path('places/<place_id>/openingTimes/', places.opening_times, name='admin places opening_times'),
+    path('places/<place_id>/openingTimes/create/', places.opening_times, name='admin places opening_times create'),
+    path('places/<place_id>/owners/', places.owners, name='admin places owners'),
+    path('places/<place_id>/owners/create/', places.owners, name='admin places owners create'),
+    path('places/<place_id>/owners/<user_id>/delete/', places.delete_owner, name='admin places owners delete'),
     path('places/<place_id>/delete/', places.delete, name='admin places delete'),
 
     path('placetypes/', placetypes.index, name='admin placetypes'),
