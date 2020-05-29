@@ -25,6 +25,9 @@ def index(request):
 
         url = get_url(request, url)
 
+        frontend_url = get_frontend_url(request)
+        print(frontend_url)
+
         response = requests.get(url)
         types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         try:
@@ -43,7 +46,8 @@ def index(request):
                           'search': request.GET.get('name'),
                           'places': places,
                           'pages': pages,
-                          'types': types
+                          'types': types,
+                          'url': frontend_url
                       })
 
 
