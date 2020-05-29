@@ -38,7 +38,10 @@
                         <label class="mr-2" for="close">Closes at:</label>
                         <input class="form-control" name="close" id="close" type="text" value="00:00" style="width: available;" required>
                     </div>
-                    <button type="submit" class="mt-2 btn btn-success">Add opening times</button>
+                    <div class="mt-2 pl-3 row">
+                        <button type="submit" class="btn btn-success">Add opening times</button>
+                        <button type="button" class="ml-2 btn btn-danger" onclick="window.location = '/admin/places/{{ place.id }}/edit/'">Cancel</button>
+                    </div>
                 </form>
 
             <!-- Editace opening times -->
