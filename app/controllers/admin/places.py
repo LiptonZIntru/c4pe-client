@@ -118,7 +118,8 @@ def delete_review(request, place_id, review_id):
         }
         response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/Reviews/' + review_id,
                                    headers=headers)
-        if response.status_code == 200:
+        print(response.status_code)
+        if response.status_code == 204:
             messages.success(request, 'Review deleted')
         else:
             messages.error(request, 'Unknown error. Please try again')
