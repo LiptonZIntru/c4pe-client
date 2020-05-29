@@ -12,16 +12,20 @@
     <div class="container pb-3">
         <div class="row ml-n2">
             <b style="font-size: x-large;">{{ place.name }} (ID {{ place.id }})</b>
-            <button type="button" class="btn btn-outline-danger ml-3" onclick="deleteThis({{ place.id }}, 's');">Delete place</button>
+            <button type="button" class="btn btn-outline-danger ml-3" onclick="deleteThis({{ place.id }}, 'place');">Delete place</button>
         </div>
 
-        {% if place.images %}
-            <b>User avatar:</b><br/>
-            <div class="mt-1">
-                <img height="150 px;" src="{{ API_IP }}/{{ user.avatarURI }}">
-            </div>
-            <button type="button" class="mt-2 btn btn-outline-danger" onclick="deleteThis({{ user.id }}, 'avatar')">Delete avatar</button>
-        {% endif %}
+        <div class="row">
+            {% for image in place.images %}
+                <div class="col-md-auto">
+                    {% if place.images|first == image %}<b>Place images:</b>{% endif %} <br/>
+                    <div class="mt-1">
+                        <img height="150 px;" src="{{ API_IP }}/{{ image.uri }}">
+                    </div>
+                    <button type="button" class="mt-2 btn btn-outline-danger" onclick="deleteThis({{ place.id }}, {{ image.id }})">Delete image</button>
+                </div>
+            {% endfor %}
+        </div>
 
         <form class="pt-2" method="post">
             {% csrf_token %}
