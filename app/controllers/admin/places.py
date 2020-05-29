@@ -142,11 +142,11 @@ def owners(request, place_id):
         owners = []
         for i in owners_id:
             owners.append(json.loads(requests.get(settings.API_IP + '/api/users/' + str(i['userID'])).text))
-            return render(request, 'admin/places/owners.html',
-                          {
-                              'place': place,
-                              'owners': owners
-                          })
+        return render(request, 'admin/places/owners.html',
+                      {
+                          'place': place,
+                          'owners': owners
+                      })
     elif request.method == 'POST':
         username = request.POST.get('username')
         headers = {
