@@ -15,7 +15,7 @@
 
         <div class="row justify-content-between">
             <!-- formulář pro přidání opening times -->
-                <form class="mt-2 col-md-auto" action="/admin/places/{{ place.id }}/openingTimes/create/" method="post">
+                <form class="mt-2 col-md-auto" action="/admin/places/{{ place.id }}/openingtimes/create/" method="post">
                     {% csrf_token %}
                      <div class="form-inline pt-2">
                         <label class="mr-2" for="timeDay">Day:</label>
@@ -43,7 +43,7 @@
 
             <!-- Editace opening times -->
                 {% for time in times %}
-                    <form class="mt-2 col-md-auto" action="/admin/places/{{ place.id }}/openingTimes/{{ time.id }}/edit" id="editForm_{{ time.id }}" method="post" hidden>
+                    <form class="mt-2 col-md-auto" action="/admin/places/{{ place.id }}/openingtimes/{{ time.id }}/edit" id="editForm_{{ time.id }}" method="post" hidden>
                         {% csrf_token %}
                          <div class="form-inline pt-2">
                             <label class="mr-2" for="timeDay_{{ time.id }}">Day:</label>

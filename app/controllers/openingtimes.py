@@ -52,9 +52,11 @@ def create(request, place_id):
 def edit(request, place_id):
     if request.method == 'GET':
         openingTimes = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/openingTimes').text)
+        place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
         return render(request, 'openingtimes/edit.html',
                       {
-                          'openingTimes': openingTimes
+                          'times': openingTimes,
+                          'place': place
                       })
 
     elif request.method == 'POST':

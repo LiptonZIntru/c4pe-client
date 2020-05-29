@@ -1,6 +1,6 @@
 function deleteThis(place_id, id) {
     if (confirm('Do you really want to delete this opening times?') == true) {
-        window.location = '/admin/places/' + place_id + '/openingtimes/' + id + '/delete/';
+        window.location = '/places/' + place_id + '/openingtimes/' + id + '/delete/';
     }
 }
 
