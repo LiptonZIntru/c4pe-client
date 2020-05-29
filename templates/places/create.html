@@ -2,13 +2,13 @@
 {% block content %}
 <body class="px-3 pt-3" style="background-color: #FFFFFF">
     <div class="mx-auto vertically-center wrapper pt-3 pb-3 px-4" id="myDiv" style="width: 360px; background-color: #007dff; border: 1px solid #007dff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group mt-4">
                 <label class="places font-weight-bold" style="color: #FFFFFF" for="photo">Change place photo:</label>
                 <div class="form-control custom-file" id="photo" style="text-align: left !important; border: 0px;">
                     <input type="file" class="custom-file-input" id="photoUpload">
-                    <label class="custom-file-label" for="photoUpload" style="border-radius: 5px;">Choose file</label>
+                    <label class="custom-file-label" for="photoUpload" style="border-radius: 5px;" name="avatar">Choose file</label>
                 </div>
             </div>
 

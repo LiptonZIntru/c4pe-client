@@ -89,7 +89,13 @@ def create(request):
             "placeTypeID": int(request.POST.get("type"))
         }
         response = requests.post(settings.API_IP + '/api/places', data=json.dumps(data), headers=headers)
+
+        '''if request.FILES.get('avatar'):
+            avatar(request, id, 1)  # request.POST.get('image_id')'''
+
         if response.status_code == 201:
+            if request.FILES.get('avatar'):
+                avatar(request, json.loads(response.text)['id'], '1')
             messages.success(request, 'Place created')
             return redirect('places')
         else:
@@ -121,8 +127,8 @@ def edit(request, id):
         }
         response = requests.put(settings.API_IP + '/api/places/' + id, data=json.dumps(data), headers=headers)
 
-        '''if request.POST.get('image_id'):
-            avatar(request, id, request.POST.get('image_id'))'''
+        if request.FILES.get('avatar'):
+            avatar(request, id, '1')  # request.POST.get('image_id')
 
         if response.status_code == 204:
             messages.success(request, 'Place updated')
