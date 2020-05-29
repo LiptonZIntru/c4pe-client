@@ -44,3 +44,21 @@
             document.getElementById(itemId + 'Link').style.color = "rgba(" + intColor[0] + "," + intColor[1] + "," + intColor[2] + ",." + mask + ")";
         }
     }
+
+/* INTEGER INPUT pro Zip code atd. */
+    $(function() {
+        $('.integerInput').on('input', function()
+        {
+          this.value = this.value.replace(/[^\d]/g, '');
+        });
+    });
+
+/* Omezení na 5 znaků (pro ZIP code) */
+    $(function() {
+        $('.fiveChars').on('input', function()
+        {
+          if (this.value.length > 5) {
+              this.value = this.value.slice(0, 5);
+          }
+        });
+    });
