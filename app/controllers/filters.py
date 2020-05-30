@@ -118,3 +118,26 @@ def get_url(request, url):
         for placeType in json.loads(placeTypes):
             url = url + '&PlaceType=' + str(placeType)
     return url
+
+
+def get_frontend_url(request):
+    url = ""
+    if request.GET.get('name'):
+        url = url + '&name=' + request.GET.get('name')
+    if request.GET.get('city'):
+        url = url + '&city=' + request.GET.get('city')
+    if request.GET.get('isverified'):
+        url = url + '&isverified=' + request.GET.get('isverified')
+    if request.GET.get('minrating'):
+        url = url + '&minrating=' + request.GET.get('minrating')
+    if request.GET.get('maxrating'):
+        url = url + '&maxrating=' + request.GET.get('maxrating')
+    if request.GET.get('isopen'):
+        url = url + '&isopen=' + request.GET.get('isopen')
+    if request.GET.get('orderby'):
+        url = url + '&orderby=' + request.GET.get('orderby')
+    if request.GET.get('country'):
+        url = url + '&country=' + request.GET.get('country')
+    if request.GET.get('placetype'):
+        url = url + '&placetype=' + request.GET.get('placetype')
+    return url

@@ -9,7 +9,16 @@ from django.conf import settings
 
 
 def profile(request, id):
+    headers = {
+        'Authorization': 'Bearer ' + str(request.COOKIES.get('token'))
+    }
     user = json.loads(requests.get(settings.API_IP + '/api/users/' + id).text)
+
+    if request.COOKIES.get('token'):
+        me = json.loads(requests.get(settings.API_IP + '/api/users/me', headers=headers).text)
+        if user['id'] == me['id']:
+            user = me
+
     reviews = json.loads(requests.get(settings.API_IP + '/api/users/' + id + '/reviews').text)
     best = ""
     if reviews:
