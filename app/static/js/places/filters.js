@@ -2,17 +2,6 @@ var currentUrl = window.location.href.toLowerCase();
 var filters = ['name=', 'country=', 'city=', 'isverified=', 'isopen=', 'minrating=', 'maxrating='];
 var elementValue = "";
 
-/* PŘIDÁ DO URL PAGINATION, POKUD TAM CHYBÍ */
-    $(document).ready(function () {
-        if(!currentUrl.includes('page=')) {
-            currentUrl = currentUrl.slice(currentUrl.indexOf('/places/') + '/places/'.length);
-            if(currentUrl.startsWith('?')) {
-                currentUrl = currentUrl.replace('?', '&');
-            }
-            window.location = '?page=1' + currentUrl;
-        }
-    })
-
 /* NAČÍTÁ AKTUÁLNÍ FILTRY DO HTML INPUTŮ */
     $(document).ready(function () {
         /* COUNTRY, CITY */
