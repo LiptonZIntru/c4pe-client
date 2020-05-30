@@ -10,8 +10,9 @@
 
 {% block content %}
     <div class="container pb-3">
-        <div class="row mb-2 px-2">
-            <b style="font-size: x-large;">{{ user.username }} (ID {{ user.id }})</b>
+        <b style="font-size: x-large;" class="mr-2 ml-2">{{ user.username }} (ID {{ user.id }})</b>
+        <div class="row mt-2 mb-1">
+            <button type="button" class="btn btn-outline-secondary ml-3" onclick="window.location = '/admin/users/{{ user.id }}/reviews/'">Show reviews ({{ user.reviewCount }})</button>
             <button type="button" class="btn btn-outline-danger ml-3" onclick="deleteThis({{ user.id }}, 's');">Delete user</button>
         </div>
 
