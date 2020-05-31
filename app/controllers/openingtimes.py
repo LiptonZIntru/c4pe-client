@@ -63,7 +63,7 @@ def edit(request, place_id):
         open_time = request.POST.get("openHour") + ':' + request.POST.get("openMinutes") + ':00'
         close_time = request.POST.get("closeHour") + ':' + request.POST.get("closeMinutes") + ':00'
 
-        id = request.POST.get("id")  # get from hidden input
+        id = request.POST.get("times_id")  # get from hidden input
 
         headers = {
             'content-type': 'application/json',

@@ -12,6 +12,7 @@ urlpatterns = [
     path('places/<place_id>/reviews/<review_id>/delete/', places.delete_review, name='admin places reviews delete'),
     path('places/<place_id>/openingtimes/', places.opening_times, name='admin places opening_times'),
     path('places/<place_id>/openingtimes/create/', places.opening_times, name='admin places opening_times create'),
+    path('places/<place_id>/openingtimes/edit/', places.opening_times, name='admin places opening_times edit'),
     path('places/<place_id>/owners/', places.owners, name='admin places owners'),
     path('places/<place_id>/owners/create/', places.owners, name='admin places owners create'),
     path('places/<place_id>/owners/<user_id>/delete/', places.delete_owner, name='admin places owners delete'),
