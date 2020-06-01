@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from . import home, places, users, placetypes
+from . import home, places, users, placetypes, owners, openingtimes
 from django.conf import settings
 
 urlpatterns = [
@@ -8,15 +8,16 @@ urlpatterns = [
     path('places/', places.index, name='admin places'),
     path('places/create/', places.create, name='admin places create'),
     path('places/<place_id>/edit/', places.edit, name='admin places edit'),
+    path('places/<place_id>/delete/', places.delete, name='admin places delete'),
     path('places/<place_id>/reviews/', places.reviews, name='admin places reviews'),
     path('places/<place_id>/reviews/<review_id>/delete/', places.delete_review, name='admin places reviews delete'),
-    path('places/<place_id>/openingtimes/', places.opening_times, name='admin places opening_times'),
-    path('places/<place_id>/openingtimes/create/', places.opening_times, name='admin places opening_times create'),
-    path('places/<place_id>/openingtimes/edit/', places.opening_times, name='admin places opening_times edit'),
-    path('places/<place_id>/owners/', places.owners, name='admin places owners'),
-    path('places/<place_id>/owners/create/', places.owners, name='admin places owners create'),
-    path('places/<place_id>/owners/<user_id>/delete/', places.delete_owner, name='admin places owners delete'),
-    path('places/<place_id>/delete/', places.delete, name='admin places delete'),
+    path('places/<place_id>/openingtimes/', openingtimes.index, name='admin openingtimes'),
+    path('places/<place_id>/openingtimes/create/', openingtimes.create, name='admin openingtimes create'),
+    path('places/<place_id>/openingtimes/edit/', openingtimes.edit, name='admin openingtimes edit'),
+    path('places/<place_id>/openingtimes/<times_id>/delete/', openingtimes.delete, name='admin openingtimes delete'),
+    path('places/<place_id>/owners/', owners.index, name='admin owners'),
+    path('places/<place_id>/owners/create/', owners.add_owner, name='admin owners create'),
+    path('places/<place_id>/owners/<user_id>/delete/', owners.delete_owner, name='admin owners delete'),
 
     path('placetypes/', placetypes.index, name='admin placetypes'),
     path('placetypes/<id>/edit/', placetypes.edit, name='admin placetypes edit'),

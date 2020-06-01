@@ -71,4 +71,5 @@ urlpatterns = [
     path('places/<place_id>/openingtimes/', openingtimes.index, name='openingtimes'),
     path('places/<place_id>/openingtimes/create/', openingtimes.create, name='openingtimes create'),
     path('places/<place_id>/openingtimes/edit/', openingtimes.edit, name='openingtimes edit'),
+    path('places/<place_id>/openingtimes/<times_id>/delete/', openingtimes.delete, name='openingtimes delete')
 ]

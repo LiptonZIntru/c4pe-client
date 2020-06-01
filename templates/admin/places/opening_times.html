@@ -15,7 +15,7 @@
 
         <div class="row justify-content-between">
             <!-- formulář pro přidání opening times -->
-                <form class="mt-2 col-md-auto" action="/admin/places/{{ place.id }}/openingtimes/create/" method="post">
+                <form class="mt-2 col-md-auto" action="/admin/places/{{ place.id }}/openingtimes/create/" id="createForm" method="post">
                     {% csrf_token %}
                      <div class="form-inline pt-2">
                         <label class="mr-2" for="timeDay">Day:</label>
@@ -28,18 +28,26 @@
                             <option value="5" onclick="document.getElementById('hiddenInput').value = this.value;">Saturday</option>
                             <option value="6" onclick="document.getElementById('hiddenInput').value = this.value;">Sunday</option>
                         </select>
-                        <input id="hiddenInput" value="0" name="day" hidden required>
+                        <input id="hiddenInput" value="0" type="number" name="day" hidden required>
                     </div>
                     <div class="form-inline pt-2">
                         <label class="mr-2" for="open">Opens at:</label>
-                        <input class="form-control" name="open" id="open" type="text" value="00:00" style="width: available;" required>
+                        <input class="form-control" id="open" type="text" value="00:00" style="width: available;" required>
+                        <div hidden>
+                            <input id="openHour" type="number" name="openHour" value="00">
+                            <input id="openMinutes" type="number" name="openMinutes" value="00">
+                        </div>
                     </div>
                     <div class="form-inline pt-2">
                         <label class="mr-2" for="close">Closes at:</label>
-                        <input class="form-control" name="close" id="close" type="text" value="00:00" style="width: available;" required>
+                        <input class="form-control" id="close" type="text" value="00:00" style="width: available;" required>
+                        <div hidden>
+                            <input id="closeHour" type="number" name="closeHour" value="00">
+                            <input id="closeMinutes" type="number" name="closeMinutes" value="00">
+                        </div>
                     </div>
                     <div class="mt-2 pl-3 row">
-                        <button type="submit" class="btn btn-success">Add opening times</button>
+                        <button type="button" class="btn btn-success" onclick="updateTimes('', '');">Add opening times</button>
                         <button type="button" class="ml-2 btn btn-danger" onclick="window.location = '/admin/places/{{ place.id }}/edit/'">Cancel</button>
                     </div>
                 </form>
@@ -59,26 +67,26 @@
                                 <option value="5" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 5 %}selected{% endif %}>Saturday</option>
                                 <option value="6" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 6 %}selected{% endif %}>Sunday</option>
                             </select>
-                            <input id="hiddenEdit_{{ time.id }}" value="{{ time.day }}" name="day" hidden required>
-                            <input value="{{ time.id }}" name="time_id" hidden>
+                            <input id="hiddenEdit_{{ time.id }}" value="{{ time.day }}" type="number" name="day" hidden required>
+                            <input value="{{ time.id }}" type="number" name="time_id" hidden>
                         </div>
                         <div class="form-inline pt-2">
                             <label class="mr-2" for="open_{{ time.id }}">Opens at:</label>
                             <input class="form-control" id="open_{{ time.id }}" type="text" value="{{ time.open|slice:"0:5" }}" style="width: available;" required>
                             <div hidden>
-                                <input id="openHour_{{ time.id }}" name="openHour" value="{{ time.open|slice:"0:2" }}">
-                                <input id="openMinutes_{{ time.id }}" name="openMinutes" value="{{ time.open|slice:"3:5" }}">
+                                <input id="openHour_{{ time.id }}" type="number" name="openHour" value="{{ time.open|slice:"0:2" }}">
+                                <input id="openMinutes_{{ time.id }}" type="number" name="openMinutes" value="{{ time.open|slice:"3:5" }}">
                             </div>
                         </div>
                         <div class="form-inline pt-2">
                             <label class="mr-2" for="close_{{ time.id }}">Closes at:</label>
                             <input class="form-control" id="close_{{ time.id }}" value="{{ time.close|slice:"0:5" }}" style="width: available;" required>
                             <div hidden>
-                                <input id="closeHour_{{ time.id }}" name="closeHour" value="{{ time.close|slice:"0:2" }}">
-                                <input id="closeMinutes_{{ time.id }}" name="closeMinutes" value="{{ time.open|slice:"3:5" }}">
+                                <input id="closeHour_{{ time.id }}" type="number" name="closeHour" value="{{ time.close|slice:"0:2" }}">
+                                <input id="closeMinutes_{{ time.id }}" type="number" name="closeMinutes" value="{{ time.open|slice:"3:5" }}">
                             </div>
                         </div>
-                        <button type="button" class="mt-2 btn btn-success" onclick="updateTimes('{{ time.id }}');">Edit opening times</button>
+                        <button type="button" class="mt-2 btn btn-success" onclick="updateTimes('_', '{{ time.id }}');">Edit opening times</button>
                         <button type="button" class="mt-2 btn btn-danger" onclick="document.getElementById('editForm_{{ time.id }}').hidden = true;">Cancel</button>
                     </form>
                 {% endfor %}

@@ -17,14 +17,11 @@ def index(request, place_id):
 
 
 def create(request, place_id):
-    if request.method == 'GET':
-        return render(request, 'openingtimes/create.html')
-
-    elif request.method == 'POST':
-        open_min = int(request.POST.get("openMinutes"))
-        open_hour = int(request.POST.get("openHour"))
-        close_min = int(request.POST.get("closeMinutes"))
-        close_hour = int(request.POST.get("closeHour"))
+    if request.method == 'POST':
+        open_min = request.POST.get("openMinutes")
+        open_hour = request.POST.get("openHour")
+        close_min = request.POST.get("closeMinutes")
+        close_hour = request.POST.get("closeHour")
 
         open_time = str(open_hour) + ':' + str(open_min) + ':00'
         close_time = str(close_hour) + ':' + str(close_min) + ':00'
@@ -43,10 +40,10 @@ def create(request, place_id):
                                  headers=headers)
         if response.status_code == 201:
             messages.success(request, 'Opening time added')
-            return redirect('places')
+            return redirect('openingtimes edit', place_id=place_id)
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return render(request, 'openingtimes/create.html')  # TODO: form validation error
+            return redirect('openingtimes edit', place_id=place_id)  # TODO: form validation error
 
 
 def edit(request, place_id):
@@ -63,7 +60,7 @@ def edit(request, place_id):
         open_time = request.POST.get("openHour") + ':' + request.POST.get("openMinutes") + ':00'
         close_time = request.POST.get("closeHour") + ':' + request.POST.get("closeMinutes") + ':00'
 
-        id = request.POST.get("times_id")  # get from hidden input
+        id = request.POST.get("time_id")  # get from hidden input
 
         headers = {
             'content-type': 'application/json',
@@ -79,7 +76,22 @@ def edit(request, place_id):
                                 headers=headers)
         if response.status_code == 204:
             messages.success(request, 'Opening times updated')
-            return redirect('places')
+            return redirect('openingtimes edit', place_id=place_id)
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return render(request, 'openingtimes/edit.html')  # TODO: form validation error
+            return redirect('openingtimes edit', place_id=place_id)  # TODO: form validation error
+
+
+def delete(request, place_id, times_id):
+    headers = {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/OpeningTimes/' + times_id,
+                               headers=headers)
+    if response.status_code == 204:
+        messages.success(request, 'Opening times deleted')
+    else:
+        messages.error(request, 'Unknown error. Please try again')
+    return redirect('openingtimes edit', place_id=place_id)
+

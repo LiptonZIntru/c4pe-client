@@ -14,21 +14,28 @@ function showEdit(id) {
     document.getElementById('editForm_' + id).hidden = false;
 }
 
-function updateTimes(timesID) {
-    var openHours = parseInt(document.getElementById('open_' + timesID).value.slice(0, 2));
-    var openMinutes = parseInt(document.getElementById('open_' + timesID).value.slice(3, 5));
-    var openDot = document.getElementById('open_' + timesID).value[2];
-    var closeHours = parseInt(document.getElementById('close_' + timesID).value.slice(0, 2));
-    var closeMinutes = parseInt(document.getElementById('close_' + timesID).value.slice(3, 5));
-    var closeDot = document.getElementById('close_' + timesID).value[2];
-    window.alert(openHours + openDot + openMinutes + "   " + closeHours + closeDot + closeMinutes);
-    if(openDot == ':' && closeDot == ':'){
-        document.getElementById('openHour_' + timesID).value = openHours;
-        document.getElementById('openMinutes_' + timesID).value = openMinutes;
-        document.getElementById('closeHour_' + timesID).value = closeHours;
-        document.getElementById('closeMinutes_' + timesID).value = closeMinutes;
+function updateTimes(char, timesID) {
+    if(timesID) timesID = char + timesID;
 
-        document.getElementById('editForm_' + timesID).submit();
+    var openHours = document.getElementById('open' + timesID).value.slice(0, 2);
+    var openMinutes = document.getElementById('open' + timesID).value.slice(3, 5);
+    var openDot = document.getElementById('open' + timesID).value[2];
+    var closeHours = document.getElementById('close' + timesID).value.slice(0, 2);
+    var closeMinutes = document.getElementById('close' + timesID).value.slice(3, 5);
+    var closeDot = document.getElementById('close' + timesID).value[2];
+
+    if (openDot == ':' && closeDot == ':' && document.getElementById('open' + timesID).value.length == 5 && document.getElementById('close' + timesID).value.length == 5) {
+        document.getElementById('openHour' + timesID).value = openHours;
+        document.getElementById('openMinutes' + timesID).value = openMinutes;
+        document.getElementById('closeHour' + timesID).value = closeHours;
+        document.getElementById('closeMinutes' + timesID).value = closeMinutes;
+
+        if(timesID) {
+            document.getElementById('editForm' + timesID).submit();
+        }
+        else {
+            document.getElementById('createForm').submit();
+        }
     }
     else {
         window.alert("Invalid input! Please enter opening times in format HH:MM.");
