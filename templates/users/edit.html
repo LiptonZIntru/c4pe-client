@@ -4,6 +4,10 @@
     {% load static %}
 {% endblock %}
 
+{% block title %}
+    {{ user.username }} - Edit
+{% endblock %}
+
 {% block content %}
     <form method="post" class="container" enctype="multipart/form-data">
         {% csrf_token %}
@@ -30,7 +34,7 @@
         <!-- Country -->
             <div class="form-group">
                 <label for="country" class="mr-2">Country: </label>
-                <input type="text" class="form-control" id="country" name="country" value="{{ meUser.country }}" placeholder="Enter your country">
+                <input type="text" class="form-control" id="country" name="country" value="{{ user.country }}" placeholder="Enter your country">
             </div>
 
         <!-- Description, biografie -->

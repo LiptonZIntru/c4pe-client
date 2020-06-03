@@ -53,7 +53,11 @@ def reviews(request, id):
 
 def edit(request, id):
     if request.method == 'GET':
-        user = json.loads(requests.get(settings.API_IP + '/api/users/' + id).text)
+        headers = {
+            'content-type': 'application/json',
+            'Authorization': 'Bearer ' + request.COOKIES['token']
+        }
+        user = json.loads(requests.get(settings.API_IP + '/api/users/me', headers=headers).text)
         return render(request, 'users/edit.html',
                       {
                           'user': user,

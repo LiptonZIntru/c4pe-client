@@ -23,11 +23,9 @@ def index(request):
 def edit(request, id):
     if request.method == 'GET':
         user = json.loads(requests.get(settings.API_IP + '/api/users/' + id).text)
-        userReviews = json.loads(requests.get(settings.API_IP + '/api/users/' + id + '/reviews').text)
         return render(request, 'admin/users/edit.html',
                       {
-                          'user': user,
-                          'userReviews': userReviews
+                          'user': user
                       })
     elif request.method == 'POST':
         headers = {
