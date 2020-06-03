@@ -1,7 +1,7 @@
 /* RESPONZIVITA */
 
     /* držení celého register formu veprostřed */
-        @media only screen and (max-height: 1080px)
+        @media only screen and (max-height: 1113px)
         {
             #myDiv{
                 margin-left: auto;
@@ -10,9 +10,9 @@
                 margin-top: 0;
             }
         }
-        @media only screen and (min-height: 1081px){
+        @media only screen and (min-height: 1114px){
             .vertically-center{
-                margin: 0%;
+                margin: 0;
                 position: absolute;
                 left: 50%;
                 top: 50%;

@@ -2,7 +2,7 @@
 
 {% block css %}
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/users/register.css' %}"
+    <link rel="stylesheet" type="text/css" href="{% static '/css/users/register.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -14,6 +14,13 @@
         <div class="vertically-center wrapper py-3 px-4 customBorder" id="myDiv" style="width: 360px;">
             <form id="register" method="post">
                 {% csrf_token %}
+
+                <!-- Project photo -->
+                    <div style="width: 150px;" class="mx-auto unselectable">
+                        <a href="/">
+                            <img src="{% static 'img/PlacesToEat.svg' %}" alt="PlacesToEat.svg" style="height: 150px;">
+                        </a>
+                    </div>
 
                 <!-- Username -->
                     <div class="form-group mt-3">

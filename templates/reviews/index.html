@@ -35,7 +35,7 @@
                                 </div>
                             </div>
 
-                        <div class="col-md-8">
+                        <div class="col-md-8 mt-md-0 mt-2">
 
                             <!-- název (edit button pro admina) -->
                                 <div class="row ml-1">
@@ -64,7 +64,7 @@
 
                             <!-- typ místa podniku -->
                                 <b style="font-size: smaller">Type: </b>
-                                {{ place.placeType.name }} (<a href="/places?page=1&placetype=[{{ place.placeType.id }}]" class="card-link" style="font-size: smaller">search others of the same type</a>)
+                                <a href="/places?page=1&placetype=[{{ place.placeType.id }}]" class="card-link">{{ place.placeType.name }}</a>
 
                             </br>
 
