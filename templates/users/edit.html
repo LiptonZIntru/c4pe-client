@@ -12,39 +12,45 @@
     <form method="post" class="container" enctype="multipart/form-data">
         {% csrf_token %}
 
+        {% if user.avatarURI %}
+            <b>Your profile picture:</b><br/>
+            <div class="mt-1">
+                <img height="150 px;" src="{{ API_IP }}/{{ user.avatarURI }}">
+            </div>
+        {% endif %}
+
         <!-- photo upload -->
-            <div class="form-group">
-                <label class="mr-2 pt-2" for="photo">Change profile picture:</label>
-                <div class="form-control custom-file" id="photo" style="border: 0;">
+            <div class="form-inline mt-2">
+                <label class="mr-2" for="photoUpload">Change profile picture:</label>
+                <div class="form-control custom-file" style="border: 0;">
                     <input type="file" class="custom-file-input" id="photoUpload" name="avatar">
-                    <label class="custom-file-label" for="photoUpload" style="border-radius: 4px;">Choose file</label>
+                    <label class="custom-file-label" for="photoUpload" style="border-radius: 4px; justify-content: left;">Choose file</label>
                 </div>
             </div>
 
-        <!-- Jméno, příjmení -->
-            <div class="form-group">
-                <label for="firstName" class="mr-2">First name: </label>
-                <input type="text" class="form-control" name="firstName" id="firstName" value="{{ user.firstName }}" placeholder="Enter your first name" required>
-            </div>
-            <div class="form-group">
-                <label for="lastName" class="mr-2">Last name: </label>
-                <input type="text" class="form-control" name="lastName" id="lastName" value="{{ user.lastName }}" placeholder="Enter your last name" required>
-            </div>
+        <div class="form-inline mt-2">
+            <label class="mr-2" for="firstName">First name:</label>
+            <input class="form-control" name="firstName" id="firstName" style="width: available;" placeholder="First name" value="{% if user.firstName %}{{ user.firstName }}{% endif %}">
+        </div>
+        <div class="form-inline mt-2">
+            <label class="mr-2" for="lastName">Last name:</label>
+            <input class="form-control" name="lastName" id="lastName" style="width: available;" placeholder="Last name" value="{% if user.lastName %}{{ user.lastName }}{% endif %}">
+        </div>
+        <div class="form-inline mt-2">
+            <label class="mr-2" for="country">Country:</label>
+            <input class="form-control" name="country" id="country" style="width: available;" placeholder="Country" value="{% if user.country %}{{ user.country }}{% endif %}">
+        </div>
 
-        <!-- Country -->
-            <div class="form-group">
-                <label for="country" class="mr-2">Country: </label>
-                <input type="text" class="form-control" id="country" name="country" value="{{ user.country }}" placeholder="Enter your country">
-            </div>
+        <label class="mt-2" for="description">Description:</label>
+        <textarea class="form-control text-justify" name="description" id="description"placeholder="Biography or description" style="width: available;">{% if user.description %}{{ user.description }}{% endif %}</textarea>
 
-        <!-- Description, biografie -->
-            <div class="form-group">
-                <label for="description">Your biography:</label>
-                <textarea class="form-control text-md-smaller" id="description" name="description" rows="3" placeholder="Your biography">{{ user.description }}</textarea>
-            </div>
-
-
-        <button type="submit" class="btn btn-success">Save</button>
-        <button type="button" class="btn btn-danger" onclick="window.location = '/users/{{ user.id }}'">Cancel</button>
+        <div class="pt-3">
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-danger" onclick="window.location = '/users/{{ user.id }}'">Cancel</button>
+        </div>
     </form>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static '/js/users/edit.js' %}"></script>
 {% endblock %}
