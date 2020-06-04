@@ -14,14 +14,6 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group mt-4">
-                <label class="places font-weight-bold" style="color: #FFFFFF" for="photo">Change place photo:</label>
-                <div class="form-control custom-file" id="photo" style="text-align: left !important; border: 0px;">
-                    <input type="file" class="custom-file-input" id="photoUpload">
-                    <label class="custom-file-label" for="photoUpload" style="border-radius: 5px;" name="avatar">Choose file</label>
-                </div>
-            </div>
-
-            <div class="form-group mt-4">
                 <label class="places font-weight-bold" style="color: #FFFFFF" for="pname">Name:</label>
                 <input name="name" class="form-control" type="text" id="pname" placeholder="Name of place" required>
             </div>

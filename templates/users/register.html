@@ -12,72 +12,83 @@
 {% block content %}
     <body class="bg-primary">
         <div class="vertically-center wrapper py-3 px-4 customBorder" id="myDiv" style="width: 360px;">
-            <form id="register" method="post">
+            <form id="register" method="post" class="row">
                 {% csrf_token %}
 
-                <!-- Project photo -->
-                    <div style="width: 150px;" class="mx-auto unselectable">
-                        <a href="/">
-                            <img src="{% static 'img/PlacesToEat.svg' %}" alt="PlacesToEat.svg" style="height: 150px;">
-                        </a>
-                    </div>
-
-                <!-- Username -->
-                    <div class="form-group mt-3">
-                        <label class="text-primary font-weight-bold" for="uname">Username:</label>
-                        <input name="username" class="form-control" type="text" id="uname" placeholder="Your username" required>
-                    </div>
-
-                <!-- Password -->
-                    <div class="form-group">
-                        <label class="text-primary font-weight-bold" for="pwd">Password:</label>
-                        <input id="password" name="password" class="form-control" type="password" id="pwd" placeholder="Your password" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="text-primary font-weight-bold" for="pwdCheck">Confirm password:</label>
-                        <input id="confirmation" name="confirmation" class="form-control" type="password" id="pwdCheck" placeholder="Password again" required>
-                    </div>
-
-                <!-- NOT REQUIRED INFO -->
-                    <div class="text-center">
-                        <label class="text-primary font-weight-bold p-0 mx-auto mt-2" style="font-size: larger">Not required</label>
-                    </div>
-
-                    <!-- Křestní jméno -->
-                        <div class="form-group">
-                            <label class="text-primary font-weight-bold" for="fname">First name:</label>
-                            <input name="firstName" class="form-control" id="fname" type="text" placeholder="Your first name">
+                <div class="col-md-6 pb-3">
+                    <!-- Project photo -->
+                        <div style="width: 150px;" class="mx-auto unselectable">
+                            <a href="/">
+                                <img src="{% static 'img/PlacesToEat.svg' %}" alt="PlacesToEat.svg" style="height: 150px;">
+                            </a>
                         </div>
 
-                    <!-- příjmení -->
-                        <div class="form-group">
-                            <label class="text-primary font-weight-bold" for="lname">Last name:</label>
-                            <input name="lastName" class="form-control" id="lname" type="text" placeholder="Your last name">
+                    <!-- Username -->
+                        <div class="form-group mt-3">
+                            <label class="text-primary font-weight-bold" for="uname">Username:</label>
+                            <input name="username" class="form-control" type="text" id="uname" placeholder="Your username" required>
                         </div>
 
-                    <!-- země -->
+                    <!-- Password -->
                         <div class="form-group">
-                            <label class="text-primary font-weight-bold" for="country">Country:</label>
-                            <input name="country" class="form-control" id="country" type="text" placeholder="Your country ('CZ' / 'AT')">
+                            <label class="text-primary font-weight-bold" for="pwd">Password:</label>
+                            <input id="password" name="password" class="form-control" type="password" id="pwd" placeholder="Your password" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-primary font-weight-bold" for="pwdCheck">Confirm password:</label>
+                            <input id="confirmation" name="confirmation" class="form-control" type="password" id="pwdCheck" placeholder="Password again" required>
                         </div>
 
-                    <!-- bio -->
-                        <div class="form-group">
-                            <label class="text-primary font-weight-bold" for="description">Description:</label>
-                            <textarea name="description" class="form-control" id="description" placeholder="Your description" style="min-height: 2.35rem; max-height: 11.75rem;"></textarea>
+                    <!-- submit button -->
+                        <button class="btn btn-lg btn-block btn-primary font-weight-bold d-none d-md-block" style="border-radius: 14px" type="submit">
+                            Register
+                        </button>
+                </div>
+
+                <div class="col-md-6 mt-md-4">
+                    <!-- NOT REQUIRED INFO -->
+                        <div class="text-center">
+                            <label class="text-primary font-weight-bold p-0 mx-auto mt-2" style="font-size: larger">Not required</label>
                         </div>
 
-                <!-- submit button -->
-                    <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px" type="submit">
-                        Register
-                    </button>
+                        <!-- Křestní jméno -->
+                            <div class="form-group mt-md-2">
+                                <label class="text-primary font-weight-bold" for="fname">First name:</label>
+                                <input name="firstName" class="form-control" id="fname" type="text" placeholder="Your first name">
+                            </div>
 
-                <!-- Log In Button -->
-                    <div class="position-relative pr-1" id="loggingIn" style="font-size: 15px; text-align: right; margin-top: 0.75rem !important;">
-                        <a class="text-primary text-decoration-none font-weight-bold my-0 py-0" href="/users/login">
-                            Click Here for Log In
-                        </a>
-                    </div>
+                        <!-- příjmení -->
+                            <div class="form-group">
+                                <label class="text-primary font-weight-bold" for="lname">Last name:</label>
+                                <input name="lastName" class="form-control" id="lname" type="text" placeholder="Your last name">
+                            </div>
+
+                        <!-- země -->
+                            <div class="form-group">
+                                <label class="text-primary font-weight-bold" for="country">Country:</label>
+                                <input name="country" class="form-control" id="country" type="text" placeholder="Your country ('CZ' / 'AT')">
+                            </div>
+
+                        <!-- bio -->
+                            <div class="form-group">
+                                <label class="text-primary font-weight-bold" for="description">Description:</label>
+                                <textarea name="description" class="form-control" id="description" placeholder="Your description" style="min-height: 2.35rem; max-height: 11.75rem;"></textarea>
+                            </div>
+
+                        <div class="d-block d-md-none">
+                            <!-- submit button -->
+                                <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px" type="submit">
+                                    Register
+                                </button>
+
+                            <!-- Log In Button -->
+                                <div class="position-relative pr-1" style="font-size: 15px; text-align: right; margin-top: 0.75rem !important;">
+                                    <a class="text-primary text-decoration-none font-weight-bold my-0 py-0" href="/users/login">
+                                        Click Here for Log In
+                                    </a>
+                                </div>
+                        </div>
+                </div>
             </form>
         </div>
     </body>
