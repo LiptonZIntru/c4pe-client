@@ -135,10 +135,9 @@ def edit(request, id):
 
         if response.status_code == 204:
             messages.success(request, 'Place updated')
-            return redirect('places')
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return redirect('place edit')
+        return redirect('place profile', id=id)
 
 
 @require_http_methods(["POST"])

@@ -1,0 +1,75 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+    {{ place.name }} - Edit
+{% endblock %}
+
+{% block content %}
+    <body class="px-3 pt-3" style="background-color: #FFFFFF">
+        <div class="mx-auto vertically-center wrapper pt-3 pb-3 px-4" id="myDiv" style="width: 360px; background-color: #007dff; border: 1px solid #007dff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group mt-4">
+                    <label class="places font-weight-bold" style="color: #FFFFFF" for="photo">Change place photo:</label>
+                    <div class="form-control custom-file" id="photo" style="text-align: left !important; border: 0;">
+                        <input type="file" class="custom-file-input" id="photoUpload" name="avatar">
+                        <label class="custom-file-label" for="photoUpload" style="border-radius: 5px;">Choose file</label>
+                    </div>
+                </div>
+
+                <div class="form-group mt-4">
+                    <label class="places font-weight-bold" style="color: #FFFFFF" for="pname">Name:</label>
+                    <input name="name" class="form-control" type="text" id="pname" placeholder="Name of place" value="{{ place.name }}">
+                </div>
+                <div class="form-group mt-4">
+                    <label class="font-weight-bold" style="color: #FFFFFF" for="pstreet">Street:</label>
+                    <input name="street" class="form-control" type="text" id="pstreet" placeholder="Which street" value="{{ place.street }}">
+                </div>
+                <div class="form-group mt-4">
+                    <label class="font-weight-bold" style="color: #FFFFFF" for="pcity">City:</label>
+                    <input name="city" class="form-control" type="text" id="pcity" placeholder="Which city" value="{{ place.city }}">
+                </div>
+                <div class="form-group mt-4">
+                    <label class="font-weight-bold" style="color: #FFFFFF" for="pzipcode">Zip code:</label>
+                    <input name="zipCode" class="form-control integerInput fiveChars" type="text" id="pzipcode" placeholder="Which zip code" value="{{ place.zipCode }}">
+                </div>
+                <div class="form-group mt-4">
+                    <label class="font-weight-bold" style="color: #FFFFFF" for="pcountry">Country:</label>
+                    <input name="country" class="form-control" type="text" id="pcountry" placeholder="Which country" value="{{ place.country }}">
+                </div>
+                <div>
+                    <label class="font-weight-bold" style="color: #FFFFFF" for="type">Type of place:</label>
+                    <select name="type" class="form-control" id="type">
+                        {% for type in types %}
+                            {% if place.placeType.id == type.id %}
+                                <option value="{{ type.id }}" selected>{{ type.name }}</option>
+                            {% else %}
+                                <option value="{{ type.id }}">{{ type.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-6 pl-3 pr-lg-2 pr-3">
+                        <a role="button" class="btn btn-sm btn-block btn-primary font-weight-bold text-nowrap" href="/places/{{ place.id }}/openingtimes/edit/" style="border-radius: 10px; background-color: #fff; color: #007dff">
+                            Edit opening times
+                        </a>
+                    </div>
+                    <div class="col-lg-6 pr-3 pl-lg-2 pl-3 mt-2 mt-lg-0">
+                        <a role="button" class="btn btn-sm btn-block btn-primary font-weight-bold" href="/places/{{ place.id }}/owners" style="border-radius: 10px; background-color: #fff; color: #007dff">
+                            Edit owners list
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mb-2 mt-3">
+                    <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px; background-color: #fff; color: #007dff" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </body>
+{% endblock %}
