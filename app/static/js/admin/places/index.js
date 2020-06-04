@@ -1,10 +1,11 @@
 /* Inicializace filtru a razeni tabulky */
-    $(document).ready(function() {
+    $('.table').ready(function() {
         $('.table').DataTable( {
             ordering: true,
             searching: true,
             paging: true,
-            pageLength: 25,
+            pageLength: -1,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
             "columns": [ null,
                          null,
                          { "orderable": false } ]

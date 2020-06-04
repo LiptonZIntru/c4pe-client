@@ -1,0 +1,50 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+    {% load static %}
+{% endblock %}
+
+{% block title %}
+    Create place
+{% endblock %}
+
+{% block content %}
+<body class="px-3 pt-3" style="background-color: #FFFFFF">
+    <div class="mx-auto vertically-center wrapper pt-3 pb-3 px-4" id="myDiv" style="width: 360px; background-color: #007dff; border: 1px solid #007dff; border-radius: 20px; box-shadow: 0px 0px 10px 0px #000c97">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mt-4">
+                <label class="places font-weight-bold" style="color: #FFFFFF" for="pname">Name:</label>
+                <input name="name" class="form-control" type="text" id="pname" placeholder="Name of place" required>
+            </div>
+            <div class="form-group mt-4">
+                <label class="font-weight-bold" style="color: #FFFFFF" for="pstreet">Street:</label>
+                <input name="street" class="form-control" type="text" id="pstreet" placeholder="Which street" required>
+            </div>
+            <div class="form-group mt-4">
+                <label class="font-weight-bold" style="color: #FFFFFF" for="pcity">City:</label>
+                <input name="city" class="form-control" type="text" id="pcity" placeholder="Which city" required>
+            </div>
+            <div class="form-group mt-4">
+                <label class="font-weight-bold" style="color: #FFFFFF" for="pzipcode">Zip code:</label>
+                <input name="zipCode" class="form-control integerInput fiveChars" type="text" id="pzipcode" placeholder="Which zip code" required>
+            </div>
+            <div class="form-group mt-4">
+                <label class="font-weight-bold" style="color: #FFFFFF" for="pcountry">Country:</label>
+                <input name="country" class="form-control" type="text" id="pcountry" placeholder="Which country" required>
+            </div>
+            <div>
+                <label class="font-weight-bold" style="color: #FFFFFF" for="type">Type of place:</label>
+                <select name="type" class="form-control" id="type">
+                    {% for type in types %}
+                        <option value="{{ type.id }}">{{ type.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div style="padding-bottom: 10px; padding-top: 30px">
+                <button class="btn btn-lg btn-block btn-primary font-weight-bold" style="border-radius: 14px; background-color: #fff; color: #007dff" type="submit">Create new place</button>
+            </div>
+            </form>
+    </div>
+</body>
+{% endblock %}
