@@ -16,7 +16,6 @@ from django.contrib.messages import constants
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -28,12 +27,12 @@ DEBUG = True
 
 API_IP = 'http://77.244.251.110'
 
-ALLOWED_HOSTS = ['localhost', '192.168.0.127', '127.0.0.1', '192.168.0.21', '192.168.0.11', '192.168.1.180', '40.114.229.170', '192.168.0.12']
+ALLOWED_HOSTS = ['localhost', '192.168.0.127', '127.0.0.1', '192.168.0.21', '192.168.0.11', '192.168.1.180',
+                 '192.168.0.12']
 
 MESSAGE_TAGS = {
     constants.ERROR: 'danger',
 }
-
 
 # Application definition
 
@@ -80,7 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'c4pe.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -90,7 +88,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -110,20 +107,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Prague'  # 'UTC'
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
