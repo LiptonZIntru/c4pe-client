@@ -18,6 +18,7 @@ urlpatterns = [
     path('places/<place_id>/owners/', owners.index, name='admin owners'),
     path('places/<place_id>/owners/create/', owners.add_owner, name='admin owners create'),
     path('places/<place_id>/owners/<user_id>/delete/', owners.delete_owner, name='admin owners delete'),
+    path('places/<place_id>/images/<id>/delete', places.delete_avatar),
 
     path('placetypes/', placetypes.index, name='admin placetypes'),
     path('placetypes/<id>/edit/', placetypes.edit, name='admin placetypes edit'),

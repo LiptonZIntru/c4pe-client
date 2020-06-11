@@ -127,13 +127,14 @@ def delete_review(request, place_id, review_id):
 
 
 @admin
-def delete_avatar(request, id):
-    # TODO: delete image of place
-    return
-
-
-@admin
-def add_avatar(request, id):
-    # TODO: add new image
-    return
+def delete_avatar(request, place_id, id):
+    headers = {
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/images/' + id, headers=headers)
+    if response.status_code == 204:
+        messages.success(request, 'Avatar deleted')
+    else:
+        messages.error(request, response.text)
+    return redirect('admin places edit', place_id=place_id)
 
