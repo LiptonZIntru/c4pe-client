@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .auth import get_user, authorized
+from .auth import get_user, authorized, login_required
 from django.contrib import messages
 import requests
 import json
@@ -12,6 +12,7 @@ def index(request):
     return render(request, 'placetypes/index.html')
 
 
+@login_required
 def create(request):
     """
         TODO: admin route
@@ -35,6 +36,7 @@ def create(request):
             return render(request, 'placetypes/create.html') # TODO: form validation error
 
 
+@login_required
 def edit(request, id):
     """
         TODO: admin route

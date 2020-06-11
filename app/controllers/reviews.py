@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .auth import get_user, authorized
+from .auth import get_user, authorized, login_required
 from django.contrib import messages
 import requests
 import json
@@ -47,6 +47,7 @@ def index(request, id):
                   })
 
 
+@login_required
 def create(request, id):
     if request.method == 'GET':
         return render(request, 'reviews/create.html')
@@ -69,6 +70,7 @@ def create(request, id):
             return redirect('reviews', id=id)
 
 
+@login_required
 def edit(request, place_id, id):
     if request.method == 'GET':
         review = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/Reviews/' + id).text)

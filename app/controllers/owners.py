@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .auth import get_user, authorized
+from .auth import authorized, get_user, login_required
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 import requests
@@ -9,6 +9,7 @@ from datetime import datetime
 from django.conf import settings
 
 
+@login_required
 def index(request, place_id):
     place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
     owners_id = place['owners']
@@ -22,6 +23,7 @@ def index(request, place_id):
                   })
 
 
+@login_required
 @require_http_methods(['POST'])
 def create(request, place_id):
     username = request.POST.get('username')
@@ -41,6 +43,7 @@ def create(request, place_id):
     return redirect('owners', place_id=place_id)
 
 
+@login_required
 @require_http_methods(['POST'])
 def delete(request, place_id, user_id):
     headers = {

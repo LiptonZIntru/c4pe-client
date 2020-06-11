@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .auth import get_user, authorized
+from .auth import get_user, authorized, login_required
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from .filters import *
@@ -58,7 +58,11 @@ def profile(request, id):
     def get_positive_reactions(review):
         return review.get('positiveReactions')
 
-    reviews.sort(key=get_positive_reactions, reverse=True)
+    try:
+        reviews.sort(key=get_positive_reactions, reverse=True)
+    except:
+        messages.error(request, 'Place does not exist')
+        return redirect('places')
 # KONEC SEKCE
 
     if len(reviews) > 5:
@@ -71,6 +75,7 @@ def profile(request, id):
                   })
 
 
+@login_required
 def create(request):
     if request.method == 'GET':
         types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
@@ -106,6 +111,7 @@ def create(request):
             return redirect('place create')
 
 
+@login_required
 def edit(request, id):
     if request.method == 'GET':
         types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
@@ -140,6 +146,7 @@ def edit(request, id):
         return redirect('place profile', id=id)
 
 
+@login_required
 @require_http_methods(["POST"])
 def create_review(request, id):
     if request.method == 'POST':
@@ -180,18 +187,21 @@ def get_json_reviews(request, id, type):
     return HttpResponse(json.dumps(response_reviews))  # REQUIRED TO BE HTTP RESPONSE
 
 
+@login_required
 def avatar(request, place_id, id):
+    """
     if request.method == 'GET':
-        '''images = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)['images']
+        images = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)['images']
         print(images)
         try:
             return render(request, 'places/image.html',
                           {
                               'image': images[int(id) - 1]
                           })
-        except:'''
+        except:
         return render(request, 'places/avatar.html')
-    elif request.method == 'POST':
+    el"""
+    if request.method == 'POST':
         avatar_file = request.FILES.get('avatar')
         file = open('app/static/upload/place.jpg', 'wb+')
         for chunk in avatar_file.chunks():
@@ -210,6 +220,7 @@ def avatar(request, place_id, id):
         return redirect('place profile', id=place_id)
 
 
+@login_required
 def delete_avatar(request, place_id, id):
     headers = {
         'Authorization': 'Bearer ' + request.COOKIES['token']

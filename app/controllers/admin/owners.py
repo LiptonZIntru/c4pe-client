@@ -6,8 +6,10 @@ import json
 import requests
 from app.controllers.auth import get_user, authorized, is_admin
 from django.conf import settings
+from app.controllers.auth import admin
 
 
+@admin
 def index(request, place_id):
     if request.method == 'GET':
         place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
@@ -22,6 +24,7 @@ def index(request, place_id):
                       })
 
 
+@admin
 def add_owner(request, place_id):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -42,6 +45,7 @@ def add_owner(request, place_id):
         return redirect('admin owners', place_id=place_id)
 
 
+@admin
 def delete_owner(request, place_id, user_id):
     if request.method == 'POST':
         headers = {

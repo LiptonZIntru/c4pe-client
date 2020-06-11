@@ -4,28 +4,26 @@ from django.contrib import messages
 from django.views.defaults import page_not_found
 import json
 import requests
-from app.controllers.auth import get_user, authorized, is_admin
+from app.controllers.auth import admin
 from django.conf import settings
 
 
+@admin
 def index(request):
-    if is_admin(request):
-        size = "999999999"
-        headers = {
-            'content-type': 'application/json',
-            'Authorization': 'Bearer ' + request.COOKIES['token']
-        }
-        places = json.loads(requests.get(settings.API_IP + '/api/places?PageSize=' + size + '&OrderBy=id',
-                                         headers=headers).text)
-        return render(request, 'admin/places/index.html',
-                      {
-                          'places': places
-                      })
-    else:
-        messages.error(request, 'Permission denied')
-        return redirect('index')
+    size = "999999999"
+    headers = {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    places = json.loads(requests.get(settings.API_IP + '/api/places?PageSize=' + size + '&OrderBy=id',
+                                     headers=headers).text)
+    return render(request, 'admin/places/index.html',
+                  {
+                      'places': places
+                  })
 
 
+@admin
 def create(request):
     if request.method == 'GET':
         types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
@@ -55,6 +53,7 @@ def create(request):
             return redirect('admin places create')
 
 
+@admin
 def delete(request, place_id):
     headers = {
         'content-type': 'application/json',
@@ -68,6 +67,7 @@ def delete(request, place_id):
     return redirect('admin places')
 
 
+@admin
 def edit(request, place_id):
     if request.method == 'GET':
         types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
@@ -99,6 +99,7 @@ def edit(request, place_id):
             return redirect('admin place edit')
 
 
+@admin
 def reviews(request, place_id):
     if request.method == 'GET':
         reviews = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/reviews').text)
@@ -110,26 +111,28 @@ def reviews(request, place_id):
                       })
 
 
+@admin
 def delete_review(request, place_id, review_id):
-    if is_admin(request):
-        headers = {
-            'content-type': 'application/json',
-            'Authorization': 'Bearer ' + request.COOKIES['token']
-        }
-        response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/Reviews/' + review_id,
-                                   headers=headers)
-        if response.status_code == 204:
-            messages.success(request, 'Review deleted')
-        else:
-            messages.error(request, 'Unknown error. Please try again')
-        return redirect('admin places reviews', place_id=place_id)
+    headers = {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/Reviews/' + review_id,
+                               headers=headers)
+    if response.status_code == 204:
+        messages.success(request, 'Review deleted')
+    else:
+        messages.error(request, 'Unknown error. Please try again')
+    return redirect('admin places reviews', place_id=place_id)
 
 
+@admin
 def delete_avatar(request, id):
     # TODO: delete image of place
     return
 
 
+@admin
 def add_avatar(request, id):
     # TODO: add new image
     return

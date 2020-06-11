@@ -4,22 +4,20 @@ from django.contrib import messages
 from django.views.defaults import page_not_found
 import json
 import requests
-from app.controllers.auth import get_user, authorized, is_admin
+from app.controllers.auth import admin
 from django.conf import settings
 
 
+@admin
 def index(request):
-    if is_admin(request):
-        users = json.loads(requests.get(settings.API_IP + '/api/users').text)
-        return render(request, 'admin/users/index.html',
-                      {
-                          'users': users
-                      })
-    else:
-        messages.error(request, 'Permission denied')
-        return redirect('index')
+    users = json.loads(requests.get(settings.API_IP + '/api/users').text)
+    return render(request, 'admin/users/index.html',
+                  {
+                      'users': users
+                  })
 
 
+@admin
 def edit(request, id):
     if request.method == 'GET':
         user = json.loads(requests.get(settings.API_IP + '/api/users/' + id).text)
@@ -50,20 +48,18 @@ def edit(request, id):
     return
 
 
+@admin
 def reviews(request, id):
-    if is_admin(request):
-        reviews = json.loads(requests.get(settings.API_IP + '/api/users/' + id + '/reviews').text)
-        user = json.loads(requests.get(settings.API_IP + '/api/users/' + id).text)
-        return render(request, 'admin/users/reviews.html',
-                      {
-                          'user': user,
-                          'reviews': reviews
-                      })
-    else:
-        messages.error(request, 'Permission denied')
-        return redirect('index')
+    reviews = json.loads(requests.get(settings.API_IP + '/api/users/' + id + '/reviews').text)
+    user = json.loads(requests.get(settings.API_IP + '/api/users/' + id).text)
+    return render(request, 'admin/users/reviews.html',
+                  {
+                      'user': user,
+                      'reviews': reviews
+                  })
 
 
+@admin
 def delete(request, id):
     headers = {
         'content-type': 'application/json',
@@ -77,6 +73,7 @@ def delete(request, id):
     return redirect('admin users')
 
 
+@admin
 def delete_avatar(request, id):
     headers = {
         'content-type': 'application/json',

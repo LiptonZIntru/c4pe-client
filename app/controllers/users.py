@@ -4,7 +4,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 import requests
 import json
-from .auth import authorized, get_user
+from .auth import authorized, get_user, login_required
 from django.conf import settings
 
 
@@ -51,6 +51,7 @@ def reviews(request, id):
                   })
 
 
+@login_required
 def edit(request, id):
     if request.method == 'GET':
         headers = {
@@ -93,6 +94,7 @@ def edit(request, id):
 
 # @require_http_methods('POST')
 
+@login_required
 def avatar(request, id):
     if request.method == 'GET':
         return render(request, 'users/avatar.html')
@@ -115,6 +117,7 @@ def avatar(request, id):
         return redirect('user profile', id=id)
 
 
+@login_required
 def delete_avatar(request, id):
     headers = {
         'Authorization': 'Bearer ' + request.COOKIES['token']

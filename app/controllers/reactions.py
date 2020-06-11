@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .auth import get_user, authorized
+from .auth import get_user, authorized, login_required
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 import requests
@@ -8,6 +8,7 @@ import json
 from django.conf import settings
 
 
+@login_required
 def like(request, place_id, review_id):
     headers = {
         'content-type': 'application/json',
@@ -53,6 +54,7 @@ def like(request, place_id, review_id):
     return HttpResponse(status=400)
 
 
+@login_required
 def dislike(request, place_id, review_id):
     headers = {
         'content-type': 'application/json',

@@ -4,10 +4,11 @@ from django.contrib import messages
 import requests
 import json
 from datetime import datetime
-from app.controllers.auth import authorized, get_user, is_admin
+from app.controllers.auth import authorized, get_user, admin
 from django.conf import settings
 
 
+@admin
 def index(request, place_id):
     if request.method == 'GET':
         place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
@@ -19,6 +20,7 @@ def index(request, place_id):
                       })
 
 
+@admin
 def create(request, place_id):
     if request.method == 'POST':
         open_min = int(request.POST.get("openMinutes"))
@@ -49,6 +51,7 @@ def create(request, place_id):
             return redirect('admin openingtimes', place_id=place_id)  # TODO: form validation error
 
 
+@admin
 def edit(request, place_id):
     if request.method == 'POST':
         open_time = request.POST.get("openHour") + ':' + request.POST.get("openMinutes") + ':00'
@@ -76,17 +79,17 @@ def edit(request, place_id):
             return redirect('admin openingtimes', place_id=place_id)  # TODO: form validation error
 
 
+@admin
 def delete(request, place_id, times_id):
-    if is_admin(request):
-        headers = {
-            'content-type': 'application/json',
-            'Authorization': 'Bearer ' + request.COOKIES['token']
-        }
-        response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/OpeningTimes/' + times_id,
-                                   headers=headers)
-        if response.status_code == 204:
-            messages.success(request, 'Opening times deleted')
-        else:
-            messages.error(request, 'Unknown error. Please try again')
-        return redirect('admin openingtimes', place_id=place_id)
+    headers = {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/OpeningTimes/' + times_id,
+                               headers=headers)
+    if response.status_code == 204:
+        messages.success(request, 'Opening times deleted')
+    else:
+        messages.error(request, 'Unknown error. Please try again')
+    return redirect('admin openingtimes', place_id=place_id)
 

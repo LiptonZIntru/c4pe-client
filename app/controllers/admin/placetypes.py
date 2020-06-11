@@ -4,21 +4,18 @@ from django.views.defaults import page_not_found
 from django.contrib import messages
 import json
 import requests
-from app.controllers.auth import get_user, authorized, is_admin
+from app.controllers.auth import admin
 from django.conf import settings
 
 
+@admin
 def index(request):
     if request.method == 'GET':
-        if is_admin(request):
-            placeTypes = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
-            return render(request, 'admin/placetypes/index.html',
-                          {
-                              'placeTypes': placeTypes
-                          })
-        else:
-            messages.error(request, 'Permission denied')
-            return redirect('index')
+        placeTypes = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
+        return render(request, 'admin/placetypes/index.html',
+                      {
+                          'placeTypes': placeTypes
+                      })
     elif request.method == 'POST':
         headers = {
             'content-type': 'application/json',
@@ -36,6 +33,7 @@ def index(request):
             return redirect('admin placetypes')
 
 
+@admin
 def edit(request, id):
     if request.method == 'GET':
         placeType = json.loads(requests.get(settings.API_IP + '/api/placetypes/' + id).text)
@@ -60,6 +58,7 @@ def edit(request, id):
             return redirect('admin placetypes edit')
 
 
+@admin
 def delete(request, id):
     headers = {
         'content-type': 'application/json',

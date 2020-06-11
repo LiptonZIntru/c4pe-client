@@ -3,7 +3,6 @@ from django.shortcuts import render, HttpResponse
 from django.views.defaults import page_not_found
 import json
 import requests
-from .auth import get_user
 from django.conf import settings
 
 # Create your views here.

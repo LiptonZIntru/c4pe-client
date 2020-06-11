@@ -4,7 +4,7 @@ from django.contrib import messages
 import requests
 import json
 from datetime import datetime
-from .auth import authorized, get_user
+from .auth import authorized, get_user, login_required
 from django.conf import settings
 
 
@@ -16,6 +16,7 @@ def index(request, place_id):
                   })
 
 
+@login_required
 def create(request, place_id):
     if request.method == 'POST':
         open_min = request.POST.get("openMinutes")
@@ -46,6 +47,7 @@ def create(request, place_id):
             return redirect('openingtimes edit', place_id=place_id)  # TODO: form validation error
 
 
+@login_required
 def edit(request, place_id):
     if request.method == 'GET':
         openingTimes = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/openingTimes').text)
@@ -82,6 +84,7 @@ def edit(request, place_id):
             return redirect('openingtimes edit', place_id=place_id)  # TODO: form validation error
 
 
+@login_required
 def delete(request, place_id, times_id):
     headers = {
         'content-type': 'application/json',
