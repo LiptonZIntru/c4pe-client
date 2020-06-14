@@ -26,6 +26,7 @@ SECRET_KEY = '46lp@6i@txgnn1%so8ewan!0fq8auc*cgo$=avl3k7bz(ju!xa'
 DEBUG = True
 
 API_IP = 'http://77.244.251.110'
+ABSOLUTE_PATH = r''
 
 ALLOWED_HOSTS = ['*']
 

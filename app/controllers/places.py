@@ -203,14 +203,14 @@ def avatar(request, place_id, id):
     el"""
     if request.method == 'POST':
         avatar_file = request.FILES.get('avatar')
-        file = open('app/static/upload/place.jpg', 'wb+')
+        file = open(settings.ABSOLUTE_PATH + 'app/static/upload/place.jpg', 'wb+')
         for chunk in avatar_file.chunks():
             file.write(chunk)
         headers = {
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
         data = {
-            "image": open(r'app/static/upload/place.jpg', 'rb')
+            "image": open(settings.ABSOLUTE_PATH + r'app/static/upload/place.jpg', 'rb')
         }
         response = requests.post(settings.API_IP + '/api/places/' + place_id + '/images/' + id, files=data, headers=headers)
         if response.status_code == 200:
