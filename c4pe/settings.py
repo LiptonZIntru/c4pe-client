@@ -27,8 +27,7 @@ DEBUG = True
 
 API_IP = 'http://77.244.251.110'
 
-ALLOWED_HOSTS = ['localhost', '192.168.0.127', '127.0.0.1', '192.168.0.21', '192.168.0.11', '192.168.1.180',
-                 '192.168.0.12']
+ALLOWED_HOSTS = ['*']
 
 MESSAGE_TAGS = {
     constants.ERROR: 'danger',

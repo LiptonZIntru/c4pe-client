@@ -16,6 +16,10 @@
             {
                 document.getElementById('loginLink').classList.add('active');
             }
+            else if (document.baseURI.includes('/about/'))
+            {
+                document.getElementById('aboutLink').classList.add('active');
+            }
             else if (document.baseURI.includes('/register/'))
             {
                 document.getElementById('registerLink').classList.add('active');

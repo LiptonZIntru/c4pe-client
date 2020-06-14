@@ -151,7 +151,6 @@ def login(request):
             response = redirect('places')
             messages.success(request, 'Welcome back!')
             response.set_cookie('token', api_response_content['token'])  # user is logged
-            request.session['isLogged'] = 1
         else:
             messages.error(request, 'Wrong credentials!')
             response = render(request, 'users/login.html')
@@ -190,8 +189,6 @@ def register(request):
 
 def logout(request):
     response = redirect('index')
-    if request.session.get('isLogged'):
-        del (request.session['isLogged'])
     if request.COOKIES.get('token'):
         response.delete_cookie('token')
     messages.success(request, 'You have been logged out')
