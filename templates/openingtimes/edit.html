@@ -100,7 +100,6 @@
                     <!-- hlavička -->
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Times ID</th>
                                 <th scope="col">Day</th>
                                 <th scope="col">Open</th>
                                 <th scope="col">Close</th>
@@ -113,7 +112,6 @@
                         <tbody>
                             {% for time in times %}
                                 <tr class="defaultCursor">
-                                    <th scope="row">{{ time.id }}</th>
                                     <td id="{{ time.id }}_day">
                                         {% if time.day == 0 %}
                                             Monday
