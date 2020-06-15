@@ -6,6 +6,7 @@ from datetime import datetime
 from django.conf import settings
 
 
+# not much used
 def authorized(token):
     """
         This function takes authorization token and authorized it
