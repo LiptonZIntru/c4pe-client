@@ -236,6 +236,9 @@
                                                 <button type="submit" class="btn btn-outline-secondary py-1 px-2 mb-2" form="editReview" onclick="editReview(0);" id="submitReviewButton" hidden>
                                                     Save
                                                 </button>
+                                                <button type="button" class="btn btn-outline-danger py-1 px-2 mb-2 ml-2" onclick="deleteReview({{ review.id }}, {{ place.id }});">
+                                                    Delete
+                                                </button>
                                             </div>
                                             <label for="editReviewTextArea" hidden></label>
                                             <form id="editReview" method="post" action="/places/{{ place.id }}/reviews/{{ review.id }}/edit/" hidden>

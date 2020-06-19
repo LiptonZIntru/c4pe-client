@@ -176,3 +176,11 @@ var rating = 0;
         }
         freezed = true;
     }
+
+/* SMAZÁNÍ REVIEW */
+    function deleteReview(review_id, place_id)
+    {
+        if(confirm("Do you really want to delete this review?")) {
+            window.location = "/places/" + place_id + "/reviews/" + review_id + "/delete/";
+        }
+    }
