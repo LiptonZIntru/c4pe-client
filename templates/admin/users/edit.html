@@ -28,15 +28,10 @@
             {% csrf_token %}
             <div class="form-inline">
                 <label class="mr-2" for="verified">Verified:</label>
-                <select class="form-control" id="verified" style="width: available;">
-                    <option value="true" onclick="document.getElementById('hiddenInput').value = 'true';" {% if user.isVerified %}selected{% endif %}>true</option>
-                    <option value="false" onclick="document.getElementById('hiddenInput').value = 'false';" {% if user.isVerified == False %}selected{% endif %}>false</option>
+                <select class="form-control" id="verified" name="isVerified" style="width: available;" required>
+                    <option value="true" {% if user.isVerified %}selected{% endif %}>true</option>
+                    <option value="false" {% if user.isVerified == False %}selected{% endif %}>false</option>
                 </select>
-                {% if user.isVerified %}
-                    <input id="hiddenInput" value="true" name="isVerified" hidden required>
-                {% else %}
-                    <input id="hiddenInput" value="false" name="isVerified" hidden required>
-                {% endif %}
             </div>
             <div class="form-inline mt-2">
                 <label class="mr-2" for="username">Username:</label>
