@@ -15,7 +15,7 @@
             <form action="/places/{{ place.id }}/owners/create/" method="post">
                 {% csrf_token %}
                 <div class="form-inline">
-                    <input id="ownerUsername" name="username" class="form-control" placeholder="Enter username" style="min-width: 300px;">
+                    <input id="ownerUsername" name="username" class="form-control" placeholder="Enter username" style="min-width: 300px;" required>
                     <button type="submit" class="btn btn-success ml-sm-2 mt-2 mt-sm-0">Add owner</button>
                 </div>
             </form>
