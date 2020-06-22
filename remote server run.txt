@@ -1,0 +1,4 @@
+ssh (37.46.209.90)
+	cd c4pe-development
+	git pull origin master
+	./RUNSERVER.sh

@@ -20,12 +20,11 @@
 
              <div class="form-inline pt-2">
                 <label class="mr-2" for="placeType">Place type:</label>
-                <select class="form-control" id="placeType" style="width: available;" required>
+                <select class="form-control" id="placeType" name="type" style="width: available;" required>
                     {% for type in types %}
-                        <option value="{{ type.id }}" onclick="document.getElementById('hiddenInput').value = this.value;" {% if types|first == type %}selected{% endif %}>{{ type.name }}</option>
+                        <option value="{{ type.id }}" {% if types|first == type %}selected{% endif %}>{{ type.name }}</option>
                     {% endfor %}
                 </select>
-                <input id="hiddenInput" value="{% with types|first as type %}{{ type.id }}{% endwith %}" name="type" hidden required>
             </div>
 
             <div class="form-inline pt-2">

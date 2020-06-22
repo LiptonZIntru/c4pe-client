@@ -19,16 +19,15 @@
                     {% csrf_token %}
                      <div class="form-inline pt-2">
                         <label class="mr-2" for="timeDay">Day:</label>
-                        <select class="form-control" id="timeDay" style="width: available;" required>
-                            <option value="0" onclick="document.getElementById('hiddenInput').value = this.value;" selected>Monday</option>
-                            <option value="1" onclick="document.getElementById('hiddenInput').value = this.value;">Tuesday</option>
-                            <option value="2" onclick="document.getElementById('hiddenInput').value = this.value;">Wednesday</option>
-                            <option value="3" onclick="document.getElementById('hiddenInput').value = this.value;">Thursday</option>
-                            <option value="4" onclick="document.getElementById('hiddenInput').value = this.value;">Friday</option>
-                            <option value="5" onclick="document.getElementById('hiddenInput').value = this.value;">Saturday</option>
-                            <option value="6" onclick="document.getElementById('hiddenInput').value = this.value;">Sunday</option>
+                        <select class="form-control" id="timeDay" name="day" style="width: available;" required>
+                            <option value="0" selected>Monday</option>
+                            <option value="1">Tuesday</option>
+                            <option value="2">Wednesday</option>
+                            <option value="3">Thursday</option>
+                            <option value="4">Friday</option>
+                            <option value="5">Saturday</option>
+                            <option value="6">Sunday</option>
                         </select>
-                        <input id="hiddenInput" value="0" type="number" name="day" hidden required>
                     </div>
                     <div class="form-inline pt-2">
                         <label class="mr-2" for="open">Opens at:</label>
@@ -58,16 +57,15 @@
                         {% csrf_token %}
                          <div class="form-inline pt-2">
                             <label class="mr-2" for="timeDay_{{ time.id }}">Day:</label>
-                            <select class="form-control" id="timeDay_{{ time.id }}" style="width: available;" required>
-                                <option value="0" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 0 %}selected{% endif %}>Monday</option>
-                                <option value="1" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 1 %}selected{% endif %}>Tuesday</option>
-                                <option value="2" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 2 %}selected{% endif %}>Wednesday</option>
-                                <option value="3" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 3 %}selected{% endif %}>Thursday</option>
-                                <option value="4" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 4 %}selected{% endif %}>Friday</option>
-                                <option value="5" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 5 %}selected{% endif %}>Saturday</option>
-                                <option value="6" onclick="document.getElementById('hiddenEdit_{{ time.id }}').value = this.value;" {% if time.day == 6 %}selected{% endif %}>Sunday</option>
+                            <select class="form-control" id="timeDay_{{ time.id }}" style="width: available;" name="day" required>
+                                <option value="0" {% if time.day == 0 %}selected{% endif %}>Monday</option>
+                                <option value="1" {% if time.day == 1 %}selected{% endif %}>Tuesday</option>
+                                <option value="2" {% if time.day == 2 %}selected{% endif %}>Wednesday</option>
+                                <option value="3" {% if time.day == 3 %}selected{% endif %}>Thursday</option>
+                                <option value="4" {% if time.day == 4 %}selected{% endif %}>Friday</option>
+                                <option value="5" {% if time.day == 5 %}selected{% endif %}>Saturday</option>
+                                <option value="6" {% if time.day == 6 %}selected{% endif %}>Sunday</option>
                             </select>
-                            <input id="hiddenEdit_{{ time.id }}" value="{{ time.day }}" type="number" name="day" hidden required>
                             <input value="{{ time.id }}" type="number" name="time_id" hidden>
                         </div>
                         <div class="form-inline pt-2">

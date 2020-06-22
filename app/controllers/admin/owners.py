@@ -53,7 +53,6 @@ def delete_owner(request, place_id, user_id):
             'Authorization': 'Bearer ' + request.COOKIES['token']
         }
         response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/owner/' + user_id, headers=headers)
-        print(response.text)
         if response.status_code == 200:
             messages.success(request, 'Owner removed')
         else:
