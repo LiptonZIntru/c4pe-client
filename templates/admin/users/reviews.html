@@ -54,7 +54,7 @@
                                 </div>
                             {% endif %}
                         </div>
-                        <button class="btn btn-outline-danger py-1 mt-1" onclick="deleteThis({{ user.id }}, {{ review.id }})">Delete</button>
+                        <button class="btn btn-outline-danger py-1 mt-1" onclick="deleteThis({{ review.place.id }}, {{ review.id }})">Delete</button>
                     </div>
                 </div>
             {% endfor %}

@@ -14,6 +14,7 @@ from django.conf import settings
 
 def index(request):
     if request.method == "GET":
+        search_string = request.GET.get('name')
         places = ""
         current = 0
         last = 0
@@ -42,7 +43,7 @@ def index(request):
 
         return render(request, 'places/index.html',
                       {
-                          'search': request.GET.get('name'),
+                          'search': search_string,
                           'places': places,
                           'pages': pages,
                           'types': types,
@@ -216,7 +217,7 @@ def avatar(request, place_id, id):
         if response.status_code == 200:
             messages.success(request, 'Avatar uploaded')
         else:
-            messages.error(request, response.text)
+            messages.error(request, 'Image is too large, maximum size is 2.5 MB')
         return redirect('place profile', id=place_id)
 
 
@@ -231,3 +232,16 @@ def delete_avatar(request, place_id, id):
     else:
         messages.error(request, response.text)
     return redirect('place profile', id=place_id)
+
+
+@login_required
+def delete(request, id):
+    headers = {
+        'Authorization': 'Bearer ' + request.COOKIES['token']
+    }
+    response = requests.delete(settings.API_IP + '/api/places/' + id, headers=headers)
+    if response.status_code == 200:
+        messages.success(request, 'Place deleted')
+    else:
+        messages.error(request, 'Unknown error. Please try again')
+    return redirect('place profile', id=id)
