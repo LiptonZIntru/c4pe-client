@@ -25,6 +25,7 @@ def index(request):
         url = settings.API_IP + '/api/places?PageNumber=' + page
 
         url = get_url(request, url)
+        print(url)
 
         frontend_url = get_frontend_url(request)
 

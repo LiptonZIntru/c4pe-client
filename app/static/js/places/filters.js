@@ -13,7 +13,7 @@ var elementValue = "";
                     }
                     if (i == 1) document.getElementById('filters-Country').value = elementValue;
                     else if (i == 2) document.getElementById('filters-City').value = elementValue;
-                    else document.getElementById('searchField').value = elementValue;
+                    //else document.getElementById('searchField').value = elementValue;
                 }
             }
 
@@ -70,7 +70,8 @@ var elementValue = "";
                  */
 
         /* získá jednotlivé vstupy filtrů */
-            filterValues[0] = document.getElementById('searchField').value.toLowerCase();
+            filterValues[0] = document.getElementById('searchField').value.toLowerCase().replace(" ", "+");
+            console.log(filterValues[0])
             filterValues[1] = document.getElementById('filters-Country').value.toLowerCase();
             filterValues[2] = document.getElementById('filters-City').value.toLowerCase();
 

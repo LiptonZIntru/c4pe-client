@@ -98,7 +98,7 @@ def get_url(request, url):
     country = request.GET.get('country')
 
     if name:
-        url = url + '&Name=' + name
+        url = url + '&Name=' + str(name).replace(' ', '+')
     if city:
         url = url + '&City=' + city
     if isVerified:
