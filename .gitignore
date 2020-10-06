@@ -1,7 +1,6 @@
 venv
 .idea
 db.sqlite3
-manage.py
 templates/test
 app/controllers/__pycache__
 app/static/test
