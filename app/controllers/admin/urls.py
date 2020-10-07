@@ -1,7 +1,9 @@
-from django.contrib import admin
 from django.urls import path
 from . import home, places, users, placetypes, owners, openingtimes
-from django.conf import settings
+
+"""
+Admin routes
+"""
 
 urlpatterns = [
     path('', home.index, name='admin index'),
@@ -28,5 +30,6 @@ urlpatterns = [
     path('users/<id>/edit/', users.edit, name='admin users edit'),
     path('users/<id>/avatar/delete', users.delete_avatar, name='admin users avatar delete'),
     path('users/<id>/reviews/', users.reviews, name='admin users reviews'),
+    path('users/<place_id>/reviews/<review_id>/delete/', users.delete_review, name='admin users reviews delete'),
     path('users/<id>/delete/', users.delete, name='admin users delete'),
 ]

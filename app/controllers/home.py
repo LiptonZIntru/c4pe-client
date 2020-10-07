@@ -5,19 +5,12 @@ import json
 import requests
 from django.conf import settings
 
-# Create your views here.
-
-
-def example(request):
-    #  For testing
-    return render(request, 'example.html')
-
-
-def urls(request):
-    return render(request, 'urls.html')
-
 
 def index(request):
+    """
+    :param request:
+    :return: HTML page available on "/"
+    """
     response = json.loads(requests.get(settings.API_IP + '/api/stats').text)
     return render(request, 'home/index.html',
                   {
@@ -28,14 +21,8 @@ def index(request):
 
 
 def about(request):
+    """
+    :param request:
+    :return: HTML page available on "/about"
+    """
     return render(request, 'home/about.html')
-
-
-def test(request):
-    response = json.loads(requests.get(settings.API_IP + '/api/stats').text)
-    return render(request, 'karel/index.html',
-                  {
-                      'places': response['amountPlaces'],
-                      'users': response['amountUsers'],
-                      'reviews': response['amountReviews']
-                  })

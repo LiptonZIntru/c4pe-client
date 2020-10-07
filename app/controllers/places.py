@@ -13,6 +13,10 @@ from django.conf import settings
 
 
 def index(request):
+    """
+    :param request:     Request object
+    :return:            HTML page with 10 places
+    """
     if request.method == "GET":
         search_string = request.GET.get('name')
         places = ""
@@ -25,7 +29,6 @@ def index(request):
         url = settings.API_IP + '/api/places?PageNumber=' + page
 
         url = get_url(request, url)
-        print(url)
 
         frontend_url = get_frontend_url(request)
 
@@ -53,10 +56,15 @@ def index(request):
 
 
 def profile(request, id):
+    """
+    :param request:     Request object
+    :param id:          ID of place
+    :return:            HTML page with single place
+    """
     place = json.loads(requests.get(settings.API_IP + '/api/places/' + id).text)
     reviews = json.loads(requests.get(settings.API_IP + '/api/places/' + id + '/Reviews').text)
 
-# SERAZENI PODLE NEJVICE LAJKOVANYCH
+    # Sort by most liked
     def get_positive_reactions(review):
         return review.get('positiveReactions')
 
@@ -65,7 +73,6 @@ def profile(request, id):
     except:
         messages.error(request, 'Place does not exist')
         return redirect('places')
-# KONEC SEKCE
 
     if len(reviews) > 5:
         reviews = reviews[len(reviews) - 6:len(reviews) - 1]
@@ -79,6 +86,10 @@ def profile(request, id):
 
 @login_required
 def create(request):
+    """
+    :param request:     Request object
+    :return:            Create new place and redirect to index
+    """
     if request.method == 'GET':
         types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         return render(request, 'places/create.html',
@@ -93,7 +104,6 @@ def create(request):
         data = {
             "street": request.POST.get("street"),
             "city": request.POST.get("city"),
-            "zipCode": request.POST.get("zipCode"),  # TODO: not required
             "country": request.POST.get("country"),
             "name": request.POST.get("name"),
             "placeTypeID": int(request.POST.get("type"))
@@ -115,6 +125,11 @@ def create(request):
 
 @login_required
 def edit(request, id):
+    """
+    :param request:     Request object
+    :param id:          ID of place
+    :return:            Update place and redirect to index
+    """
     if request.method == 'GET':
         types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         place = json.loads(requests.get(settings.API_IP + '/api/places/' + id).text)
@@ -151,6 +166,11 @@ def edit(request, id):
 @login_required
 @require_http_methods(["POST"])
 def create_review(request, id):
+    """
+    :param request:     Request object
+    :param id:          ID of place
+    :return:            Create review and redirect to reviews
+    """
     if request.method == 'POST':
         data = {
             'rating': int(request.POST.get('newRating')),
@@ -170,7 +190,7 @@ def create_review(request, id):
             return redirect('reviews', id=id)
 
 
-# po dokonceni odstranit
+'''
 def get_json_reviews(request, id, type):
     reviews = json.loads(requests.get(settings.API_IP + '/api/places/' + id + '/Reviews').text)
     response_reviews = []
@@ -187,22 +207,16 @@ def get_json_reviews(request, id, type):
             if review['user']['isVerified']:
                 response_reviews.append(review)
     return HttpResponse(json.dumps(response_reviews))  # REQUIRED TO BE HTTP RESPONSE
-
+'''
 
 @login_required
 def avatar(request, place_id, id):
     """
-    if request.method == 'GET':
-        images = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)['images']
-        print(images)
-        try:
-            return render(request, 'places/image.html',
-                          {
-                              'image': images[int(id) - 1]
-                          })
-        except:
-        return render(request, 'places/avatar.html')
-    el"""
+    :param request:     Request object
+    :param place_id:    Place ID
+    :param id:          Photo ID
+    :return:            Add photo and redirect to single place
+    """
     if request.method == 'POST':
         avatar_file = request.FILES.get('avatar')
         file = open(settings.ABSOLUTE_PATH + 'app/static/upload/place.jpg', 'wb+')
@@ -224,6 +238,12 @@ def avatar(request, place_id, id):
 
 @login_required
 def delete_avatar(request, place_id, id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :param id:   ID of review
+    :return:            Delete review and redirect to all reviews
+    """
     headers = {
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
@@ -237,6 +257,11 @@ def delete_avatar(request, place_id, id):
 
 @login_required
 def delete(request, id):
+    """
+    :param request:     Request object
+    :param id:    ID of place
+    :return:            Delete place and redirect to index
+    """
     headers = {
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }

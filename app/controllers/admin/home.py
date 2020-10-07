@@ -10,6 +10,10 @@ from django.conf import settings
 
 @admin
 def index(request):
+    """
+    :param request:     Request object
+    :return:            HTML page - admin dashboard
+    """
     response = json.loads(requests.get(settings.API_IP + '/api/stats').text)
     return render(request, 'admin/home/index.html',
                   {

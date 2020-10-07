@@ -9,6 +9,11 @@ from django.conf import settings
 
 
 def index(request, id):
+    """
+    :param request:     Request object
+    :param id:          ID of place
+    :return:            HTML page with all reviews related to this place
+    """
     place = json.loads(requests.get(settings.API_IP + '/api/places/' + id).text)
     reviews = json.loads(requests.get(settings.API_IP + '/api/places/' + id + '/Reviews').text)
 
@@ -24,7 +29,7 @@ def index(request, id):
         if review['user']['isVerified']:
             verifiedReviews.append(review)
 
-# odsud jsem pridal kod  - sortuje to reviews od nejlajkovanejsich
+    # sort by most liked
     def get_positive_reactions(this_review):
         return this_review.get('positiveReactions')
 
@@ -32,7 +37,6 @@ def index(request, id):
     positiveReviews.sort(key=get_positive_reactions, reverse=True)
     negativeReviews.sort(key=get_positive_reactions, reverse=True)
     verifiedReviews.sort(key=get_positive_reactions, reverse=True)
-# po sem :)
 
     return render(request, 'reviews/index.html',
                   {
@@ -49,6 +53,11 @@ def index(request, id):
 
 @login_required
 def create(request, id):
+    """
+    :param request:     Request object
+    :param id:          ID of place
+    :return:            Add new review and redirect to places
+    """
     if request.method == 'GET':
         return render(request, 'reviews/create.html')
     elif request.method == 'POST':
@@ -72,6 +81,12 @@ def create(request, id):
 
 @login_required
 def edit(request, place_id, id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :param id:          ID of review
+    :return:            Update review and redirect to places
+    """
     if request.method == 'GET':
         review = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/Reviews/' + id).text)
         return render(request, 'reviews/edit.html',
@@ -93,4 +108,4 @@ def edit(request, place_id, id):
             return redirect('reviews', id=place_id)
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return redirect('reviews', id=place_id)  # TODO: form validation error
+            return redirect('reviews', id=place_id)

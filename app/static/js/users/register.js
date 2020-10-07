@@ -2,7 +2,7 @@
     $('#register').submit(function (e) {
         if($('#password').val() != $('#confirmation').val())
         {
-            e.preventDefault(); // TODO: raise password doesn't match error
+            e.preventDefault();
             alert("Passwords doesn't match");
         }
         if($('#password').val().length < 8)

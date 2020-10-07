@@ -6,7 +6,6 @@ from datetime import datetime
 from django.conf import settings
 
 
-# not much used
 def authorized(token):
     """
         This function takes authorization token and authorized it
@@ -19,10 +18,15 @@ def authorized(token):
         }
         response = requests.get(settings.API_IP + '/api/users/me', headers=headers)
         return response.status_code
-    return 0
+    return 401
 
 
 def get_user(request):
+    """
+        This function takes request
+        :param request:     Request variable in route
+        :return:            User object or None if user is not logged
+    """
     if request.COOKIES.get('token'):
         headers = {
             "Authorization": "Bearer " + request.COOKIES['token']
@@ -32,6 +36,11 @@ def get_user(request):
 
 
 def is_admin(request):
+    """
+        This function takes request
+        :param request:     Request variable in route
+        :return:            True if user is admin, otherwise False
+    """
     if request.COOKIES.get('token'):
         headers = {
             "Authorization": "Bearer " + request.COOKIES['token']
@@ -43,6 +52,11 @@ def is_admin(request):
 
 
 def login_required(func):
+    """
+        Wrapper function ensures that user is authenticated
+        :param func:        Function to wrap
+        :return:            Base function
+    """
     def wrapper_func(request, *args, **kwargs):
         if not request.COOKIES.get('token'):
             messages.error(request, 'You need to login to perform this action')
@@ -52,6 +66,11 @@ def login_required(func):
 
 
 def admin(func):
+    """
+        Wrapper function ensures that user is administrator
+        :param func:        Function to wrap
+        :return:            Base function
+    """
     def wrapper_func(request, *args, **kwargs):
         if request.COOKIES.get('token'):
             headers = {

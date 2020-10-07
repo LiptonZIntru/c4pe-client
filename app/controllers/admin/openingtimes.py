@@ -10,6 +10,11 @@ from django.conf import settings
 
 @admin
 def index(request, place_id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :return:            HTML page where you can see opening times of place based of it's ID
+    """
     if request.method == 'GET':
         place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
         opening_times = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/OpeningTimes').text)
@@ -22,6 +27,11 @@ def index(request, place_id):
 
 @admin
 def create(request, place_id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :return:            Create new opening time and redirect to places
+    """
     if request.method == 'POST':
         open_min = int(request.POST.get("openMinutes"))
         open_hour = int(request.POST.get("openHour"))
@@ -48,11 +58,16 @@ def create(request, place_id):
             return redirect('admin openingtimes', place_id=place_id)
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return redirect('admin openingtimes', place_id=place_id)  # TODO: form validation error
+            return redirect('admin openingtimes', place_id=place_id)
 
 
 @admin
 def edit(request, place_id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :return:            Update opening times and redirect to places
+    """
     if request.method == 'POST':
         open_time = request.POST.get("openHour") + ':' + request.POST.get("openMinutes") + ':00'
         close_time = request.POST.get("closeHour") + ':' + request.POST.get("closeMinutes") + ':00'
@@ -76,11 +91,17 @@ def edit(request, place_id):
             return redirect('admin openingtimes', place_id=place_id)
         else:
             messages.error(request, 'Unknown error. Please try again')
-            return redirect('admin openingtimes', place_id=place_id)  # TODO: form validation error
+            return redirect('admin openingtimes', place_id=place_id)
 
 
 @admin
 def delete(request, place_id, times_id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :param times_id:    ID of opening time
+    :return:            Delete opening time and redirect to index
+    """
     headers = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']

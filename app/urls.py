@@ -1,28 +1,12 @@
-"""c4pe URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
 from django.urls import path, include
-from .controllers import home, places, reviews, users, placetypes, openingtimes, reactions, owners
+from .controllers import home, places, reviews, users, openingtimes, reactions, owners
+
+"""
+User routes
+"""
 
 urlpatterns = [
     path('admin/', include('app.controllers.admin.urls')),
-
-    path('example/', home.example),
-    path('urls/', home.urls),
-    path('test/', home.test),
 
     path('', home.index, name='index'),
     path('about/', home.about, name='about'),
@@ -39,7 +23,7 @@ urlpatterns = [
 
     path('places/', places.index, name='places'),
 
-    path('places/create/', places.create, name='place create '),
+    path('places/create/', places.create, name='place create'),
     path('places/<id>/', places.profile, name='place profile'),
     path('places/<id>/delete/', places.delete),
     path('places/<id>/edit/', places.edit, name='place edit'),
@@ -58,15 +42,6 @@ urlpatterns = [
     path('places/<place_id>/owners/', owners.index, name='owners'),
     path('places/<place_id>/owners/create/', owners.create, name='owners create'),
     path('places/<place_id>/owners/<user_id>/delete/', owners.delete, name='owners delete'),
-
-
-    # get positive/negative/all reviews in json
-    path('places/<id>/reviews/type/<type>/', places.get_json_reviews, name='reviews specific type'),
-
-
-    path('placetypes/', placetypes.index, name='placetypes'),
-    path('placetypes/create/', placetypes.create, name='placetype create'),
-    path('placetypes/<id>/edit/', placetypes.edit, name='placetype edit'),
 
 
     path('places/<place_id>/openingtimes/', openingtimes.index, name='openingtimes'),

@@ -1,16 +1,18 @@
-from django.http import HttpResponseNotFound
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.defaults import page_not_found
 import json
 import requests
-from app.controllers.auth import get_user, authorized, is_admin
 from django.conf import settings
 from app.controllers.auth import admin
 
 
 @admin
 def index(request, place_id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :return:            HTML page with owners
+    """
     if request.method == 'GET':
         place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
         owners_id = place['owners']
@@ -26,6 +28,11 @@ def index(request, place_id):
 
 @admin
 def add_owner(request, place_id):
+    """
+    :param request:         Request object
+    :param place_id:        ID of place
+    :return:                Add new owner and redirect to owners
+    """
     if request.method == 'POST':
         username = request.POST.get('username')
         headers = {
@@ -47,6 +54,12 @@ def add_owner(request, place_id):
 
 @admin
 def delete_owner(request, place_id, user_id):
+    """
+    :param request:         Request object
+    :param place_id:        ID of place
+    :param user_id:         Owner ID
+    :return:                Remove owner and redirect to owners
+    """
     if request.method == 'POST':
         headers = {
             'content-type': 'application/json',

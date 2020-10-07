@@ -5,8 +5,16 @@ from django.conf import settings
 
 
 def user(request):
+    """
+    :param request:     Request object
+    :return:            Append to response user object
+    """
     return {'currentUser': get_user(request)}
 
 
 def api_url(request):
+    """
+    :param request:     Request object
+    :return:            Append to response URL API
+    """
     return {'API_IP': settings.API_IP}

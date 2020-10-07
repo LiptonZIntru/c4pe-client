@@ -1,15 +1,19 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from .auth import get_user, authorized
-from django.contrib import messages
-from django.views.decorators.http import require_http_methods
-import requests
 import json
 from datetime import datetime
-from django.conf import settings
 
 
 def paginate(current, last):
+    """
+    :param current:     Page user is browsing on
+    :param last:        Total number of pages
+    :return:            Dictionary
+                        {
+                            'current': 2,  # current page
+                            'next': 3,  # next page
+                            'previous' : 1,  # previous page
+                            'content': [1, 2, 3]  # numbers displayed
+                        }
+    """
     pages = {}
     pages['current'] = int(current)
 
@@ -38,6 +42,10 @@ def paginate(current, last):
 
 
 def set_time(places):
+    """
+    :param places:      Array of places
+    :return:            Array of places + openingTimes
+    """
     current_hour = int(datetime.now().hour)
     current_minute = int(datetime.now().minute)
 
@@ -87,6 +95,11 @@ def set_time(places):
 
 
 def get_url(request, url):
+    """
+    :param request:     Request object
+    :param url:         Base API URL
+    :return:            New URL with parameters
+    """
     name = request.GET.get('name')
     city = request.GET.get('city')
     isVerified = request.GET.get('isverified')
@@ -121,6 +134,10 @@ def get_url(request, url):
 
 
 def get_frontend_url(request):
+    """
+    :param request:     Request object
+    :return:            URL which is used at frontend pagination
+    """
     url = ""
     if request.GET.get('name'):
         url = url + '&name=' + request.GET.get('name')

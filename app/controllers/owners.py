@@ -11,6 +11,11 @@ from django.conf import settings
 
 @login_required
 def index(request, place_id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :return:            HTML page with owners
+    """
     place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
     owners_id = place['owners']
     owners = []
@@ -26,6 +31,11 @@ def index(request, place_id):
 @login_required
 @require_http_methods(['POST'])
 def create(request, place_id):
+    """
+    :param request:         Request object
+    :param place_id:        ID of place
+    :return:                Add new owner and redirect to owners
+    """
     username = request.POST.get('username')
     headers = {
         'content-type': 'application/json',
@@ -46,12 +56,17 @@ def create(request, place_id):
 @login_required
 @require_http_methods(['POST'])
 def delete(request, place_id, user_id):
+    """
+    :param request:         Request object
+    :param place_id:        ID of place
+    :param user_id:         Owner ID
+    :return:                Remove owner and redirect to owners
+    """
     headers = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }
     response = requests.delete(settings.API_IP + '/api/places/' + place_id + '/owner/' + user_id, headers=headers)
-    print(response.text)
     if response.status_code == 200:
         messages.success(request, 'Owner removed')
     else:

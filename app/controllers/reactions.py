@@ -10,6 +10,12 @@ from django.conf import settings
 
 @login_required
 def like(request, place_id, review_id):
+    """
+    :param request:         Request object
+    :param place_id:        Place ID
+    :param review_id:       Review ID
+    :return:                Like review and return 200 on success, otherwise return 400
+    """
     headers = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']
@@ -56,6 +62,12 @@ def like(request, place_id, review_id):
 
 @login_required
 def dislike(request, place_id, review_id):
+    """
+    :param request:         Request object
+    :param place_id:        Place ID
+    :param review_id:       Review ID
+    :return:                Dislike review and return 200 on success, otherwise return 400
+    """
     headers = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']

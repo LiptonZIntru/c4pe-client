@@ -10,6 +10,10 @@ from django.conf import settings
 
 @admin
 def index(request):
+    """
+    :param request:     Request object
+    :return:            HTML page with all places
+    """
     size = "999999999"
     headers = {
         'content-type': 'application/json',
@@ -25,6 +29,10 @@ def index(request):
 
 @admin
 def create(request):
+    """
+    :param request:     Request object
+    :return:            Create new place and redirect to places
+    """
     if request.method == 'GET':
         types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         return render(request, 'admin/places/create.html',
@@ -39,7 +47,6 @@ def create(request):
         data = {
             "street": request.POST.get("street"),
             "city": request.POST.get("city"),
-            "zipCode": request.POST.get("zipCode"),  # TODO: not required
             "country": request.POST.get("country"),
             "name": request.POST.get("name"),
             "placeTypeID": int(request.POST.get("type"))
@@ -55,6 +62,11 @@ def create(request):
 
 @admin
 def delete(request, place_id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :return:            Delete place and redirect to places
+    """
     headers = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']
@@ -69,6 +81,11 @@ def delete(request, place_id):
 
 @admin
 def edit(request, place_id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :return:            Update place and redirect to places
+    """
     if request.method == 'GET':
         types = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
@@ -101,6 +118,11 @@ def edit(request, place_id):
 
 @admin
 def reviews(request, place_id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :return:            HTML page with all reviews related to that place
+    """
     if request.method == 'GET':
         reviews = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id + '/reviews').text)
         place = json.loads(requests.get(settings.API_IP + '/api/places/' + place_id).text)
@@ -113,6 +135,12 @@ def reviews(request, place_id):
 
 @admin
 def delete_review(request, place_id, review_id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :param review_id:   ID of review
+    :return:            Delete review and redirect to all reviews
+    """
     headers = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']
@@ -128,6 +156,12 @@ def delete_review(request, place_id, review_id):
 
 @admin
 def delete_avatar(request, place_id, id):
+    """
+    :param request:     Request object
+    :param place_id:    ID of place
+    :param id:          ID of photo
+    :return:            Delete photo of place and redirect to index
+    """
     headers = {
         'Authorization': 'Bearer ' + request.COOKIES['token']
     }

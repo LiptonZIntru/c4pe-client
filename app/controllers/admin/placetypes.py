@@ -1,6 +1,4 @@
-from django.http import HttpResponseNotFound
-from django.shortcuts import render, HttpResponse, redirect
-from django.views.defaults import page_not_found
+from django.shortcuts import render, redirect
 from django.contrib import messages
 import json
 import requests
@@ -10,6 +8,10 @@ from django.conf import settings
 
 @admin
 def index(request):
+    """
+    :param request:     Request object
+    :return:            HTML page with placetypes
+    """
     if request.method == 'GET':
         placeTypes = json.loads(requests.get(settings.API_IP + '/api/placetypes').text)
         return render(request, 'admin/placetypes/index.html',
@@ -35,6 +37,11 @@ def index(request):
 
 @admin
 def edit(request, id):
+    """
+    :param request:     Request object
+    :param id:          ID of placetype
+    :return:            Update placetype and redirect to placetypes
+    """
     if request.method == 'GET':
         placeType = json.loads(requests.get(settings.API_IP + '/api/placetypes/' + id).text)
         return render(request, 'admin/placetypes/edit.html',
@@ -60,6 +67,11 @@ def edit(request, id):
 
 @admin
 def delete(request, id):
+    """
+    :param request:     Request object
+    :param id:          ID of placetype
+    :return:            Delete placetype and redirect to placetypes
+    """
     headers = {
         'content-type': 'application/json',
         'Authorization': 'Bearer ' + request.COOKIES['token']
