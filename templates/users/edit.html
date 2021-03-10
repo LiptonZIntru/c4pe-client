@@ -15,7 +15,7 @@
         {% if user.avatarURI %}
             <b>Your profile picture:</b><br/>
             <div class="mt-1">
-                <img height="150 px;" src="{{ API_IP }}/{{ user.avatarURI }}">
+                <img height="150 px;" src="/images/?name={{ user.avatarURI }}">
             </div>
         {% endif %}
 

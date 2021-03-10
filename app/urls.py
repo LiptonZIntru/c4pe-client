@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .controllers import home, places, reviews, users, openingtimes, reactions, owners
+from .controllers import home, places, reviews, users, openingtimes, reactions, owners, images
 
 """
 User routes
@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('', home.index, name='index'),
     path('about/', home.about, name='about'),
+    path('images/', images.serve_images),
 
     path('users/login/', users.login, name='login'),
     path('users/register/', users.register, name='register'),

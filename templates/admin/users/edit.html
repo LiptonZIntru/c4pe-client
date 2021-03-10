@@ -19,7 +19,7 @@
         {% if user.avatarURI %}
             <b>User avatar:</b><br/>
             <div class="mt-1">
-                <img height="150 px;" src="{{ API_IP }}/{{ user.avatarURI }}">
+                <img height="150 px;" src="/images/?name={{ user.avatarURI }}">
             </div>
             <button type="button" class="mt-2 btn btn-outline-danger" onclick="deleteThis({{ user.id }}, 'avatar')">Delete avatar</button>
         {% endif %}

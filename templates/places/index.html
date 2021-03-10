@@ -158,7 +158,7 @@
                             <!-- obrázek podniku -->
                                 <div class="col-md-2">
                                     {% if place.images.0 %}
-                                        <img src="{{ API_IP }}/{{ place.images.0.uri }}" class="img-thumbnail img-responsive h-100" style="width: 150px; object-fit: cover;">
+                                        <img src="/images/?name={{ place.images.0.uri }}" class="img-thumbnail img-responsive h-100" style="width: 150px; object-fit: cover;">
                                     {% else %}
                                         <img src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg" class="img-thumbnail img-responsive h-100" style="width: 150px; object-fit: cover">
                                     {% endif %}

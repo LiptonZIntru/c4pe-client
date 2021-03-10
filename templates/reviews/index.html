@@ -28,7 +28,7 @@
                             <div class="col-md-4">
                                 <div class="profilePhotoDiv">
                                     {% if place.images.0 %}
-                                        <img class="rounded img-fluid mx-auto d-block photoStyle" src="{{ API_IP }}/{{ place.images.0.uri }}">
+                                        <img class="rounded img-fluid mx-auto d-block photoStyle" src="/images/?name={{ place.images.0.uri }}">
                                     {% else %}
                                         <img class="rounded img-fluid mx-auto d-block photoStyle" src="https://cdn.pixabay.com/photo/2020/03/15/23/24/food-4935258_960_720.jpg">
                                     {% endif %}

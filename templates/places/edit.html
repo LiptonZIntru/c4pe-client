@@ -17,7 +17,7 @@
                 <div class="col-md-auto">
                     {% if place.images|first == image %}<b>Place images:</b>{% endif %} <br/>
                     <div class="mt-1">
-                        <img height="150 px;" src="{{ API_IP }}/{{ image.uri }}">
+                        <img height="150 px;" src="/images/?name={{ image.uri }}">
                     </div>
                     <button type="button" class="mt-2 btn btn-outline-danger" onclick="deleteThis({{ place.id }}, {{ image.id }})">Delete image</button>
                 </div>
